@@ -33,7 +33,11 @@ import javax.swing.plaf.basic.DefaultMenuLayout;
 
 import com.sun.glass.events.KeyEvent;
 
+import stock.Items;
+
 public class Main{
+
+	public static JFrame frame;
 
 	private static void addComponentsToPane(JFrame frame){
 
@@ -57,13 +61,14 @@ public class Main{
 		stock.setIcon(new ImageIcon("picture/stock_icon.png"));
 		menuBar.add(stock);
 		menuBar.add(new JSeparator(SwingConstants.VERTICAL));
-		cash.setIcon(new ImageIcon("picture/account_icon.png"));
-		menuBar.add(cash);
-		menuBar.add(new JSeparator(SwingConstants.VERTICAL));
 		saving.setIcon(new ImageIcon("picture/saving_icon.png"));
 		menuBar.add(saving);
 		menuBar.add(new JSeparator(SwingConstants.VERTICAL));
+		cash.setIcon(new ImageIcon("picture/account_icon.png"));
+		menuBar.add(cash);
+		menuBar.add(new JSeparator(SwingConstants.VERTICAL));
 		menuBar.add(Box.createHorizontalGlue());
+		menuBar.add(new JSeparator(SwingConstants.VERTICAL));
 		logout.setIcon(new ImageIcon("picture/logout_icon.png"));
 		menuBar.add(logout);
 
@@ -107,21 +112,15 @@ public class Main{
 		saving.setMnemonic(KeyEvent.VK_V);
 
 		frame.setJMenuBar(menuBar);
-
-		JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-//		topPanel.setBorder(BorderFactory.createEmptyBorder(-5,-5,-5,-5));
+		//End of creating Menu Bar
 
 		JPanel centerPanel = new JPanel();
 		centerPanel.add(new JButton("Center"));
-
-		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		buttonPanel.add(new JButton("Button"));
+		//centerPanel.setBorder(BorderFactory.createEmptyBorder(-5,-5,-5,-5));
 
 		Container pane = frame.getContentPane();
 		pane.setLayout(new BorderLayout());
-		pane.add(topPanel,BorderLayout.NORTH);
 		pane.add(centerPanel,BorderLayout.CENTER);
-		pane.add(buttonPanel,BorderLayout.SOUTH);
 
 		exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -143,10 +142,25 @@ public class Main{
 				frame.dispose();
 			}
 		});
+
+		item.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addItemPanel();
+			}
+		});
+	}
+
+	public static void addItemPanel(){
+		Container pane = frame.getContentPane();
+		pane.removeAll();
+		pane.revalidate();
+		pane.repaint();
+		JPanel items = new Items();
+		pane.add(items);
 	}
 
 	public static void createAndShowGUI() {
-        JFrame frame = new JFrame("Main");
+        frame = new JFrame("Main");
         addComponentsToPane(frame);
 		Toolkit tk=Toolkit.getDefaultToolkit();
 		int x=(int)tk.getScreenSize().getWidth();
@@ -157,5 +171,4 @@ public class Main{
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-
 }
