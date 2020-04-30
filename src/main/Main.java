@@ -145,18 +145,13 @@ public class Main{
 
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addItemPanel();
+				pane.removeAll();
+				pane.revalidate();
+				pane.repaint();
+				JPanel items = new Items();
+				pane.add(items);
 			}
 		});
-	}
-
-	public static void addItemPanel(){
-		Container pane = frame.getContentPane();
-		pane.removeAll();
-		pane.revalidate();
-		pane.repaint();
-		JPanel items = new Items();
-		pane.add(items);
 	}
 
 	public static void createAndShowGUI() {

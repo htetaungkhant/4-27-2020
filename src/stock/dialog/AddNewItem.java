@@ -35,8 +35,21 @@ import database.StockTable;
 import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import main.Main;
+import stock.Items;
 
 public class AddNewItem extends JDialog{
+	private static MyTextField tfItemName = new MyTextField();
+	private static MyTextField tfBarcode = new MyTextField();
+	private static JNumberTextField tfPurchasePrice = new JNumberTextField(10);
+	private static JNumberTextField tfSalePrice = new JNumberTextField(10);
+	private static JNumberTextField tfQuantity = new JNumberTextField(5);
+	private static JNumberTextField tfLimitQuantity = new JNumberTextField(5);
+	private static MyTextField tfRemark = new MyTextField();
+
+	private JButton btnAdd = new JButton("Add");
+	private JButton btnUpdate = new JButton("Update");
+	private JButton btnCancel = new JButton("Cancel");
+
 	public AddNewItem(Frame parent){
 		super(parent, true);
 		setTitle("Add New Item");
@@ -46,6 +59,8 @@ public class AddNewItem extends JDialog{
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+		resetTextFields();
+
 		JLabel lbItemName = new JLabel("Item Name"); add(lbItemName);
 		JLabel lbBarcode = new JLabel("Barcode"); add(lbBarcode);
 		JLabel lbPurchasePrice = new JLabel("Purchase Price"); add(lbPurchasePrice);
@@ -54,16 +69,16 @@ public class AddNewItem extends JDialog{
 		JLabel lbLimitQuantity = new JLabel("Quantity Limit"); add(lbLimitQuantity);
 		JLabel lbRemark = new JLabel("Remark"); add(lbRemark);
 
-		MyTextField tfItemName = new MyTextField(); add(tfItemName);
-		MyTextField tfBarcode = new MyTextField(); add(tfBarcode);
-		JNumberTextField tfPurchasePrice = new JNumberTextField(10); add(tfPurchasePrice);
-		JNumberTextField tfSalePrice = new JNumberTextField(10); add(tfSalePrice);
-		JNumberTextField tfQuantity = new JNumberTextField(5); add(tfQuantity);
-		JNumberTextField tfLimitQuantity = new JNumberTextField(5); add(tfLimitQuantity);
-		MyTextField tfRemark = new MyTextField(); add(tfRemark);
+		add(tfItemName);
+		add(tfBarcode);
+		add(tfPurchasePrice);
+		add(tfSalePrice);
+		add(tfQuantity);
+		add(tfLimitQuantity);
+		add(tfRemark);
 
-		JButton btnAdd = new JButton("Add"); add(btnAdd);
-		JButton btnCancel = new JButton("Cancel"); add(btnCancel);
+		add(btnAdd);
+		add(btnCancel);
 
 		lbItemName.setBounds(20, 20, 100, 30); tfItemName.setBounds(130, 20, 200, 30);
 		lbBarcode.setBounds(20, 60, 100, 30); tfBarcode.setBounds(130, 60, 200, 30);
@@ -85,10 +100,13 @@ public class AddNewItem extends JDialog{
 				String limitQuantity =tfLimitQuantity.getText();
 				String remark = tfRemark.getText();
 				String[] data = {itemName, barcode, purchasePrice, salePrice, quantity, limitQuantity, remark};
-				if(!isEmpty(data)){
+				if(StockTable.isItemExist(itemName, barcode)){
+					JOptionPane.showMessageDialog(null, "Item already Exists.", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				else if(!isEmpty(data)){
 					StockTable.insert(data);
-					dispose();
-					setVisible(false);
+					resetTextFields();
+					Items.createItemListTable(StockTable.retrieveAll());
 				}
 			}
 		});
@@ -102,8 +120,48 @@ public class AddNewItem extends JDialog{
 		});
 	}
 
-	public AddNewItem(Frame parent, Object[] objects){
+	public AddNewItem(Frame parent, String[] input, String toFilter){
 		this(parent);
+
+		tfItemName.setText(input[0]);
+		tfBarcode.setText(input[1]);
+		tfPurchasePrice.setText(input[2]);
+		tfSalePrice.setText(input[3]);
+		tfQuantity.setText(input[4]);
+		tfLimitQuantity.setText(input[5]);
+		tfRemark.setText(input[6]);
+
+		btnAdd.setVisible(false);
+		add(btnUpdate);
+		btnUpdate.setBounds(20, 330, 150, 50);
+
+		btnUpdate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				String itemName = tfItemName.getText();
+				String barcode = tfBarcode.getText();
+				String purchasePrice = tfPurchasePrice.getText();
+				String salePrice = tfSalePrice.getText();
+				String quantity = tfQuantity.getText();
+				String quantityLimit = tfLimitQuantity.getText();
+				String remark = tfRemark.getText();
+				String[] data = {itemName, barcode, purchasePrice, salePrice, quantity, quantityLimit, remark};
+
+				if(!tfItemName.getText().equals(input[0]) && StockTable.isItemNameExist(itemName)){
+					JOptionPane.showMessageDialog(null, "ItemName already Exists.", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				else if(!tfBarcode.getText().equals(input[1]) && StockTable.isBarcodeExist(barcode)){
+					JOptionPane.showMessageDialog(null, "Barcode already Exists.", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				else if(!isEmpty(data)){
+					StockTable.update(data, input[1]);
+					Items.createItemListTable(StockTable.retrieveFilterByItemName(toFilter));
+					setVisible(false);
+					dispose();
+				}
+			}
+		});
 	}
 
 	private boolean isEmpty(String[] data){
@@ -115,5 +173,15 @@ public class AddNewItem extends JDialog{
 			}
 		}
 		return false;
+	}
+
+	private static void resetTextFields(){
+		tfItemName.setText("");
+		tfBarcode.setText("");
+		tfPurchasePrice.setText("");
+		tfSalePrice.setText("");
+		tfQuantity.setText("");
+		tfLimitQuantity.setText("");
+		tfRemark.setText("");
 	}
 }
