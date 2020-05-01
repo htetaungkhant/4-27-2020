@@ -1,29 +1,8 @@
 package stock.dialog;
 
-import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.HierarchyBoundsListener;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -34,7 +13,6 @@ import javax.swing.JOptionPane;
 import database.StockTable;
 import external_classes.JNumberTextField;
 import external_classes.MyTextField;
-import main.Main;
 import stock.Items;
 
 public class AddNewItem extends JDialog{
@@ -122,6 +100,7 @@ public class AddNewItem extends JDialog{
 
 	public AddNewItem(Frame parent, String[] input, String toFilter){
 		this(parent);
+		setTitle("Update Item Details");
 
 		tfItemName.setText(input[0]);
 		tfBarcode.setText(input[1]);

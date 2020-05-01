@@ -40,6 +40,37 @@ public class StockTable {
 		return result;
 	}
 
+	public static Object[][] retrieveItems2Purchase(){
+		Object[][] result = null;
+		Connection connection = DBConnection.createConnection();
+		String query="SELECT * FROM stock WHERE quantity<=limit_quantity ORDER BY item_name";
+
+		try {
+			Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			ResultSet resultSet=statement.executeQuery(query);
+			resultSet.last();
+			result=new Object[resultSet.getRow()][7];
+			resultSet.beforeFirst();
+			int row=-1;
+			while(resultSet.next()){
+					++row;
+					result[row][0]=(String)resultSet.getString("item_name");
+					result[row][1]=(String)resultSet.getString("barcode");
+					result[row][2]=resultSet.getInt("purchase_price");
+					result[row][3]=resultSet.getInt("sale_price");
+					result[row][4]=resultSet.getInt("quantity");
+					result[row][5]=resultSet.getInt("limit_quantity");
+					result[row][6]=(String)resultSet.getString("remark");
+			}
+			statement.close();
+			connection.close();
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 	public static Object[][] retrieveFilterByItemName(String itemName){
 		Object[][] result = null;
 		Connection connection = DBConnection.createConnection();

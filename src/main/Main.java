@@ -1,39 +1,30 @@
 package main;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 import javax.swing.plaf.basic.DefaultMenuLayout;
 
-import com.sun.glass.events.KeyEvent;
-
 import stock.Items;
+import supplier.SupplierInfo;
 
 public class Main{
 
@@ -89,10 +80,10 @@ public class Main{
 		purchase.setMnemonic(KeyEvent.VK_P);
 
 		//Menu Items for Stock Menu
-		JMenuItem item = new JMenuItem("Items");
-		JMenuItem itemsToPurchase = new JMenuItem("Items to Purchase");
+		JMenuItem item = new JMenuItem("Items", new ImageIcon("picture/stock_icon.png"));
+		KeyStroke keyStrokeToItem = KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK);
+		item.setAccelerator(keyStrokeToItem);
 		stock.add(item);
-		stock.add(itemsToPurchase);
 		stock.setMnemonic(KeyEvent.VK_T);
 
 		//Menu Items for Accounts Menu
@@ -140,6 +131,17 @@ public class Main{
 			public void mouseClicked(MouseEvent e) {
 				Login.createAndShowGUI();
 				frame.dispose();
+			}
+		});
+
+		supplier.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				pane.removeAll();
+				pane.revalidate();
+				pane.repaint();
+				JPanel supplierInfo = new SupplierInfo();
+				pane.add(supplierInfo);
 			}
 		});
 

@@ -2,6 +2,7 @@ package stock;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -26,6 +27,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
@@ -33,6 +35,7 @@ import database.StockTable;
 import external_classes.MyTextField;
 import main.Main;
 import stock.dialog.AddNewItem;
+import stock.dialog.ItemsToPurchase;
 
 public class Items extends JPanel{
 
@@ -51,7 +54,10 @@ public class Items extends JPanel{
 		JPanel topLeftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JButton btnAddItem = new JButton("Add New Item");
 		btnAddItem.setPreferredSize(new Dimension(150, 40));
+		JButton btnItem2Purchase = new JButton("Display Items to buy");
+		btnItem2Purchase.setPreferredSize(new Dimension(200, 40));
 		topLeftPanel.add(btnAddItem);
+		topLeftPanel.add(btnItem2Purchase);
 		topPanel.add(topLeftPanel);
 
 		//creating Top Right Panel
@@ -74,6 +80,14 @@ public class Items extends JPanel{
 		JScrollPane tablePanel = new JScrollPane(itemList);
 		add(tablePanel, BorderLayout.CENTER);
 		//End of Table Panel
+
+		btnItem2Purchase.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ItemsToPurchase items2Purchase = new ItemsToPurchase(Main.frame);
+				items2Purchase.setVisible(true);
+			}
+		});
 
 		btnAddItem.addActionListener(new ActionListener() {
 			@Override
@@ -146,19 +160,30 @@ public class Items extends JPanel{
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
+			public Class<?> getColumnClass(int columnIndex) {
+	            return tableData[0][columnIndex].getClass();
+	        }
 		};
 		itemList.setModel(modelForItemList);
 		itemList.setRowHeight(30);
-		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
-		rightRenderer.setHorizontalAlignment( JLabel.RIGHT );
-		TableColumn column2 = itemList.getColumnModel().getColumn(2);
-		column2.setCellRenderer(rightRenderer);
-		TableColumn column3 = itemList.getColumnModel().getColumn(3);
-		column3.setCellRenderer(rightRenderer);
-		TableColumn column4 = itemList.getColumnModel().getColumn(4);
-		column4.setCellRenderer(rightRenderer);
-		TableColumn column5 = itemList.getColumnModel().getColumn(5);
-		column5.setCellRenderer(rightRenderer);
+//		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+//		rightRenderer.setHorizontalAlignment( JLabel.RIGHT );
+//		DefaultTableCellRenderer centerRender = new DefaultTableCellRenderer();
+//		centerRender.setHorizontalAlignment(JLabel.CENTER);
+//		TableColumn column0 = itemList.getColumnModel().getColumn(0);
+//		column0.setCellRenderer(centerRender);
+//		TableColumn column1 = itemList.getColumnModel().getColumn(1);
+//		column1.setCellRenderer(centerRender);
+//		TableColumn column2 = itemList.getColumnModel().getColumn(2);
+//		column2.setCellRenderer(rightRenderer);
+//		TableColumn column3 = itemList.getColumnModel().getColumn(3);
+//		column3.setCellRenderer(rightRenderer);
+//		TableColumn column4 = itemList.getColumnModel().getColumn(4);
+//		column4.setCellRenderer(rightRenderer);
+//		TableColumn column5 = itemList.getColumnModel().getColumn(5);
+//		column5.setCellRenderer(rightRenderer);
+//		TableColumn column6 = itemList.getColumnModel().getColumn(6);
+//		column6.setCellRenderer(rightRenderer);
 //		TableColumn column7 = itemList.getColumnModel().getColumn(7);
 //		column7.setMinWidth(40);
 //		column7.setMaxWidth(100);
