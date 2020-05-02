@@ -23,6 +23,7 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.DefaultMenuLayout;
 
+import purchase.Purchase;
 import stock.Items;
 import supplier.SupplierInfo;
 
@@ -64,23 +65,33 @@ public class Main{
 		menuBar.add(logout);
 
 		//Menu Items for Sale Menu
-		JMenuItem pos = new JMenuItem("Point of Sale");
-		JMenuItem saleRecord = new JMenuItem("Sale Records");
-		JMenuItem exit = new JMenuItem("Exit");
+		JMenuItem pos = new JMenuItem("Point of Sale", new ImageIcon("picture/pos_icon.png"));
+		KeyStroke keyStrokePos = KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK);
+		pos.setAccelerator(keyStrokePos);
+		JMenuItem saleRecord = new JMenuItem("Sale Records", new ImageIcon("picture/sale_record_icon.png"));
+		KeyStroke keyStrokeForSaleRecord = KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK);
+		saleRecord.setAccelerator(keyStrokeForSaleRecord);
+		JMenuItem exit = new JMenuItem("Exit", new ImageIcon("picture/exit_icon.png"));
+		KeyStroke keyStrokeForExit = KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_DOWN_MASK);
+		exit.setAccelerator(keyStrokeForExit);
 		sale.add(pos);
 		sale.add(saleRecord);
 		sale.add(exit);
 		sale.setMnemonic(KeyEvent.VK_S);
 
 		//Menu Items for Purchase Menu
-		JMenuItem purchaseRecord = new JMenuItem("Purchase Records");
-		JMenuItem supplier = new JMenuItem("Suppliers");
+		JMenuItem purchaseRecord = new JMenuItem("Purchase Records", new ImageIcon("picture/purchase_record_icon.png"));
+		KeyStroke keyStrokeToPurchaseRecord = KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK);
+		purchaseRecord.setAccelerator(keyStrokeToPurchaseRecord);
+		JMenuItem supplier = new JMenuItem("Suppliers", new ImageIcon("picture/supplier_icon.png"));
+		KeyStroke keyStrokeToSupplier = KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.CTRL_DOWN_MASK);
+		supplier.setAccelerator(keyStrokeToSupplier);
 		purchase.add(purchaseRecord);
 		purchase.add(supplier);
 		purchase.setMnemonic(KeyEvent.VK_P);
 
 		//Menu Items for Stock Menu
-		JMenuItem item = new JMenuItem("Items", new ImageIcon("picture/stock_icon.png"));
+		JMenuItem item = new JMenuItem("Items", new ImageIcon("picture/items_icon.png"));
 		KeyStroke keyStrokeToItem = KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK);
 		item.setAccelerator(keyStrokeToItem);
 		stock.add(item);
@@ -131,6 +142,17 @@ public class Main{
 			public void mouseClicked(MouseEvent e) {
 				Login.createAndShowGUI();
 				frame.dispose();
+			}
+		});
+
+		purchaseRecord.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				pane.removeAll();
+				pane.revalidate();
+				pane.repaint();
+				JPanel purchase = new Purchase();
+				pane.add(purchase);
 			}
 		});
 

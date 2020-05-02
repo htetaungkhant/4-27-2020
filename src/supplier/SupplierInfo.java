@@ -12,9 +12,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -29,6 +32,8 @@ public class SupplierInfo extends JPanel{
 	private static Object[][] tableData;
 	private static TableModel modelForSupplierList;
 	private static JTable supplierList;
+
+	private static String selectedSupplierName;
 
 	public SupplierInfo() {
 		setLayout(new BorderLayout());
@@ -131,5 +136,30 @@ public class SupplierInfo extends JPanel{
 		};
 		supplierList.setModel(modelForSupplierList);
 		supplierList.setRowHeight(30);
+	}
+
+	public static String addBottomPanel(SupplierInfo gg, JDialog d){
+		selectedSupplierName = "";
+		supplierList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		JButton btnSelect = new JButton("Select");
+		btnSelect.setPreferredSize(new Dimension(100, 40));
+		bottomPanel.add(btnSelect);
+		gg.add(bottomPanel, BorderLayout.SOUTH);
+
+		btnSelect.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(supplierList.getSelectionModel().isSelectionEmpty()){
+					JOptionPane.showMessageDialog(null, "Please, select supplier", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				else{
+					int row = supplierList.getSelectedRow();
+					selectedSupplierName = (String) supplierList.getValueAt(row, 0);
+					d.setVisible(false);
+				}
+			}
+		});
+		return selectedSupplierName;
 	}
 }
