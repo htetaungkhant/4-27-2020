@@ -4,6 +4,7 @@ import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -16,28 +17,28 @@ import external_classes.MyTextField;
 import stock.Items;
 
 public class AddNewItem extends JDialog{
-	private static MyTextField tfItemName = new MyTextField();
-	private static MyTextField tfBarcode = new MyTextField();
-	private static JNumberTextField tfPurchasePrice = new JNumberTextField(10);
-	private static JNumberTextField tfSalePrice = new JNumberTextField(10);
-	private static JNumberTextField tfQuantity = new JNumberTextField(5);
-	private static JNumberTextField tfLimitQuantity = new JNumberTextField(5);
-	private static MyTextField tfRemark = new MyTextField();
+	private static MyTextField tfItemName;
+	private static MyTextField tfBarcode;
+	private static JNumberTextField tfPurchasePrice;
+	private static JNumberTextField tfSalePrice;
+	private static JNumberTextField tfQuantity;
+	private static JNumberTextField tfLimitQuantity ;
+	private static MyTextField tfRemark;
 
-	private JButton btnAdd = new JButton("Add");
-	private JButton btnUpdate = new JButton("Update");
-	private JButton btnCancel = new JButton("Cancel");
+	private JButton btnAdd;
+	private JButton btnUpdate;
+	private JButton btnCancel;
 
 	public AddNewItem(Frame parent){
 		super(parent, true);
+		ImageIcon frameIcon = new ImageIcon("picture/items_icon.png");
+		setIconImage(frameIcon.getImage());
 		setTitle("Add New Item");
-		setSize(360, 450);
+		setSize(360, 400);
 		setResizable(false);
 		setLayout(null);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-		resetTextFields();
 
 		JLabel lbItemName = new JLabel("Item Name"); add(lbItemName);
 		JLabel lbBarcode = new JLabel("Barcode"); add(lbBarcode);
@@ -47,16 +48,17 @@ public class AddNewItem extends JDialog{
 		JLabel lbLimitQuantity = new JLabel("Quantity Limit"); add(lbLimitQuantity);
 		JLabel lbRemark = new JLabel("Remark"); add(lbRemark);
 
-		add(tfItemName);
-		add(tfBarcode);
-		add(tfPurchasePrice);
-		add(tfSalePrice);
-		add(tfQuantity);
-		add(tfLimitQuantity);
-		add(tfRemark);
+		tfItemName = new MyTextField(); add(tfItemName);
+		tfBarcode = new MyTextField(); add(tfBarcode);
+		tfPurchasePrice = new JNumberTextField(10); add(tfPurchasePrice);
+		tfSalePrice = new JNumberTextField(10); add(tfSalePrice);
+		tfQuantity = new JNumberTextField(5); add(tfQuantity);
+		tfLimitQuantity = new JNumberTextField(5); add(tfLimitQuantity);
+		tfRemark = new MyTextField(); add(tfRemark);
+		resetTextFields();
 
-		add(btnAdd);
-		add(btnCancel);
+		btnAdd = new JButton("Add"); add(btnAdd);
+		btnCancel = new JButton("Cancel"); add(btnCancel);
 
 		lbItemName.setBounds(20, 20, 100, 30); tfItemName.setBounds(130, 20, 200, 30);
 		lbBarcode.setBounds(20, 60, 100, 30); tfBarcode.setBounds(130, 60, 200, 30);
@@ -65,7 +67,7 @@ public class AddNewItem extends JDialog{
 		lbQuantity.setBounds(20, 180, 100, 30); tfQuantity.setBounds(130, 180, 200, 30);
 		lbLimitQuantity.setBounds(20, 220, 100, 30); tfLimitQuantity.setBounds(130, 220, 200, 30);
 		lbRemark.setBounds(20, 260, 100, 30); tfRemark.setBounds(130, 260, 200, 30);
-		btnAdd.setBounds(20, 330, 150, 50); btnCancel.setBounds(180, 330, 150, 50);
+		btnAdd.setBounds(20, 310, 150, 50); btnCancel.setBounds(180, 310, 150, 50);
 
 		btnAdd.addActionListener(new ActionListener() {
 			@Override
@@ -111,8 +113,8 @@ public class AddNewItem extends JDialog{
 		tfRemark.setText(input[6]);
 
 		btnAdd.setVisible(false);
-		add(btnUpdate);
-		btnUpdate.setBounds(20, 330, 150, 50);
+		btnUpdate = new JButton("Update"); add(btnUpdate);
+		btnUpdate.setBounds(20, 310, 150, 50);
 
 		btnUpdate.addActionListener(new ActionListener() {
 			@Override

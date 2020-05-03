@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -69,9 +70,11 @@ public class Login {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addComponentsToPane(frame);
         frame.setSize(350, 240);
-        frame.setVisible(true);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
+        ImageIcon frameIcon = new ImageIcon("picture/frame_icon.png");
+        frame.setIconImage(frameIcon.getImage());
+        frame.setVisible(true);
     }
 
 	public static void main(String[] args) {

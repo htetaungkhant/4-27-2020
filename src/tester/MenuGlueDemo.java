@@ -1,4 +1,4 @@
-package main;
+package tester;
 import javax.swing.Box;
 import javax.swing.JFrame;
 import javax.swing.JMenu;

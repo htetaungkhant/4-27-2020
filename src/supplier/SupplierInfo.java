@@ -24,11 +24,12 @@ import javax.swing.table.TableModel;
 import database.SupplierTable;
 import external_classes.MyTextField;
 import main.Main;
+import purchase.dialog.AddNewPurchaseRecord;
 import supplier.dialog.AddNewSupplier;
 
 public class SupplierInfo extends JPanel{
 
-	private static String[] columnNames = {"Supplier Name", "Phone", "Address"};
+	private static String[] columnNames;
 	private static Object[][] tableData;
 	private static TableModel modelForSupplierList;
 	private static JTable supplierList;
@@ -126,26 +127,26 @@ public class SupplierInfo extends JPanel{
 		});
 	}
 
-	public static void createSupplierTable(Object[][] input) {
-		tableData = input;
-
-		modelForSupplierList = new DefaultTableModel(tableData, columnNames){
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
-		};
-		supplierList.setModel(modelForSupplierList);
-		supplierList.setRowHeight(30);
-	}
-
-	public static String addBottomPanel(SupplierInfo gg, JDialog d){
-		selectedSupplierName = "";
+	public SupplierInfo(JDialog d, JButton btnInput){
+		this();
 		supplierList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		JButton btnSelect = new JButton("Select");
 		btnSelect.setPreferredSize(new Dimension(100, 40));
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.setPreferredSize(new Dimension(100, 40));
+		bottomPanel.add(btnCancel);
 		bottomPanel.add(btnSelect);
-		gg.add(bottomPanel, BorderLayout.SOUTH);
+		add(bottomPanel, BorderLayout.SOUTH);
+
+		btnCancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				btnInput.setText("Choose Supplier");
+				d.setVisible(false);
+				d.dispose();
+			}
+		});
 
 		btnSelect.addActionListener(new ActionListener() {
 			@Override
@@ -156,10 +157,24 @@ public class SupplierInfo extends JPanel{
 				else{
 					int row = supplierList.getSelectedRow();
 					selectedSupplierName = (String) supplierList.getValueAt(row, 0);
+					btnInput.setText(selectedSupplierName);
 					d.setVisible(false);
+					d.dispose();
 				}
 			}
 		});
-		return selectedSupplierName;
+	}
+
+	public static void createSupplierTable(Object[][] input) {
+		tableData = input;
+		columnNames = new String[]{"Supplier Name", "Phone", "Address"};
+
+		modelForSupplierList = new DefaultTableModel(tableData, columnNames){
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+		supplierList.setModel(modelForSupplierList);
+		supplierList.setRowHeight(30);
 	}
 }

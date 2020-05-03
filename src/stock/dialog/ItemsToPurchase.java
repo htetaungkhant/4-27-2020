@@ -3,6 +3,7 @@ package stock.dialog;
 import java.awt.BorderLayout;
 import java.awt.Frame;
 
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -14,6 +15,8 @@ import database.StockTable;
 public class ItemsToPurchase extends JDialog{
 	public ItemsToPurchase(Frame frame) {
 		super(frame, true);
+		ImageIcon frameIcon = new ImageIcon("picture/items_icon.png");
+		setIconImage(frameIcon.getImage());
 		setTitle("Items to buy");
 		setSize(1000, 500);
 		setResizable(false);

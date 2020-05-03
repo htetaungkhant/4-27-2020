@@ -16,13 +16,18 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -31,7 +36,10 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
+import com.sun.javafx.font.Disposer;
+
 import database.StockTable;
+import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import main.Main;
 import stock.dialog.AddNewItem;
@@ -39,10 +47,12 @@ import stock.dialog.ItemsToPurchase;
 
 public class Items extends JPanel{
 
-	private static String[] columnNames = {"Item Name", "Barcode", "Purchase Price", "Sale Price", "Quantity","Quantity Limit","Remark"};
+	private static String[] columnNames;
 	private static Object[][] tableData;
 	private static TableModel modelForItemList;
 	private static JTable itemList;
+
+	private static JButton btnItem2Purchase;
 
 	public Items(){
 		setLayout(new BorderLayout());
@@ -54,7 +64,7 @@ public class Items extends JPanel{
 		JPanel topLeftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JButton btnAddItem = new JButton("Add New Item");
 		btnAddItem.setPreferredSize(new Dimension(150, 40));
-		JButton btnItem2Purchase = new JButton("Display Items to buy");
+		btnItem2Purchase = new JButton("Display Items to buy");
 		btnItem2Purchase.setPreferredSize(new Dimension(200, 40));
 		topLeftPanel.add(btnAddItem);
 		topLeftPanel.add(btnItem2Purchase);
@@ -64,10 +74,7 @@ public class Items extends JPanel{
 		JPanel topRightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		MyTextField tfSearch = new MyTextField(30, "Search your Item");
 		tfSearch.setPreferredSize(new Dimension(250,40));
-//		JButton btnSearch = new JButton("Search");
-//		btnSearch.setPreferredSize(new Dimension(100, 30));
 		topRightPanel.add(tfSearch);
-//		topRightPanel.add(btnSearch);
 		topPanel.add(topRightPanel);
 
 		add(topPanel, BorderLayout.NORTH);
@@ -153,8 +160,79 @@ public class Items extends JPanel{
 		});
 	}
 
+	public Items(JDialog d){
+		this();
+		itemList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		btnItem2Purchase.setVisible(false);
+
+		//creating Bottom Panel
+		JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
+		//creating Bottom Right Panel
+		JPanel bottomRightPanel = new JPanel();
+		JLabel lbQuantity = new JLabel("Enter Quantity");
+		lbQuantity.setHorizontalAlignment(JLabel.RIGHT);
+		lbQuantity.setPreferredSize(new Dimension(100, 40));
+		JNumberTextField tfQuantity = new JNumberTextField(10);
+		tfQuantity.setHorizontalAlignment(JLabel.RIGHT);
+		tfQuantity.setPreferredSize(new Dimension(100, 40));
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.setPreferredSize(new Dimension(100, 40));
+		JButton btnAdd = new JButton("Add");
+		btnAdd.setPreferredSize(new Dimension(100, 40));
+
+		GroupLayout groupLayout = new GroupLayout(bottomRightPanel);
+		groupLayout.setAutoCreateGaps(true);
+		groupLayout.setAutoCreateContainerGaps(true);
+		bottomRightPanel.setLayout(groupLayout);
+		groupLayout.setHorizontalGroup(groupLayout.createSequentialGroup()
+				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addComponent(lbQuantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+																												.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addComponent(tfQuantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+																												.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)));
+
+		groupLayout.setVerticalGroup(groupLayout.createSequentialGroup()
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lbQuantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+																												.addComponent(tfQuantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+																												.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)));
+
+		bottomPanel.add(bottomRightPanel);
+
+		add(bottomPanel, BorderLayout.SOUTH);
+		//End of Bottom Panel
+
+		btnCancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				d.setVisible(false);
+				d.dispose();
+			}
+		});
+
+		btnAdd.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(itemList.getSelectionModel().isSelectionEmpty()){
+					JOptionPane.showMessageDialog(null, "Please, select item", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				else if(tfQuantity.getText().equals("")){
+					JOptionPane.showMessageDialog(null, "Please, enter quantity", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				else{
+					int row = itemList.getSelectedRow();
+//					selectedSupplierName = (String) supplierList.getValueAt(row, 0);
+//					btnInput.setText(selectedSupplierName);
+					d.setVisible(false);
+					d.dispose();
+				}
+			}
+		});
+	}
+
 	public static void createItemListTable(Object[][] input){
 		tableData = input;
+		columnNames = new String[]{"Item Name", "Barcode", "Purchase Price", "Sale Price", "Quantity","Quantity Limit","Remark"};
 
 		modelForItemList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {

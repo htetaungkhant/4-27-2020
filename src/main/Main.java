@@ -187,7 +187,9 @@ public class Main{
 		frame.setSize(x-100,y-100);
         frame.setLocationRelativeTo(null);
 		frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-        frame.setVisible(true);
+        ImageIcon frameIcon = new ImageIcon("picture/frame_icon.png");
+        frame.setIconImage(frameIcon.getImage());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
 }

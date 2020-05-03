@@ -4,6 +4,7 @@ import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -19,16 +20,18 @@ import supplier.SupplierInfo;
 
 public class AddNewSupplier extends JDialog{
 
-	private static MyTextField tfSupplierName = new MyTextField();
-	private static JNumberTextField tfPhone = new JNumberTextField(15);
-	private static MyTextField tfAddress = new MyTextField();
+	private static MyTextField tfSupplierName;
+	private static JNumberTextField tfPhone;
+	private static MyTextField tfAddress;
 
-	private JButton btnAdd = new JButton("Add");
-	private JButton btnUpdate = new JButton("Update");
-	private JButton btnCancel = new JButton("Cancel");
+	private JButton btnAdd;
+	private JButton btnUpdate;
+	private JButton btnCancel;
 
 	public AddNewSupplier(Frame frame){
 		super(frame, true);
+		ImageIcon frameIcon = new ImageIcon("picture/supplier_icon.png");
+		setIconImage(frameIcon.getImage());
 		setTitle("Add New Supplier");
 		setSize(360, 250);
 		setResizable(false);
@@ -36,18 +39,17 @@ public class AddNewSupplier extends JDialog{
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		resetTextFields();
-
 		JLabel lbSupplierName = new JLabel("Supplier Name"); add(lbSupplierName);
 		JLabel lbPhone = new JLabel("Phone Number"); add(lbPhone);
 		JLabel lbAddress = new JLabel("Address"); add(lbAddress);
 
-		add(tfSupplierName);
-		add(tfPhone);
-		add(tfAddress);
+		tfSupplierName = new MyTextField(); add(tfSupplierName);
+		tfPhone = new JNumberTextField(15); add(tfPhone);
+		tfAddress = new MyTextField(); add(tfAddress);
+		resetTextFields();
 
-		add(btnAdd);
-		add(btnCancel);
+		btnAdd = new JButton("Add"); add(btnAdd);
+		btnCancel = new JButton("Cancel"); add(btnCancel);
 
 		lbSupplierName.setBounds(20, 20, 100, 30); tfSupplierName.setBounds(130, 20, 200, 30);
 		lbPhone.setBounds(20, 60, 100, 30); tfPhone.setBounds(130, 60, 200, 30);
@@ -91,7 +93,7 @@ public class AddNewSupplier extends JDialog{
 		tfAddress.setText(input[2]);
 
 		btnAdd.setVisible(false);
-		add(btnUpdate);
+		btnUpdate = new JButton("Update"); add(btnUpdate);
 		btnUpdate.setBounds(20, 150, 150, 50);
 
 		btnUpdate.addActionListener(new ActionListener() {
