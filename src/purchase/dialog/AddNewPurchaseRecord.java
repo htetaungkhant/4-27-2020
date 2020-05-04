@@ -5,25 +5,31 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Date;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import com.alee.extended.date.WebDateField;
 
+import database.SupplierTable;
 import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import main.Main;
@@ -34,8 +40,10 @@ public class AddNewPurchaseRecord extends JDialog{
 
 	private static String[] columnNames;
 	private static Object[][] tableData;
-	private static TableModel modelForItemList;
+	private static DefaultTableModel modelForItemList;
 	private static JTable itemList;
+
+	private static JNumberTextField tfTotalAmount;
 
 	public AddNewPurchaseRecord(Frame parent){
 		super(parent, true);
@@ -54,6 +62,7 @@ public class AddNewPurchaseRecord extends JDialog{
 		//creating Top Left Panel
 		JPanel topLeftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		WebDateField datePicker=new WebDateField(new Date());
+		datePicker.setAllowUserInput(false);
 		datePicker.setPreferredSize(100, 40);
 		JButton btnChooseSupplier = new JButton("Choose Supplier");
 		btnChooseSupplier.setPreferredSize(new Dimension(150, 40));
@@ -92,7 +101,8 @@ public class AddNewPurchaseRecord extends JDialog{
 		JLabel lbTotalAmount = new JLabel("Total Amount");
 		lbTotalAmount.setHorizontalAlignment(JLabel.RIGHT);
 		lbTotalAmount.setPreferredSize(new Dimension(100, 40));
-		JNumberTextField tfTotalAmount = new JNumberTextField(10);
+		tfTotalAmount = new JNumberTextField(10);
+		tfTotalAmount.setText("0");
 		tfTotalAmount.setHorizontalAlignment(JLabel.RIGHT);
 		tfTotalAmount.setPreferredSize(new Dimension(120, 40));
 		tfTotalAmount.setEditable(false);
@@ -131,6 +141,19 @@ public class AddNewPurchaseRecord extends JDialog{
 		add(bottomPanel, BorderLayout.SOUTH);
 		//End of Bottom Panel
 
+		btnChooseSupplier.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JDialog d = new JDialog(Main.frame, "Choose Supplier",true);
+				SupplierInfo supplierList = new SupplierInfo(d, btnChooseSupplier);
+				d.add(supplierList);
+				ImageIcon frameIcon = new ImageIcon("picture/supplier_icon.png");
+				d.setIconImage(frameIcon.getImage());
+				d.setSize(600, 500);
+				d.setLocationRelativeTo(null);
+				d.setVisible(true);
+			}
+		});
 
 		btnAddItem.addActionListener(new ActionListener() {
 			@Override
@@ -146,17 +169,24 @@ public class AddNewPurchaseRecord extends JDialog{
 			}
 		});
 
-		btnChooseSupplier.addActionListener(new ActionListener() {
+		btnSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JDialog d = new JDialog(Main.frame, "Choose Supplier",true);
-				SupplierInfo supplierList = new SupplierInfo(d, btnChooseSupplier);
-				d.add(supplierList);
-				ImageIcon frameIcon = new ImageIcon("picture/supplier_icon.png");
-				d.setIconImage(frameIcon.getImage());
-				d.setSize(600, 500);
-				d.setLocationRelativeTo(null);
-				d.setVisible(true);
+				if(btnChooseSupplier.getText().equals("Choose Supplier")){
+					JOptionPane.showMessageDialog(null, "Please, choose supplier", "No Supplier", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else if(itemList.getRowCount() == 0){
+					JOptionPane.showMessageDialog(null, "Please, add some items", "No Item", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else if(tfPaidAmount.getText().equals("")){
+					JOptionPane.showMessageDialog(null, "Please, put paid amount", "Need Paid Amount", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else{
+					int idsupplier = SupplierTable.getSupplierID(btnChooseSupplier.getText());
+					int amount = Integer.parseInt(tfTotalAmount.getText());
+					String invoiceNumber = tfInvoiceNumber.getText();
+					int paidAmount = Integer.parseInt(tfPaidAmount.getText());
+				}
 			}
 		});
 
@@ -167,21 +197,65 @@ public class AddNewPurchaseRecord extends JDialog{
 				dispose();
 			}
 		});
+
+		itemList.addMouseListener(new MouseAdapter(){
+			@Override
+			public void mouseClicked(MouseEvent e){
+					if(itemList.getSelectedColumn()==itemList.getColumnCount()-1){
+						int row = itemList.getSelectedRow();
+						int amount = Integer.parseInt(tfTotalAmount.getText()) - (int)itemList.getValueAt(row, 3);
+						tfTotalAmount.setText("");
+						tfTotalAmount.setText(Integer.toString(amount));
+						modelForItemList.removeRow(row);
+					}
+			}
+		});
 	}
 
 	public static void createItemListTable(Object[][] input){
 		tableData = input;
-		columnNames = new String[]{"Item Name", "Unit Price", "quantity", "Amount"};
+		columnNames = new String[]{"Item Name", "Unit Price", "quantity", "Amount", "Del"};
 
 		modelForItemList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
-			public Class<?> getColumnClass(int columnIndex) {
-	            return tableData[0][columnIndex].getClass();
-	        }
+			public Class<?> getColumnClass(int column){
+				return getValueAt(0,column).getClass();
+			}
 		};
 		itemList.setModel(modelForItemList);
 		itemList.setRowHeight(30);
+		TableColumn column5 = itemList.getColumnModel().getColumn(4);
+		column5.setMinWidth(40);
+		column5.setMaxWidth(100);
+		column5.setPreferredWidth(50);
+	}
+
+	public static void setTotalAmount(int amount){
+		int originalAmount = Integer.parseInt(tfTotalAmount.getText());
+		int totalAmount = originalAmount + amount;
+		tfTotalAmount.setText("");
+		tfTotalAmount.setText(Integer.toString(totalAmount));
+	}
+
+	public static void addItem(Object[] data){
+		Boolean isExist = false;
+		for(int i = 0; i < itemList.getRowCount(); i++){
+			if(itemList.getValueAt(i, 0).equals(data[0])){
+				isExist = true;
+				int result = JOptionPane.showConfirmDialog(null, "Item already exists. Are you sure?", "Already Exist", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if(result == JOptionPane.YES_OPTION){
+					itemList.setValueAt((int) itemList.getValueAt(i, 2) + (int) data[2], i, 2);
+					itemList.setValueAt((int) itemList.getValueAt(i, 3) + (int) data[3], i, 3);
+					setTotalAmount((int)data[3]);
+				}
+				break;
+			}
+		}
+		if(!isExist){
+			modelForItemList.addRow(data);
+			setTotalAmount((int)data[3]);
+		}
 	}
 }

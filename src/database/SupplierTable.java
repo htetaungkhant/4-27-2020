@@ -122,6 +122,25 @@ public class SupplierTable {
 		}
 	}
 
+	public static int getSupplierID(String supplierName){
+		int result = 0;
+		Connection connection = DBConnection.createConnection();
+		String query = "SELECT idsupplier FROM supplier WHERE supplier_name=?";
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setString(1, supplierName);
+			ResultSet rs = statement.executeQuery();
+			if(rs.next()){
+				result = rs.getInt("idsupplier");
+			}
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 	public static boolean isSupplierExist(String supplierName){
 		Connection connection = DBConnection.createConnection();
 		String query = "SELECT idsupplier FROM supplier WHERE supplier_name=?";

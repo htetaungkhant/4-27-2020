@@ -64,11 +64,13 @@ public class AddNewSupplier extends JDialog{
 				String address = tfAddress.getText();
 				String[] data = {supplierName, phone, address};
 				if(SupplierTable.isSupplierExist(supplierName)){
-					JOptionPane.showMessageDialog(null, "Supplier already Exists.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Supplier already Exists.", "Error", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(!isEmpty(data)){
 					SupplierTable.insert(data);
+					int row = SupplierInfo.getTableRow();
 					SupplierInfo.createSupplierTable(SupplierTable.retrieveAll());
+					SupplierInfo.setSelectedRow(row);
 					setVisible(false);
 					dispose();
 				}
@@ -106,11 +108,13 @@ public class AddNewSupplier extends JDialog{
 				String[] data = {supplierName, phone, address};
 
 				if(!tfSupplierName.getText().equals(input[0]) && SupplierTable.isSupplierNameExist(supplierName)){
-					JOptionPane.showMessageDialog(null, "Supplier Name already Exists.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Supplier Name already Exists.", "Error", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(!isEmpty(data)){
 					SupplierTable.update(data, input[0]);
+					int row = SupplierInfo.getTableRow();
 					SupplierInfo.createSupplierTable(SupplierTable.retrieveFilterBySupplierName(toFilter));
+					SupplierInfo.setSelectedRow(row);
 					setVisible(false);
 					dispose();
 				}
@@ -122,7 +126,7 @@ public class AddNewSupplier extends JDialog{
 		String[] labels = {"Supplier Name", "Phone", "Address"};
 		for(int i = 0; i < data.length; i++){
 			if(data[i].equals("")){
-				JOptionPane.showMessageDialog(null, labels[i]+" cannot be empty.", "Empty Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, labels[i]+" cannot be empty.", "Empty Error", JOptionPane.INFORMATION_MESSAGE);
 				return true;
 			}
 		}

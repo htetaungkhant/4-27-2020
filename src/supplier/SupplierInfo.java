@@ -31,7 +31,7 @@ public class SupplierInfo extends JPanel{
 
 	private static String[] columnNames;
 	private static Object[][] tableData;
-	private static TableModel modelForSupplierList;
+	private static DefaultTableModel modelForSupplierList;
 	private static JTable supplierList;
 
 	private static String selectedSupplierName;
@@ -152,7 +152,7 @@ public class SupplierInfo extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(supplierList.getSelectionModel().isSelectionEmpty()){
-					JOptionPane.showMessageDialog(null, "Please, select supplier", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Please, select supplier", "Error", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else{
 					int row = supplierList.getSelectedRow();
@@ -173,8 +173,19 @@ public class SupplierInfo extends JPanel{
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
+			public Class<?> getColumnClass(int columnIndex) {
+				return getValueAt(0,columnIndex).getClass();
+	        }
 		};
 		supplierList.setModel(modelForSupplierList);
 		supplierList.setRowHeight(30);
+	}
+
+	public static int getTableRow(){
+		return supplierList.getSelectedRow();
+	}
+
+	public static void setSelectedRow(int row){
+		supplierList.setRowSelectionInterval(row, row);
 	}
 }

@@ -55,7 +55,7 @@ public class AddNewItem extends JDialog{
 		tfQuantity = new JNumberTextField(5); add(tfQuantity);
 		tfLimitQuantity = new JNumberTextField(5); add(tfLimitQuantity);
 		tfRemark = new MyTextField(); add(tfRemark);
-		resetTextFields();
+//		resetTextFields();
 
 		btnAdd = new JButton("Add"); add(btnAdd);
 		btnCancel = new JButton("Cancel"); add(btnCancel);
@@ -81,12 +81,16 @@ public class AddNewItem extends JDialog{
 				String remark = tfRemark.getText();
 				String[] data = {itemName, barcode, purchasePrice, salePrice, quantity, limitQuantity, remark};
 				if(StockTable.isItemExist(itemName, barcode)){
-					JOptionPane.showMessageDialog(null, "Item already Exists.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Item already Exists.", "Error", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(!isEmpty(data)){
 					StockTable.insert(data);
-					resetTextFields();
+//					resetTextFields();
+					int row = Items.getTableRow();
 					Items.createItemListTable(StockTable.retrieveAll());
+					Items.setSelectedRow(row);
+					setVisible(false);
+					dispose();
 				}
 			}
 		});
@@ -130,14 +134,16 @@ public class AddNewItem extends JDialog{
 				String[] data = {itemName, barcode, purchasePrice, salePrice, quantity, quantityLimit, remark};
 
 				if(!tfItemName.getText().equals(input[0]) && StockTable.isItemNameExist(itemName)){
-					JOptionPane.showMessageDialog(null, "ItemName already Exists.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "ItemName already Exists.", "Error", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(!tfBarcode.getText().equals(input[1]) && StockTable.isBarcodeExist(barcode)){
-					JOptionPane.showMessageDialog(null, "Barcode already Exists.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Barcode already Exists.", "Error", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(!isEmpty(data)){
 					StockTable.update(data, input[1]);
+					int row = Items.getTableRow();
 					Items.createItemListTable(StockTable.retrieveFilterByItemName(toFilter));
+					Items.setSelectedRow(row);
 					setVisible(false);
 					dispose();
 				}
@@ -149,20 +155,20 @@ public class AddNewItem extends JDialog{
 		String[] labels = {"Item Name", "Barcode", "Purchase Price", "Sale Price", "Quantity", "Quantity Limit"};
 		for(int i = 0; i < data.length-1; i++){
 			if(data[i].equals("")){
-				JOptionPane.showMessageDialog(null, labels[i]+" cannot be empty.", "Empty Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, labels[i]+" cannot be empty.", "Empty Error", JOptionPane.INFORMATION_MESSAGE);
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private static void resetTextFields(){
-		tfItemName.setText("");
-		tfBarcode.setText("");
-		tfPurchasePrice.setText("");
-		tfSalePrice.setText("");
-		tfQuantity.setText("");
-		tfLimitQuantity.setText("");
-		tfRemark.setText("");
-	}
+//	private static void resetTextFields(){
+//		tfItemName.setText("");
+//		tfBarcode.setText("");
+//		tfPurchasePrice.setText("");
+//		tfSalePrice.setText("");
+//		tfQuantity.setText("");
+//		tfLimitQuantity.setText("");
+//		tfRemark.setText("");
+//	}
 }

@@ -31,7 +31,7 @@ public class Purchase extends JPanel{
 
 	private static String[] columnNames;
 	private static Object[][] tableData;
-	private static TableModel modelForPurchaseRecordList;
+	private static DefaultTableModel modelForPurchaseRecordList;
 	private static JTable purchaseRecordList;
 
 	public Purchase(){
@@ -117,7 +117,7 @@ public class Purchase extends JPanel{
 				return false;
 			}
 			public Class<?> getColumnClass(int columnIndex) {
-	            return tableData[0][columnIndex].getClass();
+				return getValueAt(0,columnIndex).getClass();
 	        }
 		};
 		purchaseRecordList.setModel(modelForPurchaseRecordList);

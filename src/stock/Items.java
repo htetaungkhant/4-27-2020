@@ -28,6 +28,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -42,6 +43,7 @@ import database.StockTable;
 import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import main.Main;
+import purchase.dialog.AddNewPurchaseRecord;
 import stock.dialog.AddNewItem;
 import stock.dialog.ItemsToPurchase;
 
@@ -49,7 +51,7 @@ public class Items extends JPanel{
 
 	private static String[] columnNames;
 	private static Object[][] tableData;
-	private static TableModel modelForItemList;
+	private static DefaultTableModel modelForItemList;
 	private static JTable itemList;
 
 	private static JButton btnItem2Purchase;
@@ -214,17 +216,22 @@ public class Items extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(itemList.getSelectionModel().isSelectionEmpty()){
-					JOptionPane.showMessageDialog(null, "Please, select item", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Please, select item", "Error", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(tfQuantity.getText().equals("")){
-					JOptionPane.showMessageDialog(null, "Please, enter quantity", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Please, enter quantity", "Error", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else{
-					int row = itemList.getSelectedRow();
-//					selectedSupplierName = (String) supplierList.getValueAt(row, 0);
-//					btnInput.setText(selectedSupplierName);
 					d.setVisible(false);
 					d.dispose();
+					int row = itemList.getSelectedRow();
+					String itemName = (String)itemList.getValueAt(row, 0);
+					int unitPrice = (int)itemList.getValueAt(row, 2);
+					int quantity = Integer.parseInt(tfQuantity.getText());
+					int amount = unitPrice * quantity;
+					Object[] data = {itemName, unitPrice, quantity, amount, new ImageIcon("picture/delete_icon.png")};
+//					AddNewPurchaseRecord.setTotalAmount(amount);
+					AddNewPurchaseRecord.addItem(data);
 				}
 			}
 		});
@@ -239,7 +246,8 @@ public class Items extends JPanel{
 				return false;
 			}
 			public Class<?> getColumnClass(int columnIndex) {
-	            return tableData[0][columnIndex].getClass();
+//	            return tableData[0][columnIndex].getClass();
+				return getValueAt(0,columnIndex).getClass();
 	        }
 		};
 		itemList.setModel(modelForItemList);
@@ -266,5 +274,13 @@ public class Items extends JPanel{
 //		column7.setMinWidth(40);
 //		column7.setMaxWidth(100);
 //		column7.setPreferredWidth(50);
+	}
+
+	public static int getTableRow(){
+		return itemList.getSelectedRow();
+	}
+
+	public static void setSelectedRow(int row){
+		itemList.setRowSelectionInterval(row, row);
 	}
 }

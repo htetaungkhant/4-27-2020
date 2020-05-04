@@ -31,6 +31,9 @@ public class ItemsToPurchase extends JDialog{
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
+			public Class<?> getColumnClass(int columnIndex) {
+				return getValueAt(0,columnIndex).getClass();
+	        }
 		};
 		JTable itemsList2Purchase = new JTable(modelForSupplierList);
 		itemsList2Purchase.setRowHeight(30);
