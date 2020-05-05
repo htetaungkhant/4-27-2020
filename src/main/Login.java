@@ -16,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 
 import com.alee.laf.WebLookAndFeel;
@@ -78,6 +80,13 @@ public class Login {
     }
 
 	public static void main(String[] args) {
+//		String slafcn = UIManager.getSystemLookAndFeelClassName ();
+//		try {
+//			UIManager.setLookAndFeel (slafcn);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+
 		WebLookAndFeel.install ();
 		createAndShowGUI();
 	}

@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
-import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -17,7 +15,6 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -25,10 +22,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
+import javax.swing.SpinnerDateModel;
 
 import com.alee.extended.date.WebDateField;
 
+import database.PurchaseDetailTable;
+import database.PurchaseTable;
 import database.SupplierTable;
 import external_classes.JNumberTextField;
 import external_classes.MyTextField;
@@ -182,10 +183,27 @@ public class AddNewPurchaseRecord extends JDialog{
 					JOptionPane.showMessageDialog(null, "Please, put paid amount", "Need Paid Amount", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else{
-					int idsupplier = SupplierTable.getSupplierID(btnChooseSupplier.getText());
-					int amount = Integer.parseInt(tfTotalAmount.getText());
+					Date date = datePicker.getDate();
+//					int idsupplier = SupplierTable.getSupplierID(btnChooseSupplier.getText());
+					String supplierName = btnChooseSupplier.getText();
 					String invoiceNumber = tfInvoiceNumber.getText();
+					int amount = Integer.parseInt(tfTotalAmount.getText());
 					int paidAmount = Integer.parseInt(tfPaidAmount.getText());
+					Object[] data = {date, supplierName, invoiceNumber, amount, paidAmount};
+					int idpurchase = PurchaseTable.insert(data);
+					if(idpurchase > 0){
+						if(PurchaseDetailTable.insert(itemList, idpurchase)){
+							setVisible(false);
+							dispose();
+						}
+						else{
+							PurchaseTable.delete(idpurchase);
+							JOptionPane.showMessageDialog(null, "Somethings worng!!!", "Error", JOptionPane.INFORMATION_MESSAGE);
+						}
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "Somethings worng!!!", "Error", JOptionPane.INFORMATION_MESSAGE);
+					}
 				}
 			}
 		});
@@ -214,7 +232,7 @@ public class AddNewPurchaseRecord extends JDialog{
 
 	public static void createItemListTable(Object[][] input){
 		tableData = input;
-		columnNames = new String[]{"Item Name", "Unit Price", "quantity", "Amount", "Del"};
+		columnNames = new String[]{"Item Name", "quantity", "Unit Price", "Amount", "Del"};
 
 		modelForItemList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {
@@ -244,9 +262,9 @@ public class AddNewPurchaseRecord extends JDialog{
 		for(int i = 0; i < itemList.getRowCount(); i++){
 			if(itemList.getValueAt(i, 0).equals(data[0])){
 				isExist = true;
-				int result = JOptionPane.showConfirmDialog(null, "Item already exists. Are you sure?", "Already Exist", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				int result = JOptionPane.showConfirmDialog(null, "Item already exists. Are you sure to add?", "Already Exist", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if(result == JOptionPane.YES_OPTION){
-					itemList.setValueAt((int) itemList.getValueAt(i, 2) + (int) data[2], i, 2);
+					itemList.setValueAt((int) itemList.getValueAt(i, 1) + (int) data[1], i, 1);
 					itemList.setValueAt((int) itemList.getValueAt(i, 3) + (int) data[3], i, 3);
 					setTotalAmount((int)data[3]);
 				}

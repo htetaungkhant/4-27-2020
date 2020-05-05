@@ -91,12 +91,16 @@ public class SupplierTable {
 		Connection connection = DBConnection.createConnection();
 		String query= "INSERT INTO supplier(supplier_name,phone,address) VALUES(?,?,?)";
 		try {
-			PreparedStatement statement = connection.prepareStatement(query);
+			PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, (String)data[0]);
 			statement.setString(2, (String)data[1]);
 			statement.setString(3, (String) data[2]);
 
 			statement.executeUpdate();
+//			ResultSet rs = statement.getGeneratedKeys();
+//			if(rs.next()){
+//				System.out.println(rs.getInt(1));
+//			}
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {

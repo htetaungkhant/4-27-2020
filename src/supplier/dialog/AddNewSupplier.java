@@ -68,9 +68,9 @@ public class AddNewSupplier extends JDialog{
 				}
 				else if(!isEmpty(data)){
 					SupplierTable.insert(data);
-					int row = SupplierInfo.getTableRow();
+					String supplier = SupplierInfo.getSelectedSupplier();
 					SupplierInfo.createSupplierTable(SupplierTable.retrieveAll());
-					SupplierInfo.setSelectedRow(row);
+					SupplierInfo.setSelectedSupplier(supplier);
 					setVisible(false);
 					dispose();
 				}
@@ -112,7 +112,7 @@ public class AddNewSupplier extends JDialog{
 				}
 				else if(!isEmpty(data)){
 					SupplierTable.update(data, input[0]);
-					int row = SupplierInfo.getTableRow();
+					int row = SupplierInfo.getSelectedRow();
 					SupplierInfo.createSupplierTable(SupplierTable.retrieveFilterBySupplierName(toFilter));
 					SupplierInfo.setSelectedRow(row);
 					setVisible(false);

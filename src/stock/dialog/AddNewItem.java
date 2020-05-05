@@ -86,9 +86,9 @@ public class AddNewItem extends JDialog{
 				else if(!isEmpty(data)){
 					StockTable.insert(data);
 //					resetTextFields();
-					int row = Items.getTableRow();
+					String selectedItem = Items.getSelectedItem();
 					Items.createItemListTable(StockTable.retrieveAll());
-					Items.setSelectedRow(row);
+					Items.setSelectedItem(selectedItem);
 					setVisible(false);
 					dispose();
 				}
@@ -141,7 +141,7 @@ public class AddNewItem extends JDialog{
 				}
 				else if(!isEmpty(data)){
 					StockTable.update(data, input[1]);
-					int row = Items.getTableRow();
+					int row = Items.getSelectedRow();
 					Items.createItemListTable(StockTable.retrieveFilterByItemName(toFilter));
 					Items.setSelectedRow(row);
 					setVisible(false);

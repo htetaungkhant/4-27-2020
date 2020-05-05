@@ -181,7 +181,25 @@ public class SupplierInfo extends JPanel{
 		supplierList.setRowHeight(30);
 	}
 
-	public static int getTableRow(){
+	public static String getSelectedSupplier(){
+		if(supplierList.getSelectionModel().isSelectionEmpty()){
+			return null;
+		}
+		return (String) supplierList.getValueAt(supplierList.getSelectedRow(), 0);
+	}
+
+	public static void setSelectedSupplier(String supplierName){
+		if(supplierName != null){
+			for(int i = 0; i < supplierList.getRowCount(); i++){
+				if(supplierList.getValueAt(i, 0).equals(supplierName)){
+					supplierList.setRowSelectionInterval(i, i);
+					break;
+				}
+			}
+		}
+	}
+
+	public static int getSelectedRow(){
 		return supplierList.getSelectedRow();
 	}
 

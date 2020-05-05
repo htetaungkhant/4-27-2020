@@ -226,10 +226,10 @@ public class Items extends JPanel{
 					d.dispose();
 					int row = itemList.getSelectedRow();
 					String itemName = (String)itemList.getValueAt(row, 0);
-					int unitPrice = (int)itemList.getValueAt(row, 2);
 					int quantity = Integer.parseInt(tfQuantity.getText());
+					int unitPrice = (int)itemList.getValueAt(row, 2);
 					int amount = unitPrice * quantity;
-					Object[] data = {itemName, unitPrice, quantity, amount, new ImageIcon("picture/delete_icon.png")};
+					Object[] data = {itemName, quantity, unitPrice, amount, new ImageIcon("picture/delete_icon.png")};
 //					AddNewPurchaseRecord.setTotalAmount(amount);
 					AddNewPurchaseRecord.addItem(data);
 				}
@@ -276,7 +276,25 @@ public class Items extends JPanel{
 //		column7.setPreferredWidth(50);
 	}
 
-	public static int getTableRow(){
+	public static String getSelectedItem(){
+		if(itemList.getSelectionModel().isSelectionEmpty()){
+			return null;
+		}
+		return (String) itemList.getValueAt(itemList.getSelectedRow(), 0);
+	}
+
+	public static void setSelectedItem(String itemName){
+		if(itemName != null){
+			for(int i = 0; i < itemList.getRowCount(); i++){
+				if(itemList.getValueAt(i, 0).equals(itemName)){
+					itemList.setRowSelectionInterval(i, i);
+					break;
+				}
+			}
+		}
+	}
+
+	public static int getSelectedRow(){
 		return itemList.getSelectedRow();
 	}
 
