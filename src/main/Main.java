@@ -172,7 +172,7 @@ public class Main{
 				pane.removeAll();
 				pane.revalidate();
 				pane.repaint();
-				JPanel items = new Items();
+				JPanel items = new Items(null);
 				pane.add(items);
 			}
 		});

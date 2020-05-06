@@ -29,7 +29,7 @@ public class AddNewItem extends JDialog{
 	private JButton btnUpdate;
 	private JButton btnCancel;
 
-	public AddNewItem(Frame parent){
+	public AddNewItem(Frame parent, String[] itemNameList){
 		super(parent, true);
 		ImageIcon frameIcon = new ImageIcon("picture/items_icon.png");
 		setIconImage(frameIcon.getImage());
@@ -88,6 +88,7 @@ public class AddNewItem extends JDialog{
 //					resetTextFields();
 					String selectedItem = Items.getSelectedItem();
 					Items.createItemListTable(StockTable.retrieveAll());
+					Items.removeAlreadyItems(itemNameList);
 					Items.setSelectedItem(selectedItem);
 					setVisible(false);
 					dispose();
@@ -104,8 +105,8 @@ public class AddNewItem extends JDialog{
 		});
 	}
 
-	public AddNewItem(Frame parent, String[] input, String toFilter){
-		this(parent);
+	public AddNewItem(Frame parent, String[] input, String toFilter, String[] itemNameList){
+		this(parent, itemNameList);
 		setTitle("Update Item Details");
 
 		tfItemName.setText(input[0]);
@@ -143,6 +144,7 @@ public class AddNewItem extends JDialog{
 					StockTable.update(data, input[1]);
 					int row = Items.getSelectedRow();
 					Items.createItemListTable(StockTable.retrieveFilterByItemName(toFilter));
+					Items.removeAlreadyItems(itemNameList);
 					Items.setSelectedRow(row);
 					setVisible(false);
 					dispose();

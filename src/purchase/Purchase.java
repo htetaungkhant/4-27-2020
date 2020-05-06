@@ -7,6 +7,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -21,10 +24,13 @@ import javax.swing.table.TableModel;
 
 import com.alee.extended.date.WebDateField;
 
+import database.PurchaseTable;
 import database.SupplierTable;
 import external_classes.MyTextField;
 import main.Main;
 import purchase.dialog.AddNewPurchaseRecord;
+import purchase.dialog.UpdatePurchaseRecord;
+import stock.dialog.AddNewItem;
 import supplier.SupplierInfo;
 
 public class Purchase extends JPanel{
@@ -33,6 +39,12 @@ public class Purchase extends JPanel{
 	private static Object[][] tableData;
 	private static DefaultTableModel modelForPurchaseRecordList;
 	private static JTable purchaseRecordList;
+
+	private static WebDateField datePicker1;
+	private static WebDateField datePicker2;
+
+	private static JButton btnChooseSupplier;
+	private static MyTextField tfInvoiceNumber;
 
 	public Purchase(){
 		setLayout(new BorderLayout());
@@ -43,19 +55,24 @@ public class Purchase extends JPanel{
 		//creating Top Left Panel
 		JPanel topLeftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JLabel lbStartDate = new JLabel("Start Date");
-		WebDateField datePicker1=new WebDateField(new Date());
+		datePicker1=new WebDateField();
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.MONTH, -1);
+		datePicker1.setDate(calendar.getTime());
+		datePicker1.setAllowUserInput(false);
 		datePicker1.setPreferredSize(100, 40);
 		JLabel lbEndDate = new JLabel("End Date");
-		WebDateField datePicker2=new WebDateField(new Date());
+		datePicker2=new WebDateField(new Date());
+		datePicker2.setAllowUserInput(false);
 		datePicker2.setPreferredSize(100, 40);
 //		String supplierList[]=SupplierTable.retrieveSupplierNamesOnly();
 //		JComboBox jcbSupplierList = new JComboBox(supplierList);
 //		jcbSupplierList.insertItemAt("All Supplier", 0);
 //		jcbSupplierList.setSelectedIndex(0);
 //		jcbSupplierList.setPreferredSize(new Dimension(150, 40));
-		JButton btnChooseSupplier = new JButton("Choose Supplier");
+		btnChooseSupplier = new JButton("Choose Supplier");
 		btnChooseSupplier.setPreferredSize(new Dimension(150, 40));
-		MyTextField tfInvoiceNumber = new MyTextField(30, "Invoice Number");
+		tfInvoiceNumber = new MyTextField(30, "Invoice Number");
 		tfInvoiceNumber.setPreferredSize(new Dimension(110,40));
 		tfInvoiceNumber.setHorizontalAlignment(JLabel.CENTER);
 		JButton btnSearch = new JButton("Search");
@@ -81,7 +98,7 @@ public class Purchase extends JPanel{
 
 		//creating Table Panel
 		purchaseRecordList = new JTable(modelForPurchaseRecordList);
-		createPurchaseRecordTable(null);
+		createPurchaseRecordTable();
 
 		JScrollPane tablePanel = new JScrollPane(purchaseRecordList);
 		add(tablePanel, BorderLayout.CENTER);
@@ -99,6 +116,13 @@ public class Purchase extends JPanel{
 			}
 		});
 
+		btnSearch.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				createPurchaseRecordTable();
+			}
+		});
+
 		btnAddNewRecord.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -106,11 +130,21 @@ public class Purchase extends JPanel{
 				addNewPurchaseRecord.setVisible(true);
 			}
 		});
+
+		purchaseRecordList.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e){
+				if(e.getClickCount() == 2){
+					int row=((JTable)e.getSource()).getSelectedRow();
+					UpdatePurchaseRecord updateRecord = new UpdatePurchaseRecord(Main.frame);
+					updateRecord.setVisible(true);
+				}
+			}
+		});
 	}
 
-	public static void createPurchaseRecordTable(Object[][] input){
-		tableData = input;
-		columnNames = new String[]{"Date", "Supplier", "Invoice Number", "Amount", "Paid Amount","Remark"};
+	public static void createPurchaseRecordTable(){
+		tableData = PurchaseTable.retrieve(datePicker1.getDate(), datePicker2.getDate(), btnChooseSupplier.getText(), tfInvoiceNumber.getText());
+		columnNames = new String[]{"Date", "Supplier", "Invoice Number", "Amount", "Paid Amount"};
 
 		modelForPurchaseRecordList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {

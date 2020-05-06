@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
 public class StockTable {
 	public static Object[][] retrieveAll(){
@@ -142,6 +143,28 @@ public class StockTable {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void updateQuantity(JTable table){
+		int rows = table.getRowCount();
+		Connection connection = DBConnection.createConnection();
+		String query= "UPDATE stock SET quantity=quantity+? WHERE item_name=?";
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+			for(int row = 0; row < rows; row++){
+				statement.setInt(1, (int) table.getValueAt(row, 1));
+				statement.setString(2, (String) table.getValueAt(row, 0));
+
+				statement.addBatch();
+			}
+
+			statement.executeBatch();
+			statement.close();
+			connection.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
 	}

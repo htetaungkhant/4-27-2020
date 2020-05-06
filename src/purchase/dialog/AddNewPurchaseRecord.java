@@ -30,10 +30,12 @@ import com.alee.extended.date.WebDateField;
 
 import database.PurchaseDetailTable;
 import database.PurchaseTable;
+import database.StockTable;
 import database.SupplierTable;
 import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import main.Main;
+import purchase.Purchase;
 import stock.Items;
 import supplier.SupplierInfo;
 
@@ -160,7 +162,7 @@ public class AddNewPurchaseRecord extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JDialog d = new JDialog(Main.frame, "Choose Item",true);
-				Items itemList = new Items(d);
+				Items itemList = new Items(d, getItemNameList());
 				d.add(itemList);
 				ImageIcon frameIcon = new ImageIcon("picture/items_icon.png");
 				d.setIconImage(frameIcon.getImage());
@@ -180,7 +182,7 @@ public class AddNewPurchaseRecord extends JDialog{
 					JOptionPane.showMessageDialog(null, "Please, add some items", "No Item", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(tfPaidAmount.getText().equals("")){
-					JOptionPane.showMessageDialog(null, "Please, put paid amount", "Need Paid Amount", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Please, enter paid amount", "Need Paid Amount", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else{
 					Date date = datePicker.getDate();
@@ -193,6 +195,8 @@ public class AddNewPurchaseRecord extends JDialog{
 					int idpurchase = PurchaseTable.insert(data);
 					if(idpurchase > 0){
 						if(PurchaseDetailTable.insert(itemList, idpurchase)){
+							StockTable.updateQuantity(itemList);
+							Purchase.createPurchaseRecordTable();
 							setVisible(false);
 							dispose();
 						}
@@ -219,8 +223,8 @@ public class AddNewPurchaseRecord extends JDialog{
 		itemList.addMouseListener(new MouseAdapter(){
 			@Override
 			public void mouseClicked(MouseEvent e){
+				int row = itemList.getSelectedRow();
 					if(itemList.getSelectedColumn()==itemList.getColumnCount()-1){
-						int row = itemList.getSelectedRow();
 						int amount = Integer.parseInt(tfTotalAmount.getText()) - (int)itemList.getValueAt(row, 3);
 						tfTotalAmount.setText("");
 						tfTotalAmount.setText(Integer.toString(amount));
@@ -275,5 +279,13 @@ public class AddNewPurchaseRecord extends JDialog{
 			modelForItemList.addRow(data);
 			setTotalAmount((int)data[3]);
 		}
+	}
+
+	public static String[] getItemNameList(){
+		String[] result = new String[itemList.getRowCount()];
+		for(int i = 0; i < itemList.getRowCount(); i++){
+			result[i] = (String) itemList.getValueAt(i, 0);
+		}
+		return result;
 	}
 }
