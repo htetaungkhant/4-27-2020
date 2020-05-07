@@ -53,7 +53,7 @@ public class AddNewPurchaseRecord extends JDialog{
 		ImageIcon frameIcon = new ImageIcon("picture/purchase_record_icon.png");
 		setIconImage(frameIcon.getImage());
 		setTitle("Add New Record");
-		setSize(1400, 600);
+		setSize(1400, 700);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -166,7 +166,7 @@ public class AddNewPurchaseRecord extends JDialog{
 				d.add(itemList);
 				ImageIcon frameIcon = new ImageIcon("picture/items_icon.png");
 				d.setIconImage(frameIcon.getImage());
-				d.setSize(1000, 500);
+				d.setSize(1000, 600);
 				d.setLocationRelativeTo(null);
 				d.setVisible(true);
 			}

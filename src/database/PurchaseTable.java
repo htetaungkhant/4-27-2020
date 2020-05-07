@@ -15,13 +15,13 @@ public class PurchaseTable {
 		Connection connection = DBConnection.createConnection();
 
 		try {
-			String query="SELECT date, supplier_name, original_invoice_number, amount, paid_amount FROM purchase p INNER JOIN supplier s ON p.supplier = s.idsupplier WHERE p.date BETWEEN ? AND ? ORDER BY p.date";
+			String query="SELECT date, supplier_name, original_invoice_number, amount, paid_amount FROM purchase p INNER JOIN supplier s ON p.supplier = s.idsupplier WHERE p.date BETWEEN ? AND ? ORDER BY p.idpurchase";
 			PreparedStatement statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			statement.setString(1, new SimpleDateFormat("yyyy-MM-dd").format(date1));
 			statement.setString(2, new SimpleDateFormat("yyyy-MM-dd").format(date2));
 
 			if(!supplierName.equals("Choose Supplier") && !invoiceNumber.equals("")){
-				query="SELECT date, supplier_name, original_invoice_number, amount, paid_amount FROM purchase p INNER JOIN supplier s ON p.supplier = s.idsupplier AND s.supplier_name=? WHERE p.date BETWEEN ? AND ? AND p.original_invoice_number=? ORDER BY p.date";
+				query="SELECT date, supplier_name, original_invoice_number, amount, paid_amount FROM purchase p INNER JOIN supplier s ON p.supplier = s.idsupplier AND s.supplier_name=? WHERE p.date BETWEEN ? AND ? AND p.original_invoice_number=? ORDER BY p.idpurchase";
 				statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 				statement.setString(1, supplierName);
 				statement.setString(2, new SimpleDateFormat("yyyy-MM-dd").format(date1));
@@ -29,14 +29,14 @@ public class PurchaseTable {
 				statement.setString(4, invoiceNumber);
 			}
 			else if(!supplierName.equals("Choose Supplier")){
-				query="SELECT date, supplier_name, original_invoice_number, amount, paid_amount FROM purchase p INNER JOIN supplier s ON p.supplier = s.idsupplier AND s.supplier_name=? WHERE p.date BETWEEN ? AND ? ORDER BY p.date";
+				query="SELECT date, supplier_name, original_invoice_number, amount, paid_amount FROM purchase p INNER JOIN supplier s ON p.supplier = s.idsupplier AND s.supplier_name=? WHERE p.date BETWEEN ? AND ? ORDER BY p.idpurchase";
 				statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 				statement.setString(1, supplierName);
 				statement.setString(2, new SimpleDateFormat("yyyy-MM-dd").format(date1));
 				statement.setString(3, new SimpleDateFormat("yyyy-MM-dd").format(date2));
 			}
 			else if(!invoiceNumber.equals("")){
-				query="SELECT date, supplier_name, original_invoice_number, amount, paid_amount FROM purchase p INNER JOIN supplier s ON p.supplier = s.idsupplier WHERE p.date BETWEEN ? AND ? AND p.original_invoice_number=? ORDER BY p.date";
+				query="SELECT date, supplier_name, original_invoice_number, amount, paid_amount FROM purchase p INNER JOIN supplier s ON p.supplier = s.idsupplier WHERE p.date BETWEEN ? AND ? AND p.original_invoice_number=? ORDER BY p.idpurchase";
 				statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 				statement.setString(1, new SimpleDateFormat("yyyy-MM-dd").format(date1));
 				statement.setString(2, new SimpleDateFormat("yyyy-MM-dd").format(date2));

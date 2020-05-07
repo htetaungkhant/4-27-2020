@@ -180,7 +180,13 @@ public class Items extends JPanel{
 
 		//creating Bottom Right Panel
 		JPanel bottomRightPanel = new JPanel();
-		JLabel lbQuantity = new JLabel("Enter Quantity");
+		JLabel lbPurchasePrice = new JLabel("Purchase Price");
+		lbPurchasePrice.setHorizontalAlignment(JLabel.RIGHT);
+		lbPurchasePrice.setPreferredSize(new Dimension(100, 40));
+		JNumberTextField tfPurchasePrice = new JNumberTextField(10);
+		tfPurchasePrice.setHorizontalAlignment(JLabel.RIGHT);
+		tfPurchasePrice.setPreferredSize(new Dimension(100, 40));
+		JLabel lbQuantity = new JLabel("Quantity");
 		lbQuantity.setHorizontalAlignment(JLabel.RIGHT);
 		lbQuantity.setPreferredSize(new Dimension(100, 40));
 		JNumberTextField tfQuantity = new JNumberTextField(10);
@@ -196,12 +202,16 @@ public class Items extends JPanel{
 		groupLayout.setAutoCreateContainerGaps(true);
 		bottomRightPanel.setLayout(groupLayout);
 		groupLayout.setHorizontalGroup(groupLayout.createSequentialGroup()
-				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addComponent(lbQuantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addComponent(lbPurchasePrice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+																												.addComponent(lbQuantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 																												.addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addComponent(tfQuantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addComponent(tfPurchasePrice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+																												.addComponent(tfQuantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 																												.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)));
 
 		groupLayout.setVerticalGroup(groupLayout.createSequentialGroup()
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lbPurchasePrice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+																												.addComponent(tfPurchasePrice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lbQuantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 																												.addComponent(tfQuantity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(btnCancel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -226,7 +236,10 @@ public class Items extends JPanel{
 				if(itemList.getSelectionModel().isSelectionEmpty()){
 					JOptionPane.showMessageDialog(null, "Please, select item", "Error", JOptionPane.INFORMATION_MESSAGE);
 				}
-				else if(tfQuantity.getText().equals("") || tfQuantity.getText().equals("0")){
+				else if(tfPurchasePrice.getText().equals("") || Integer.parseInt(tfPurchasePrice.getText())==0){
+					JOptionPane.showMessageDialog(null, "Please, enter suitable purchase price", "Error", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else if(tfQuantity.getText().equals("") || Integer.parseInt(tfQuantity.getText())==0){
 					JOptionPane.showMessageDialog(null, "Please, enter suitable quantity", "Error", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else{
@@ -235,7 +248,7 @@ public class Items extends JPanel{
 					int row = itemList.getSelectedRow();
 					String itemName = (String)itemList.getValueAt(row, 0);
 					int quantity = Integer.parseInt(tfQuantity.getText());
-					int unitPrice = (int)itemList.getValueAt(row, 2);
+					int unitPrice = Integer.parseInt(tfPurchasePrice.getText());
 					int amount = unitPrice * quantity;
 					Object[] data = {itemName, quantity, unitPrice, amount, new ImageIcon("picture/delete_icon.png")};
 //					AddNewPurchaseRecord.setTotalAmount(amount);
@@ -247,7 +260,7 @@ public class Items extends JPanel{
 
 	public static void createItemListTable(Object[][] input){
 		tableData = input;
-		columnNames = new String[]{"Item Name", "Barcode", "Purchase Price", "Sale Price", "Quantity","Quantity Limit","Remark"};
+		columnNames = new String[]{"Item Name", "Barcode", "Cost", "Sale Price", "Quantity","Quantity Limit","Remark"};
 
 		modelForItemList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {

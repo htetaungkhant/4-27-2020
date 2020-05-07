@@ -26,7 +26,7 @@ public class StockTable {
 					++row;
 					result[row][0]=(String)resultSet.getString("item_name");
 					result[row][1]=(String)resultSet.getString("barcode");
-					result[row][2]=resultSet.getInt("purchase_price");
+					result[row][2]=resultSet.getInt("cost");
 					result[row][3]=resultSet.getInt("sale_price");
 					result[row][4]=resultSet.getInt("quantity");
 					result[row][5]=resultSet.getInt("limit_quantity");
@@ -57,7 +57,7 @@ public class StockTable {
 					++row;
 					result[row][0]=(String)resultSet.getString("item_name");
 					result[row][1]=(String)resultSet.getString("barcode");
-					result[row][2]=resultSet.getInt("purchase_price");
+					result[row][2]=resultSet.getInt("cost");
 					result[row][3]=resultSet.getInt("sale_price");
 					result[row][4]=resultSet.getInt("quantity");
 					result[row][5]=resultSet.getInt("limit_quantity");
@@ -89,7 +89,7 @@ public class StockTable {
 					++row;
 					result[row][0]=(String)resultSet.getString("item_name");
 					result[row][1]=(String)resultSet.getString("barcode");
-					result[row][2]=resultSet.getInt("purchase_price");
+					result[row][2]=resultSet.getInt("cost");
 					result[row][3]=resultSet.getInt("sale_price");
 					result[row][4]=resultSet.getInt("quantity");
 					result[row][5]=resultSet.getInt("limit_quantity");
@@ -106,7 +106,7 @@ public class StockTable {
 
 	public static void insert(String[] data){
 			Connection connection = DBConnection.createConnection();
-			String query= "INSERT INTO stock(item_name,barcode,purchase_price,sale_price,quantity,limit_quantity,remark) VALUES(?,?,?,?,?,?,?)";
+			String query= "INSERT INTO stock(item_name,barcode,cost,sale_price,quantity,limit_quantity,remark) VALUES(?,?,?,?,?,?,?)";
 			try {
 				PreparedStatement statement = connection.prepareStatement(query);
 				statement.setString(1, (String)data[0]);
@@ -127,7 +127,7 @@ public class StockTable {
 
 	public static void update(String[] data, String originalBarcode){
 		Connection connection = DBConnection.createConnection();
-		String query = "UPDATE stock SET item_name=?,barcode=?,purchase_price=?,sale_price=?,quantity=?,limit_quantity=?,remark=? WHERE barcode=?";
+		String query = "UPDATE stock SET item_name=?,barcode=?,cost=?,sale_price=?,quantity=?,limit_quantity=?,remark=? WHERE barcode=?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(query);
 
@@ -150,13 +150,15 @@ public class StockTable {
 	public static void updateQuantity(JTable table){
 		int rows = table.getRowCount();
 		Connection connection = DBConnection.createConnection();
-		String query= "UPDATE stock SET quantity=quantity+? WHERE item_name=?";
+		String query= "UPDATE stock SET cost=((cost*quantity)+(?*?))/(quantity+?), quantity=quantity+? WHERE item_name=?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(query);
 			for(int row = 0; row < rows; row++){
-				statement.setInt(1, (int) table.getValueAt(row, 1));
-				statement.setString(2, (String) table.getValueAt(row, 0));
-
+				statement.setInt(1, (int) table.getValueAt(row, 2));
+				statement.setInt(2, (int) table.getValueAt(row, 1));
+				statement.setInt(3, (int) table.getValueAt(row, 1));
+				statement.setInt(4, (int) table.getValueAt(row, 1));
+				statement.setString(5, (String) table.getValueAt(row, 0));
 				statement.addBatch();
 			}
 

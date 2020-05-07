@@ -19,7 +19,7 @@ import stock.Items;
 public class AddNewItem extends JDialog{
 	private static MyTextField tfItemName;
 	private static MyTextField tfBarcode;
-	private static JNumberTextField tfPurchasePrice;
+	private static JNumberTextField tfCost;
 	private static JNumberTextField tfSalePrice;
 	private static JNumberTextField tfQuantity;
 	private static JNumberTextField tfLimitQuantity ;
@@ -42,7 +42,7 @@ public class AddNewItem extends JDialog{
 
 		JLabel lbItemName = new JLabel("Item Name"); add(lbItemName);
 		JLabel lbBarcode = new JLabel("Barcode"); add(lbBarcode);
-		JLabel lbPurchasePrice = new JLabel("Purchase Price"); add(lbPurchasePrice);
+		JLabel lbCost = new JLabel("Cost"); add(lbCost);
 		JLabel lbSalePrice = new JLabel("Sale Price"); add(lbSalePrice);
 		JLabel lbQuantity = new JLabel("Quantity"); add(lbQuantity);
 		JLabel lbLimitQuantity = new JLabel("Quantity Limit"); add(lbLimitQuantity);
@@ -50,7 +50,7 @@ public class AddNewItem extends JDialog{
 
 		tfItemName = new MyTextField(); add(tfItemName);
 		tfBarcode = new MyTextField(); add(tfBarcode);
-		tfPurchasePrice = new JNumberTextField(10); add(tfPurchasePrice);
+		tfCost = new JNumberTextField(10); add(tfCost);
 		tfSalePrice = new JNumberTextField(10); add(tfSalePrice);
 		tfQuantity = new JNumberTextField(5); add(tfQuantity);
 		tfLimitQuantity = new JNumberTextField(5); add(tfLimitQuantity);
@@ -62,7 +62,7 @@ public class AddNewItem extends JDialog{
 
 		lbItemName.setBounds(20, 20, 100, 30); tfItemName.setBounds(130, 20, 200, 30);
 		lbBarcode.setBounds(20, 60, 100, 30); tfBarcode.setBounds(130, 60, 200, 30);
-		lbPurchasePrice.setBounds(20, 100, 100, 30); tfPurchasePrice.setBounds(130, 100, 200, 30);
+		lbCost.setBounds(20, 100, 100, 30); tfCost.setBounds(130, 100, 200, 30);
 		lbSalePrice.setBounds(20, 140, 100, 30); tfSalePrice.setBounds(130, 140, 200, 30);
 		lbQuantity.setBounds(20, 180, 100, 30); tfQuantity.setBounds(130, 180, 200, 30);
 		lbLimitQuantity.setBounds(20, 220, 100, 30); tfLimitQuantity.setBounds(130, 220, 200, 30);
@@ -74,12 +74,12 @@ public class AddNewItem extends JDialog{
 			public void actionPerformed(ActionEvent e) {
 				String itemName = tfItemName.getText();
 				String barcode = tfBarcode.getText();
-				String purchasePrice = tfPurchasePrice.getText();
+				String cost = tfCost.getText();
 				String salePrice = tfSalePrice.getText();
 				String quantity = tfQuantity.getText();
 				String limitQuantity =tfLimitQuantity.getText();
 				String remark = tfRemark.getText();
-				String[] data = {itemName, barcode, purchasePrice, salePrice, quantity, limitQuantity, remark};
+				String[] data = {itemName, barcode, cost, salePrice, quantity, limitQuantity, remark};
 				if(StockTable.isItemExist(itemName, barcode)){
 					JOptionPane.showMessageDialog(null, "Item already Exists.", "Error", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -111,7 +111,7 @@ public class AddNewItem extends JDialog{
 
 		tfItemName.setText(input[0]);
 		tfBarcode.setText(input[1]);
-		tfPurchasePrice.setText(input[2]);
+		tfCost.setText(input[2]);tfCost.setEditable(false);
 		tfSalePrice.setText(input[3]);
 		tfQuantity.setText(input[4]);
 		tfLimitQuantity.setText(input[5]);
@@ -127,12 +127,12 @@ public class AddNewItem extends JDialog{
 
 				String itemName = tfItemName.getText();
 				String barcode = tfBarcode.getText();
-				String purchasePrice = tfPurchasePrice.getText();
+				String cost = tfCost.getText();
 				String salePrice = tfSalePrice.getText();
 				String quantity = tfQuantity.getText();
 				String quantityLimit = tfLimitQuantity.getText();
 				String remark = tfRemark.getText();
-				String[] data = {itemName, barcode, purchasePrice, salePrice, quantity, quantityLimit, remark};
+				String[] data = {itemName, barcode, cost, salePrice, quantity, quantityLimit, remark};
 
 				if(!tfItemName.getText().equals(input[0]) && StockTable.isItemNameExist(itemName)){
 					JOptionPane.showMessageDialog(null, "ItemName already Exists.", "Error", JOptionPane.INFORMATION_MESSAGE);
