@@ -24,6 +24,7 @@ import javax.swing.table.TableModel;
 import database.SupplierTable;
 import external_classes.MyTextField;
 import main.Main;
+import purchase.Purchase;
 import purchase.dialog.AddNewPurchaseRecord;
 import supplier.dialog.AddNewSupplier;
 
@@ -143,6 +144,9 @@ public class SupplierInfo extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				btnInput.setText("Choose Supplier");
+				int row = Purchase.getSelectedRow();
+				Purchase.createPurchaseRecordTable();
+				if(row!=-1) Purchase.setSelectedRow(row);
 				d.setVisible(false);
 				d.dispose();
 			}
@@ -158,6 +162,7 @@ public class SupplierInfo extends JPanel{
 					int row = supplierList.getSelectedRow();
 					selectedSupplierName = (String) supplierList.getValueAt(row, 0);
 					btnInput.setText(selectedSupplierName);
+					Purchase.createPurchaseRecordTable();
 					d.setVisible(false);
 					d.dispose();
 				}

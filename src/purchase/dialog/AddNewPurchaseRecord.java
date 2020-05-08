@@ -186,7 +186,6 @@ public class AddNewPurchaseRecord extends JDialog{
 				}
 				else{
 					Date date = datePicker.getDate();
-//					int idsupplier = SupplierTable.getSupplierID(btnChooseSupplier.getText());
 					String supplierName = btnChooseSupplier.getText();
 					String invoiceNumber = tfInvoiceNumber.getText();
 					int amount = Integer.parseInt(tfTotalAmount.getText());

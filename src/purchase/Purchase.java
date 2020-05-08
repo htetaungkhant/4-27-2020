@@ -157,4 +157,12 @@ public class Purchase extends JPanel{
 		purchaseRecordList.setModel(modelForPurchaseRecordList);
 		purchaseRecordList.setRowHeight(30);
 	}
+
+	public static int getSelectedRow(){
+		return purchaseRecordList.getSelectedRow();
+	}
+
+	public static void setSelectedRow(int row){
+		purchaseRecordList.setRowSelectionInterval(row, row);
+	}
 }
