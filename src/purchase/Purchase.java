@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Calendar;
@@ -22,6 +24,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import com.alee.extended.date.DateListener;
 import com.alee.extended.date.WebDateField;
 
 import database.PurchaseTable;
@@ -75,15 +78,12 @@ public class Purchase extends JPanel{
 		tfInvoiceNumber = new MyTextField(30, "Invoice Number");
 		tfInvoiceNumber.setPreferredSize(new Dimension(110,40));
 		tfInvoiceNumber.setHorizontalAlignment(JLabel.CENTER);
-		JButton btnSearch = new JButton("Search");
-		btnSearch.setPreferredSize(new Dimension(100, 40));
 		topLeftPanel.add(lbStartDate);
 		topLeftPanel.add(datePicker1);
 		topLeftPanel.add(lbEndDate);
 		topLeftPanel.add(datePicker2);
 		topLeftPanel.add(btnChooseSupplier);
 		topLeftPanel.add(tfInvoiceNumber);
-		topLeftPanel.add(btnSearch);
 		topPanel.add(topLeftPanel, BorderLayout.WEST);
 
 		//creating Top Right Panel
@@ -104,6 +104,20 @@ public class Purchase extends JPanel{
 		add(tablePanel, BorderLayout.CENTER);
 		//End of Table Panel
 
+		datePicker1.addDateListener(new DateListener() {
+			@Override
+			public void dateChanged(Date arg0) {
+				createPurchaseRecordTable();
+			}
+		});
+
+		datePicker2.addDateListener(new DateListener() {
+			@Override
+			public void dateChanged(Date arg0) {
+				createPurchaseRecordTable();
+			}
+		});
+
 		btnChooseSupplier.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -116,9 +130,17 @@ public class Purchase extends JPanel{
 			}
 		});
 
-		btnSearch.addActionListener(new ActionListener() {
+		tfInvoiceNumber.addKeyListener(new KeyListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void keyTyped(KeyEvent e) {
+				createPurchaseRecordTable();
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				createPurchaseRecordTable();
+			}
+			@Override
+			public void keyPressed(KeyEvent e) {
 				createPurchaseRecordTable();
 			}
 		});
@@ -135,7 +157,8 @@ public class Purchase extends JPanel{
 			public void mouseClicked(MouseEvent e){
 				if(e.getClickCount() == 2){
 					int row=((JTable)e.getSource()).getSelectedRow();
-					UpdatePurchaseRecord updateRecord = new UpdatePurchaseRecord(Main.frame);
+					int idpurchase = (int) purchaseRecordList.getModel().getValueAt(row, 0);
+					UpdatePurchaseRecord updateRecord = new UpdatePurchaseRecord(Main.frame, idpurchase);
 					updateRecord.setVisible(true);
 				}
 			}
@@ -144,7 +167,7 @@ public class Purchase extends JPanel{
 
 	public static void createPurchaseRecordTable(){
 		tableData = PurchaseTable.retrieve(datePicker1.getDate(), datePicker2.getDate(), btnChooseSupplier.getText(), tfInvoiceNumber.getText());
-		columnNames = new String[]{"Date", "Supplier", "Invoice Number", "Amount", "Paid Amount"};
+		columnNames = new String[]{"ID", "Date", "Supplier", "Invoice Number", "Amount", "Paid Amount"};
 
 		modelForPurchaseRecordList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {
@@ -156,6 +179,7 @@ public class Purchase extends JPanel{
 		};
 		purchaseRecordList.setModel(modelForPurchaseRecordList);
 		purchaseRecordList.setRowHeight(30);
+		purchaseRecordList.removeColumn(purchaseRecordList.getColumnModel().getColumn(0));
 	}
 
 	public static int getSelectedRow(){

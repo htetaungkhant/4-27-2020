@@ -15,15 +15,11 @@
 	    <artifactId>mysql-connector-java</artifactId>
 	    <version>8.0.20</version>
 	</dependency>
+	<!-- https://mvnrepository.com/artifact/com.miglayout/miglayout-swing -->
 	<dependency>
-	    <groupId>no.tornado.databinding</groupId>
-	    <artifactId>jxdatepicker-support</artifactId>
-	    <version>1.0</version>
-	</dependency>
-	<dependency>
-	    <groupId>com.toedter</groupId>
-	    <artifactId>jcalendar</artifactId>
-	    <version>1.4</version>
+	    <groupId>com.miglayout</groupId>
+	    <artifactId>miglayout-swing</artifactId>
+	    <version>5.0</version>
 	</dependency>
 
   </dependencies>

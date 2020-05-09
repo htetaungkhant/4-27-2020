@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.swing.GroupLayout;
@@ -117,8 +118,8 @@ public class AddNewPurchaseRecord extends JDialog{
 		tfPaidAmount.setPreferredSize(new Dimension(120, 40));
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.setPreferredSize(new Dimension(100, 40));
-		JButton btnSave = new JButton("Save");
-		btnSave.setPreferredSize(new Dimension(100, 40));
+		JButton btnSave = new JButton("Confirm and Save");
+		btnSave.setPreferredSize(new Dimension(120, 40));
 
 		GroupLayout groupLayout = new GroupLayout(bottomRightPanel);
 		groupLayout.setAutoCreateGaps(true);
@@ -214,6 +215,7 @@ public class AddNewPurchaseRecord extends JDialog{
 		btnCancel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+//				Purchase.createPurchaseRecordTable();
 				setVisible(false);
 				dispose();
 			}
