@@ -29,7 +29,7 @@ public class AddNewItem extends JDialog{
 	private JButton btnUpdate;
 	private JButton btnCancel;
 
-	public AddNewItem(Frame parent, String[] itemNameList){
+	public AddNewItem(Frame parent){
 		super(parent, true);
 		ImageIcon frameIcon = new ImageIcon("picture/items_icon.png");
 		setIconImage(frameIcon.getImage());
@@ -48,13 +48,13 @@ public class AddNewItem extends JDialog{
 		JLabel lbLimitQuantity = new JLabel("Quantity Limit"); add(lbLimitQuantity);
 		JLabel lbRemark = new JLabel("Remark"); add(lbRemark);
 
-		tfItemName = new MyTextField(); add(tfItemName);
-		tfBarcode = new MyTextField(); add(tfBarcode);
-		tfCost = new JNumberTextField(10); add(tfCost);
-		tfSalePrice = new JNumberTextField(10); add(tfSalePrice);
-		tfQuantity = new JNumberTextField(5); add(tfQuantity);
-		tfLimitQuantity = new JNumberTextField(5); add(tfLimitQuantity);
-		tfRemark = new MyTextField(); add(tfRemark);
+		tfItemName = new MyTextField(); tfItemName.setHorizontalAlignment(JLabel.RIGHT); add(tfItemName);
+		tfBarcode = new MyTextField(); tfBarcode.setHorizontalAlignment(JLabel.RIGHT); add(tfBarcode);
+		tfCost = new JNumberTextField(10); tfCost.setHorizontalAlignment(JLabel.RIGHT); add(tfCost);
+		tfSalePrice = new JNumberTextField(10); tfSalePrice.setHorizontalAlignment(JLabel.RIGHT); add(tfSalePrice);
+		tfQuantity = new JNumberTextField(5); tfQuantity.setHorizontalAlignment(JLabel.RIGHT); add(tfQuantity);
+		tfLimitQuantity = new JNumberTextField(5); tfLimitQuantity.setHorizontalAlignment(JLabel.RIGHT); add(tfLimitQuantity);
+		tfRemark = new MyTextField(); tfRemark.setHorizontalAlignment(JLabel.RIGHT); add(tfRemark);
 //		resetTextFields();
 
 		btnAdd = new JButton("Add"); add(btnAdd);
@@ -88,7 +88,7 @@ public class AddNewItem extends JDialog{
 //					resetTextFields();
 					String selectedItem = Items.getSelectedItem();
 					Items.createItemListTable(StockTable.retrieveAll());
-					Items.removeAlreadyItems(itemNameList);
+					Items.removeAlreadyItems();
 					Items.setSelectedItem(selectedItem);
 					setVisible(false);
 					dispose();
@@ -105,8 +105,8 @@ public class AddNewItem extends JDialog{
 		});
 	}
 
-	public AddNewItem(Frame parent, String[] input, String toFilter, String[] itemNameList){
-		this(parent, itemNameList);
+	public AddNewItem(Frame parent, String[] input, String toFilter){
+		this(parent);
 		setTitle("Update Item Details");
 
 		tfItemName.setText(input[0]);
@@ -144,7 +144,7 @@ public class AddNewItem extends JDialog{
 					StockTable.update(data, input[1]);
 					int row = Items.getSelectedRow();
 					Items.createItemListTable(StockTable.retrieveFilterByItemName(toFilter));
-					Items.removeAlreadyItems(itemNameList);
+					Items.removeAlreadyItems();
 					Items.setSelectedRow(row);
 					setVisible(false);
 					dispose();

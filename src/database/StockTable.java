@@ -147,10 +147,34 @@ public class StockTable {
 		}
 	}
 
-	public static void updateQuantity(JTable table){
+	public static void addQuantityAndUpdateCOGS(JTable table){
 		int rows = table.getRowCount();
 		Connection connection = DBConnection.createConnection();
 		String query= "UPDATE stock SET cost=((cost*quantity)+(?*?))/(quantity+?), quantity=quantity+? WHERE item_name=?";
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+			for(int row = 0; row < rows; row++){
+				statement.setInt(1, (int) table.getValueAt(row, 2));
+				statement.setInt(2, (int) table.getValueAt(row, 1));
+				statement.setInt(3, (int) table.getValueAt(row, 1));
+				statement.setInt(4, (int) table.getValueAt(row, 1));
+				statement.setString(5, (String) table.getValueAt(row, 0));
+				statement.addBatch();
+			}
+
+			statement.executeBatch();
+			statement.close();
+			connection.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	public static void subtractQuantityAndUpdateCOGS(JTable table){
+		int rows = table.getRowCount();
+		Connection connection = DBConnection.createConnection();
+		String query= "UPDATE stock SET cost=((cost*quantity)-(?*?))/(quantity-?), quantity=quantity-? WHERE item_name=?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(query);
 			for(int row = 0; row < rows; row++){

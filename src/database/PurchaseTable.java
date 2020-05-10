@@ -60,19 +60,27 @@ public class PurchaseTable {
 	}
 
 	public static Object[] retrieve(int idpurchase){
+		Object[] result = new Object[5];
 		Connection connection = DBConnection.createConnection();
 		String query="SELECT date, supplier_name, original_invoice_number, amount, paid_amount FROM purchase p INNER JOIN supplier s ON p.supplier = s.idsupplier WHERE p.idpurchase=?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			statement.setInt(1, idpurchase);
 			ResultSet resultSet = statement.executeQuery();
-			while(resultSet.next()){
-				return new Object[]{new SimpleDateFormat("MMM d, yyyy").format(resultSet.getDate("date")), resultSet.getString("supplier_name"), resultSet.getString("original_invoice_number"), resultSet.getInt("amount"), resultSet.getInt("paid_amount")};
+			if(resultSet.next()){
+				result[0] = new SimpleDateFormat("MMM d, yyyy").format(resultSet.getDate("date"));
+				result[1] = resultSet.getString("supplier_name");
+				result[2] = resultSet.getString("original_invoice_number");
+				result[3] = resultSet.getInt("amount");
+				result[4] = resultSet.getInt("paid_amount");
 			}
+			statement.close();
+			connection.close();
+			return result;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return result;
 	}
 
 	public static int insert(Object[] data){

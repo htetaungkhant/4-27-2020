@@ -56,7 +56,9 @@ public class Items extends JPanel{
 
 	private static JButton btnItem2Purchase;
 
-	public Items(String[] itemNameList){
+	private static String[] itemNameList;
+
+	public Items(){
 		setLayout(new BorderLayout());
 
 		//creating Top Panel
@@ -101,7 +103,7 @@ public class Items extends JPanel{
 		btnAddItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AddNewItem addNewItem = new AddNewItem(Main.frame, itemNameList);
+				AddNewItem addNewItem = new AddNewItem(Main.frame);
 				addNewItem.setVisible(true);
 			}
 		});
@@ -112,12 +114,12 @@ public class Items extends JPanel{
 				if(tfSearch.getText().equals("")){
 					btnAddItem.setEnabled(true);
 					createItemListTable(StockTable.retrieveAll());
-					removeAlreadyItems(itemNameList);
+					removeAlreadyItems();
 				}
 				else{
 					btnAddItem.setEnabled(false);
 					createItemListTable(StockTable.retrieveFilterByItemName(tfSearch.getText()));
-					removeAlreadyItems(itemNameList);
+					removeAlreadyItems();
 				}
 			}		@Override
 			public void keyReleased(KeyEvent e) {
@@ -125,12 +127,12 @@ public class Items extends JPanel{
 				if(tfSearch.getText().equals("")){
 					btnAddItem.setEnabled(true);
 					createItemListTable(StockTable.retrieveAll());
-					removeAlreadyItems(itemNameList);
+					removeAlreadyItems();
 				}
 				else{
 					btnAddItem.setEnabled(false);
 					createItemListTable(StockTable.retrieveFilterByItemName(tfSearch.getText()));
-					removeAlreadyItems(itemNameList);
+					removeAlreadyItems();
 				}
 			}
 			@Override
@@ -138,12 +140,12 @@ public class Items extends JPanel{
 				if(tfSearch.getText().equals("")){
 					btnAddItem.setEnabled(true);
 					createItemListTable(StockTable.retrieveAll());
-					removeAlreadyItems(itemNameList);
+					removeAlreadyItems();
 				}
 				else{
 					btnAddItem.setEnabled(false);
 					createItemListTable(StockTable.retrieveFilterByItemName(tfSearch.getText()));
-					removeAlreadyItems(itemNameList);
+					removeAlreadyItems();
 				}
 			}
 		});
@@ -161,7 +163,7 @@ public class Items extends JPanel{
 							Integer.toString((int)itemList.getValueAt(row, 5)),
 							(String) itemList.getValueAt(row, 6),
 					};
-					AddNewItem addNewItem = new AddNewItem(Main.frame, data, tfSearch.getText(), itemNameList);
+					AddNewItem addNewItem = new AddNewItem(Main.frame, data, tfSearch.getText());
 					addNewItem.setVisible(true);
 				}
 			}
@@ -169,11 +171,12 @@ public class Items extends JPanel{
 	}
 
 	public Items(JDialog d, String[] itemNameList){
-		this(itemNameList);
+		this();
+		this.itemNameList = itemNameList;
+		removeAlreadyItems();
+
 		itemList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		btnItem2Purchase.setVisible(false);
-
-		removeAlreadyItems(itemNameList);
 
 		//creating Bottom Panel
 		JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -323,7 +326,7 @@ public class Items extends JPanel{
 		itemList.setRowSelectionInterval(row, row);
 	}
 
-	public static void removeAlreadyItems(String[] itemNameList){
+	public static void removeAlreadyItems(){
 		if(itemNameList != null){
 			for(int i = 0; i < itemNameList.length; i++){
 				for(int j = 0; j < itemList.getRowCount(); j++)

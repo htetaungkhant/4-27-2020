@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -28,11 +29,14 @@ import javax.swing.table.TableColumn;
 import com.alee.extended.date.WebDateField;
 import com.alee.managers.style.StyleId;
 
+import database.PurchaseDetailTable;
 import database.PurchaseTable;
+import database.StockTable;
 import external_classes.Fonts;
 import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import net.miginfocom.swing.MigLayout;
+import purchase.Purchase;
 
 public class UpdatePurchaseRecord extends JDialog{
 
@@ -90,7 +94,7 @@ public class UpdatePurchaseRecord extends JDialog{
 
 		//creating Table Panel
 		itemList = new JTable(modelForItemList);
-		createItemListTable(null);
+		createItemListTable(PurchaseDetailTable.retrieve(idpurchase));
 
 		JScrollPane tablePanel = new JScrollPane(itemList);
 		add(tablePanel, BorderLayout.CENTER);
@@ -118,6 +122,7 @@ public class UpdatePurchaseRecord extends JDialog{
 		tfPaidAmount.setPreferredSize(new Dimension(120, 40));
 		tfPaidAmount.setEditable(false);
 		JButton btnDelete = new JButton("Delete Invoice");
+		btnDelete.setVisible(false);
 		btnDelete.setForeground(Color.red);
 		btnDelete.setPreferredSize(new Dimension(120, 40));
 		JButton btnClose = new JButton("Close");
@@ -154,11 +159,25 @@ public class UpdatePurchaseRecord extends JDialog{
 				dispose();
 			}
 		});
+
+		btnDelete.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int result = JOptionPane.showConfirmDialog(null, "This action cannot undo. Are you sure to delete?", "Sure?", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				if(result == JOptionPane.YES_OPTION){
+					StockTable.subtractQuantityAndUpdateCOGS(itemList);
+					PurchaseTable.delete(idpurchase);
+					Purchase.createPurchaseRecordTable();
+					setVisible(false);
+					dispose();
+				}
+			}
+		});
 	}
 
 	public static void createItemListTable(Object[][] input){
 		tableData = input;
-		columnNames = new String[]{"Item Name", "quantity", "Unit Price", "Amount"};
+		columnNames = new String[]{"ID","Item Name", "quantity", "Unit Price", "Amount"};
 
 		modelForItemList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {
@@ -170,5 +189,6 @@ public class UpdatePurchaseRecord extends JDialog{
 		};
 		itemList.setModel(modelForItemList);
 		itemList.setRowHeight(30);
+		itemList.removeColumn(itemList.getColumnModel().getColumn(0));
 	}
 }

@@ -1,0 +1,1 @@
+﻿SELECT LPAD(idsale, 7, '0') FROM sale s ORDER BY idsale DESC LIMIT 1;

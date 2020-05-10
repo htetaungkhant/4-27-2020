@@ -24,6 +24,8 @@ import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.DefaultMenuLayout;
 
 import purchase.Purchase;
+import sale.POS;
+import sale.PosManager;
 import stock.Items;
 import supplier.SupplierInfo;
 
@@ -107,10 +109,10 @@ public class Main{
 		cash.setMnemonic(KeyEvent.VK_C);
 
 		//Menu Items for Saving Menu
-		JMenuItem addSaving = new JMenuItem("Add Record");
 		JMenuItem showRecord = new JMenuItem("Show Records");
-		saving.add(addSaving);
+		JMenuItem showSavingPeople = new JMenuItem("Show Saving People");
 		saving.add(showRecord);
+		saving.add(showSavingPeople);
 		saving.setMnemonic(KeyEvent.VK_V);
 
 		frame.setJMenuBar(menuBar);
@@ -145,13 +147,24 @@ public class Main{
 			}
 		});
 
+		pos.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				pane.removeAll();
+				pane.revalidate();
+				pane.repaint();
+				PosManager purchase = new PosManager();
+				pane.add(purchase);
+			}
+		});
+
 		purchaseRecord.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				pane.removeAll();
 				pane.revalidate();
 				pane.repaint();
-				JPanel purchase = new Purchase();
+				Purchase purchase = new Purchase();
 				pane.add(purchase);
 			}
 		});
@@ -162,7 +175,7 @@ public class Main{
 				pane.removeAll();
 				pane.revalidate();
 				pane.repaint();
-				JPanel supplierInfo = new SupplierInfo();
+				SupplierInfo supplierInfo = new SupplierInfo();
 				pane.add(supplierInfo);
 			}
 		});
@@ -172,7 +185,7 @@ public class Main{
 				pane.removeAll();
 				pane.revalidate();
 				pane.repaint();
-				JPanel items = new Items(null);
+				Items items = new Items();
 				pane.add(items);
 			}
 		});

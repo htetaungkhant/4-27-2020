@@ -189,13 +189,14 @@ public class AddNewPurchaseRecord extends JDialog{
 					Date date = datePicker.getDate();
 					String supplierName = btnChooseSupplier.getText();
 					String invoiceNumber = tfInvoiceNumber.getText();
+					if(invoiceNumber.equals("")) invoiceNumber="-";
 					int amount = Integer.parseInt(tfTotalAmount.getText());
 					int paidAmount = Integer.parseInt(tfPaidAmount.getText());
 					Object[] data = {date, supplierName, invoiceNumber, amount, paidAmount};
 					int idpurchase = PurchaseTable.insert(data);
 					if(idpurchase > 0){
 						if(PurchaseDetailTable.insert(itemList, idpurchase)){
-							StockTable.updateQuantity(itemList);
+							StockTable.addQuantityAndUpdateCOGS(itemList);
 							Purchase.createPurchaseRecordTable();
 							setVisible(false);
 							dispose();
