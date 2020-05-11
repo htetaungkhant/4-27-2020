@@ -12,7 +12,7 @@ import javax.swing.text.DocumentFilter;
 public class JNumberTextField extends JTextField {
 
 	public JNumberTextField(int size) {
-			super(size);
+			super();
 
 			DocumentFilter filter = new LimitTextFieldInputSize(size);
 			((AbstractDocument)this.getDocument()).setDocumentFilter(filter);
@@ -30,7 +30,7 @@ public class JNumberTextField extends JTextField {
 
     @Override
     public void processKeyEvent(KeyEvent ev) {
-        if (Character.isDigit(ev.getKeyChar()) || ev.getKeyCode() == KeyEvent.VK_BACK_SPACE  || ev.getModifiers() == InputEvent.CTRL_MASK ) {
+        if (Character.isDigit(ev.getKeyChar()) || ev.getKeyCode() == KeyEvent.VK_BACK_SPACE  || ev.getModifiers() == InputEvent.CTRL_MASK  || ev.getKeyCode() == KeyEvent.VK_ENTER) {
             super.processKeyEvent(ev);
         }
         ev.consume();

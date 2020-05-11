@@ -71,19 +71,23 @@ public class Main{
 		KeyStroke keyStrokePos = KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK);
 		pos.setAccelerator(keyStrokePos);
 		JMenuItem saleRecord = new JMenuItem("Sale Records", new ImageIcon("picture/sale_record_icon.png"));
-		KeyStroke keyStrokeForSaleRecord = KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK);
+		KeyStroke keyStrokeForSaleRecord = KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK);
 		saleRecord.setAccelerator(keyStrokeForSaleRecord);
+		JMenuItem customer = new JMenuItem("Customers", new ImageIcon("picture/customer_icon.png"));
+		KeyStroke keyStrokeForCustomer = KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK);
+		customer.setAccelerator(keyStrokeForCustomer);
 		JMenuItem exit = new JMenuItem("Exit", new ImageIcon("picture/exit_icon.png"));
 		KeyStroke keyStrokeForExit = KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_DOWN_MASK);
 		exit.setAccelerator(keyStrokeForExit);
 		sale.add(pos);
 		sale.add(saleRecord);
+		sale.add(customer);
 		sale.add(exit);
 		sale.setMnemonic(KeyEvent.VK_S);
 
 		//Menu Items for Purchase Menu
 		JMenuItem purchaseRecord = new JMenuItem("Purchase Records", new ImageIcon("picture/purchase_record_icon.png"));
-		KeyStroke keyStrokeToPurchaseRecord = KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK);
+		KeyStroke keyStrokeToPurchaseRecord = KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_DOWN_MASK);
 		purchaseRecord.setAccelerator(keyStrokeToPurchaseRecord);
 		JMenuItem supplier = new JMenuItem("Suppliers", new ImageIcon("picture/supplier_icon.png"));
 		KeyStroke keyStrokeToSupplier = KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.CTRL_DOWN_MASK);

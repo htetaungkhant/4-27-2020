@@ -26,7 +26,9 @@ public class PosManager extends JPanel{
 		tabbedPane.add("New Invoice", null);
 		tabbedPane.setEnabledAt(0, false);
 		tabbedPane.setTabComponentAt(0, btnAddNewInvoice);
-		tabbedPane.addTab("Regular Invoice", new POS());
+		POS alwaysPOS = new POS();
+		tabbedPane.addTab("Regular Invoice", alwaysPOS);
+//		alwaysPOS.requestFocus();
 		tabbedPane.setSelectedIndex(1);
 
 		add(tabbedPane, BorderLayout.CENTER);
