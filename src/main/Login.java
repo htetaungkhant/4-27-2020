@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -50,6 +51,32 @@ public class Login {
 		btnLogin.setBounds(80, 130, 100, 50);
 		btnCancel.setBounds(200, 130, 100, 50);
 
+		tfUsername.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(database.LoginChecker.Check(tfUsername.getText(), new String(tfPassword.getPassword()))){
+					Main.createAndShowGUI();
+					frame.dispose();
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "Incorrect Username or Password", "Incorrect", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+
+		tfPassword.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(database.LoginChecker.Check(tfUsername.getText(), new String(tfPassword.getPassword()))){
+					Main.createAndShowGUI();
+					frame.dispose();
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "Incorrect Username or Password", "Incorrect", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				frame.dispose();
@@ -59,9 +86,12 @@ public class Login {
 
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					if(database.LoginChecker.Check(tfUsername.getText(),tfPassword.getText())){
+					if(database.LoginChecker.Check(tfUsername.getText(), new String(tfPassword.getPassword()))){
 						Main.createAndShowGUI();
 						frame.dispose();
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "Incorrect Username or Password", "Incorrect", JOptionPane.ERROR_MESSAGE);
 					}
 			}
 		});

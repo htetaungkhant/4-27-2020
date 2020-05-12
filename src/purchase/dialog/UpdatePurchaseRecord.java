@@ -177,7 +177,7 @@ public class UpdatePurchaseRecord extends JDialog{
 
 	public static void createItemListTable(Object[][] input){
 		tableData = input;
-		columnNames = new String[]{"ID","Item Name", "quantity", "Unit Price", "Amount"};
+		columnNames = new String[]{"ID","Item Name", "Quantity", "Unit Price", "Amount"};
 
 		modelForItemList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {

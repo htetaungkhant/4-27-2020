@@ -238,7 +238,7 @@ public class AddNewPurchaseRecord extends JDialog{
 
 	public static void createItemListTable(Object[][] input){
 		tableData = input;
-		columnNames = new String[]{"Item Name", "quantity", "Unit Price", "Amount", "Del"};
+		columnNames = new String[]{"Item Name", "Quantity", "Unit Price", "Amount", "Del"};
 
 		modelForItemList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {

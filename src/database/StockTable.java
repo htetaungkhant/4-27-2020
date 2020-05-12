@@ -249,4 +249,28 @@ public class StockTable {
 		}
 		return false;
 	}
+
+	public static Object[] getItemDetail(String barcode){
+		Object[] result = null;
+		Connection connection = DBConnection.createConnection();
+		String query = "SELECT idstock, item_name, cost, sale_price, quantity FROM stock WHERE barcode=?";
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setString(1, barcode);
+			ResultSet rs = statement.executeQuery();
+			if(rs.next()){
+				result = new Object[5];
+				result[0] = rs.getInt("idstock");
+				result[1] = rs.getString("item_name");
+				result[2] = rs.getInt("cost");
+				result[3] = rs.getInt("sale_price");
+				result[4] = rs.getInt("quantity");
+			}
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }
