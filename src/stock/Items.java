@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputMethodEvent;
@@ -44,7 +45,7 @@ import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import main.Main;
 import purchase.dialog.AddNewPurchaseRecord;
-import stock.dialog.AddNewItem;
+import stock.dialog.AddAndUpdateItem;
 import stock.dialog.ItemsToPurchase;
 
 public class Items extends JPanel{
@@ -57,8 +58,11 @@ public class Items extends JPanel{
 	private static JButton btnItem2Purchase;
 
 	private static String[] itemNameList;
+	private static JNumberTextField tfPurchasePrice;
 
 	public Items(){
+		this.itemNameList = null;
+		this.tfPurchasePrice = null;
 		setLayout(new BorderLayout());
 
 		//creating Top Panel
@@ -103,8 +107,14 @@ public class Items extends JPanel{
 		btnAddItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AddNewItem addNewItem = new AddNewItem(Main.frame);
-				addNewItem.setVisible(true);
+				if(tfPurchasePrice != null){
+					AddAndUpdateItem addNewItem = new AddAndUpdateItem(Main.frame, tfPurchasePrice);
+					addNewItem.setVisible(true);
+				}
+				else{
+					AddAndUpdateItem addNewItem = new AddAndUpdateItem(Main.frame);
+					addNewItem.setVisible(true);
+				}
 			}
 		});
 
@@ -163,7 +173,7 @@ public class Items extends JPanel{
 							Integer.toString((int)itemList.getValueAt(row, 5)),
 							(String) itemList.getValueAt(row, 6),
 					};
-					AddNewItem addNewItem = new AddNewItem(Main.frame, data, tfSearch.getText());
+					AddAndUpdateItem addNewItem = new AddAndUpdateItem(Main.frame, data, tfSearch.getText());
 					addNewItem.setVisible(true);
 				}
 			}
@@ -186,7 +196,7 @@ public class Items extends JPanel{
 		JLabel lbPurchasePrice = new JLabel("Purchase Price");
 		lbPurchasePrice.setHorizontalAlignment(JLabel.RIGHT);
 		lbPurchasePrice.setPreferredSize(new Dimension(100, 40));
-		JNumberTextField tfPurchasePrice = new JNumberTextField(10);
+		tfPurchasePrice = new JNumberTextField(10);
 		tfPurchasePrice.setHorizontalAlignment(JLabel.RIGHT);
 		tfPurchasePrice.setPreferredSize(new Dimension(100, 40));
 		JLabel lbQuantity = new JLabel("Quantity");
@@ -312,6 +322,7 @@ public class Items extends JPanel{
 			for(int i = 0; i < itemList.getRowCount(); i++){
 				if(itemList.getValueAt(i, 0).equals(itemName)){
 					itemList.setRowSelectionInterval(i, i);
+					itemList.scrollRectToVisible(new Rectangle(itemList.getCellRect(i, 0, true)));
 					break;
 				}
 			}
@@ -332,6 +343,7 @@ public class Items extends JPanel{
 				for(int j = 0; j < itemList.getRowCount(); j++)
 				if(itemNameList[i].equals(itemList.getValueAt(j, 0))){
 					modelForItemList.removeRow(j);
+					break;
 				}
 			}
 		}

@@ -26,7 +26,7 @@ import external_classes.MyTextField;
 import main.Main;
 import purchase.Purchase;
 import purchase.dialog.AddNewPurchaseRecord;
-import supplier.dialog.AddNewSupplier;
+import supplier.dialog.AddAndUpdateSupplier;
 
 public class SupplierInfo extends JPanel{
 
@@ -35,9 +35,10 @@ public class SupplierInfo extends JPanel{
 	private static DefaultTableModel modelForSupplierList;
 	private static JTable supplierList;
 
-	private static String selectedSupplierName;
+	private static String alreadySupplier;
 
 	public SupplierInfo() {
+		this.alreadySupplier = null;
 		setLayout(new BorderLayout());
 
 		//creating Top Panel
@@ -71,7 +72,7 @@ public class SupplierInfo extends JPanel{
 		btnAddNewSupplier.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AddNewSupplier addNewSupplier = new AddNewSupplier(Main.frame);
+				AddAndUpdateSupplier addNewSupplier = new AddAndUpdateSupplier(Main.frame);
 				addNewSupplier.setVisible(true);
 			}
 		});
@@ -82,21 +83,26 @@ public class SupplierInfo extends JPanel{
 				if(tfSearch.getText().equals("")){
 					btnAddNewSupplier.setEnabled(true);
 					createSupplierTable(SupplierTable.retrieveAll());
+					removeAlreadySupplier();
 				}
 				else{
 					btnAddNewSupplier.setEnabled(false);
 					createSupplierTable(SupplierTable.retrieveFilterBySupplierName(tfSearch.getText()));
+					removeAlreadySupplier();
 				}
-			}		@Override
+			}
+			@Override
 			public void keyReleased(KeyEvent e) {
 
 				if(tfSearch.getText().equals("")){
 					btnAddNewSupplier.setEnabled(true);
 					createSupplierTable(SupplierTable.retrieveAll());
+					removeAlreadySupplier();
 				}
 				else{
 					btnAddNewSupplier.setEnabled(false);
 					createSupplierTable(SupplierTable.retrieveFilterBySupplierName(tfSearch.getText()));
+					removeAlreadySupplier();
 				}
 			}
 			@Override
@@ -104,10 +110,12 @@ public class SupplierInfo extends JPanel{
 				if(tfSearch.getText().equals("")){
 					btnAddNewSupplier.setEnabled(true);
 					createSupplierTable(SupplierTable.retrieveAll());
+					removeAlreadySupplier();
 				}
 				else{
 					btnAddNewSupplier.setEnabled(false);
 					createSupplierTable(SupplierTable.retrieveFilterBySupplierName(tfSearch.getText()));
+					removeAlreadySupplier();
 				}
 			}
 		});
@@ -121,7 +129,7 @@ public class SupplierInfo extends JPanel{
 							(String) supplierList.getValueAt(row, 1),
 							(String) supplierList.getValueAt(row, 2),
 					};
-					AddNewSupplier addNewSupplier = new AddNewSupplier(Main.frame, data, tfSearch.getText());
+					AddAndUpdateSupplier addNewSupplier = new AddAndUpdateSupplier(Main.frame, data, tfSearch.getText());
 					addNewSupplier.setVisible(true);
 				}
 			}
@@ -130,7 +138,12 @@ public class SupplierInfo extends JPanel{
 
 	public SupplierInfo(JDialog d, JButton btnInput){
 		this();
+		this.alreadySupplier = btnInput.getText();
+		removeAlreadySupplier();
+
 		supplierList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		//creating Bottom Panel
 		JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		JButton btnSelect = new JButton("Select");
 		btnSelect.setPreferredSize(new Dimension(100, 40));
@@ -139,6 +152,7 @@ public class SupplierInfo extends JPanel{
 		bottomPanel.add(btnCancel);
 		bottomPanel.add(btnSelect);
 		add(bottomPanel, BorderLayout.SOUTH);
+		//End of Bottom Panel
 
 		btnCancel.addActionListener(new ActionListener() {
 			@Override
@@ -160,8 +174,7 @@ public class SupplierInfo extends JPanel{
 				}
 				else{
 					int row = supplierList.getSelectedRow();
-					selectedSupplierName = (String) supplierList.getValueAt(row, 0);
-					btnInput.setText(selectedSupplierName);
+					btnInput.setText((String) supplierList.getValueAt(row, 0));
 					Purchase.createPurchaseRecordTable();
 					d.setVisible(false);
 					d.dispose();
@@ -210,5 +223,15 @@ public class SupplierInfo extends JPanel{
 
 	public static void setSelectedRow(int row){
 		supplierList.setRowSelectionInterval(row, row);
+	}
+
+	public static void removeAlreadySupplier(){
+		if(alreadySupplier != null){
+			for(int row = 0; row < supplierList.getRowCount(); row++)
+			if(alreadySupplier.equals(supplierList.getValueAt(row, 0))){
+				modelForSupplierList.removeRow(row);
+				break;
+			}
+		}
 	}
 }

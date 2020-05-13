@@ -26,7 +26,7 @@ public class ItemsToPurchase extends JDialog{
 
 		//creating Table Panel
 		Object[][] tableData = StockTable.retrieveItems2Purchase();
-		String[] columnNames = {"Item Name", "Barcode", "Purchase Price", "Sale Price", "Quantity","Quantity Limit","Remark"};
+		String[] columnNames = {"Item Name", "Barcode", "Cost", "Sale Price", "Quantity","Quantity Limit","Remark"};
 		DefaultTableModel modelForSupplierList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {
 				return false;

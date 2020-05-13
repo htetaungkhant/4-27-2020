@@ -3,42 +3,43 @@ package sale;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import com.alee.extended.date.WebDateField;
 
+import customer.CustomerInfo;
 import database.StockTable;
 import external_classes.JNumberTextField;
 import external_classes.MyTextField;
+import main.Main;
 import net.miginfocom.swing.MigLayout;
 
 public class POS extends JPanel{
 
-	private static String[] columnNames;
-	private static Object[][] tableData;
-	private static DefaultTableModel modelForItemList;
-	private static JTable itemList;
-
-	private static JNumberTextField tfTotalAmount;
-	private static JNumberTextField tfNetAmount;
-	private static JNumberTextField tfDiscount;
+	private static ArrayList<String> existedCustomers = new ArrayList<String>();
+	private JButton btnCustomer;
 
 	public POS() {
 		setLayout(new BorderLayout());
@@ -48,14 +49,14 @@ public class POS extends JPanel{
 
 		//creating Top Left Panel
 		JPanel topLeftPanel = new JPanel(new MigLayout());
-		JButton btnCustomer = new JButton("Default Customer");
+		btnCustomer = new JButton("Default Customer");
 		btnCustomer.setPreferredSize(new Dimension(150, 40));
 		JLabel lbBarcode = new JLabel("Barcode");
 		MyTextField tfBarcode = new MyTextField();
 		tfBarcode.setPreferredSize(new Dimension(150, 40));
 		SwingUtilities.invokeLater(new Runnable() {
 		      public void run() {
-		        tfBarcode.requestFocus();
+		        tfBarcode.requestFocusInWindow();
 		      }
 		    });
 		JLabel lbPrice = new JLabel("Price");
@@ -94,8 +95,25 @@ public class POS extends JPanel{
 		//End of Top Panel
 
 		//creating Table Panel
-		itemList = new JTable(modelForItemList);
-		createItemListTable(null);
+		Object[][] tableData = null;
+		String[] columnNames = new String[]{"idstock", "Item Name", "Quantity", "cost", "Unit Price", "Amount", "Del"};
+
+		DefaultTableModel modelForItemList = new DefaultTableModel(tableData, columnNames){
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+			public Class<?> getColumnClass(int column){
+				return getValueAt(0,column).getClass();
+			}
+		};
+		JTable itemList = new JTable(modelForItemList);
+		itemList.setRowHeight(40);
+		itemList.removeColumn(itemList.getColumnModel().getColumn(0));
+		itemList.removeColumn(itemList.getColumnModel().getColumn(2));
+		TableColumn column5 = itemList.getColumnModel().getColumn(4);
+		column5.setMinWidth(40);
+		column5.setMaxWidth(100);
+		column5.setPreferredWidth(50);
 
 		JScrollPane tablePanel = new JScrollPane(itemList);
 		add(tablePanel, BorderLayout.CENTER);
@@ -107,18 +125,18 @@ public class POS extends JPanel{
 		//creating Bottom Right Panel
 		JPanel bottomRightPanel = new JPanel(new MigLayout());
 		JLabel lbTotalAmount = new JLabel("Total Amount");
-		tfTotalAmount = new JNumberTextField(10);
+		JNumberTextField tfTotalAmount = new JNumberTextField(10);
 		tfTotalAmount.setText("0");
 		tfTotalAmount.setEditable(false);
 		tfTotalAmount.setFocusable(false);
 		tfTotalAmount.setHorizontalAlignment(JLabel.RIGHT);
 		tfTotalAmount.setPreferredSize(new Dimension(120, 40));
 		JLabel lbNetAmount = new JLabel("Net Amount");
-		tfNetAmount = new JNumberTextField(10);
+		JNumberTextField tfNetAmount = new JNumberTextField(10);
 		tfNetAmount.setHorizontalAlignment(JLabel.RIGHT);
 		tfNetAmount.setPreferredSize(new Dimension(120, 40));
 		JLabel lbDiscount = new JLabel("Discount");
-		tfDiscount = new JNumberTextField(10);
+		JNumberTextField tfDiscount = new JNumberTextField(10);
 		tfDiscount.setText("0");
 		tfDiscount.setEditable(false);
 		tfDiscount.setFocusable(false);
@@ -143,6 +161,20 @@ public class POS extends JPanel{
 
 		add(bottomPanel, BorderLayout.SOUTH);
 		//End of Bottom Panel
+
+		btnCustomer.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JDialog d = new JDialog(Main.frame, "Choose Customer",true);
+				CustomerInfo customerList = new CustomerInfo(d, btnCustomer, existedCustomers);
+				d.add(customerList);
+				ImageIcon frameIcon = new ImageIcon("picture/customer_icon.png");
+				d.setIconImage(frameIcon.getImage());
+				d.setSize(600, 500);
+				d.setLocationRelativeTo(null);
+				d.setVisible(true);
+			}
+		});
 
 		tfBarcode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -197,13 +229,12 @@ public class POS extends JPanel{
 					tfBarcode.setText("");
 					tfBarcode.requestFocus();
 				}
-				else if((int)itemDetail[4] < (Integer.parseInt(tfQty.getText())+getAlreadyItemQuantity((String) itemDetail[1]))){
+				else if((int)itemDetail[4] < (Integer.parseInt(tfQty.getText())+getAlreadyItemQuantity((String) itemDetail[1], itemList))){
 					JOptionPane.showMessageDialog(null, "Can't get this quantity.", "Can't get", JOptionPane.ERROR_MESSAGE);
 				}
 				else{
-					//do something
 					int qty = Integer.parseInt(tfQty.getText());
-					addItem2Invoice(qty, itemDetail);
+					addItem2Invoice(qty, itemDetail, tfTotalAmount, itemList);
 					tfQty.setText("");
 					tfPrice.setText("");
 					tfBarcode.setText("");
@@ -274,9 +305,42 @@ public class POS extends JPanel{
 				tfBarcode.requestFocus();
 			}
 		});
+
+		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+			@Override
+			public boolean dispatchKeyEvent(KeyEvent e) {
+				if(e.getID() == KeyEvent.KEY_PRESSED){
+					if(e.getKeyCode() == KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK).getKeyCode()){
+						btnPrint.doClick();
+					}
+				}
+				return false;
+			}
+		});
+		btnPrint.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 	}
 
-	public static void addItem2Invoice(int qty, Object[] itemDetail){
+	public String getTextFrombtnCustomer(){
+		return btnCustomer.getText();
+	}
+
+	public static int getCustomerListSize(){
+		return existedCustomers.size();
+	}
+
+	public static String getCustomer(int index){
+		return existedCustomers.get(index);
+	}
+
+	public static void removeCustomer(int index){
+		existedCustomers.remove(index);
+	}
+
+	public static void addItem2Invoice(int qty, Object[] itemDetail, JNumberTextField tfTotalAmount, JTable itemList){
 		Boolean isExist = false;
 		for(int row = 0; row < itemList.getRowCount(); row++){
 			if(itemList.getValueAt(row, 0).equals(itemDetail[1])){
@@ -298,11 +362,12 @@ public class POS extends JPanel{
 			tfTotalAmount.setText("");
 			tfTotalAmount.setText(Integer.toString(originalTotalAmount + amount));
 			Object[] rowData = {itemDetail[0], itemDetail[1], qty, itemDetail[2], itemDetail[3], amount, new ImageIcon("picture/delete_icon.png")};
+			DefaultTableModel modelForItemList = (DefaultTableModel) itemList.getModel();
 			modelForItemList.addRow(rowData);
 		}
 	}
 
-	public static int getAlreadyItemQuantity(String itemName){
+	public static int getAlreadyItemQuantity(String itemName, JTable itemList){
 		int result = 0;
 		for(int row = 0; row < itemList.getRowCount(); row++){
 			if(itemList.getValueAt(row, 0).equals(itemName)){
@@ -310,27 +375,5 @@ public class POS extends JPanel{
 			}
 		}
 		return result;
-	}
-
-	public static void createItemListTable(Object[][] input){
-		tableData = input;
-		columnNames = new String[]{"idstock", "Item Name", "Quantity", "cost", "Unit Price", "Amount", "Del"};
-
-		modelForItemList = new DefaultTableModel(tableData, columnNames){
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
-			public Class<?> getColumnClass(int column){
-				return getValueAt(0,column).getClass();
-			}
-		};
-		itemList.setModel(modelForItemList);
-		itemList.setRowHeight(40);
-		itemList.removeColumn(itemList.getColumnModel().getColumn(0));
-		itemList.removeColumn(itemList.getColumnModel().getColumn(2));
-		TableColumn column5 = itemList.getColumnModel().getColumn(4);
-		column5.setMinWidth(40);
-		column5.setMaxWidth(100);
-		column5.setPreferredWidth(50);
 	}
 }

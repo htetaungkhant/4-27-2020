@@ -20,9 +20,14 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
+import javax.swing.MenuElement;
+import javax.swing.MenuSelectionManager;
 import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.DefaultMenuLayout;
 
+import customer.CustomerInfo;
 import purchase.Purchase;
 import sale.POS;
 import sale.PosManager;
@@ -130,12 +135,6 @@ public class Main{
 		pane.setLayout(new BorderLayout());
 		pane.add(centerPanel,BorderLayout.CENTER);
 
-		exit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-
 		logout.addMouseListener(new MouseListener() {
 			public void mouseReleased(MouseEvent e) {
 			}
@@ -154,11 +153,30 @@ public class Main{
 		pos.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				MenuElement[] path = MenuSelectionManager.defaultManager().getSelectedPath();
+				if(path[0].getComponent() == pos) System.out.println("gg");
 				pane.removeAll();
 				pane.revalidate();
 				pane.repaint();
 				PosManager purchase = new PosManager();
 				pane.add(purchase);
+			}
+		});
+
+		customer.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				pane.removeAll();
+				pane.revalidate();
+				pane.repaint();
+				CustomerInfo supplierInfo = new CustomerInfo();
+				pane.add(supplierInfo);
+			}
+		});
+
+		exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
 			}
 		});
 

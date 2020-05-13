@@ -7,12 +7,14 @@ import javax.swing.plaf.basic.BasicButtonUI;
 
 import com.alee.managers.style.StyleId;
 
+import sale.POS;
+
 import java.awt.*;
 import java.awt.event.*;
 public class ButtonTabComponent extends JPanel {
     private final JTabbedPane pane;
 
-    public ButtonTabComponent(final JTabbedPane pane) {
+    public ButtonTabComponent(final JTabbedPane pane, POS newInvoicePanel) {
         //unset default FlowLayout' gaps
         super(new FlowLayout(FlowLayout.LEFT, 0, 0));
         if (pane == null) {
@@ -42,9 +44,15 @@ public class ButtonTabComponent extends JPanel {
         button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-	            int i = pane.indexOfTabComponent(ButtonTabComponent.this);
-	            if (i != -1) {
-	                pane.remove(i);
+	            int index = pane.indexOfTabComponent(ButtonTabComponent.this);
+	            if (index != -1) {
+	            	for(int i = 0; i < POS.getCustomerListSize(); i++){
+	            		if(newInvoicePanel.getTextFrombtnCustomer().equals(POS.getCustomer(i))){
+	            			POS.removeCustomer(i);
+	            			break;
+	            		}
+	            	}
+	                pane.remove(index);
 	            }
 			}
 		});

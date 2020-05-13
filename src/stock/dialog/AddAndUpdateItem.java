@@ -16,7 +16,16 @@ import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import stock.Items;
 
-public class AddNewItem extends JDialog{
+public class AddAndUpdateItem extends JDialog{
+
+	private static JLabel lbItemName;
+	private static JLabel lbBarcode;
+	private static JLabel lbCost;
+	private static JLabel lbSalePrice;
+	private static JLabel lbQuantity;
+	private static JLabel lbLimitQuantity;
+	private static JLabel lbRemark;
+
 	private static MyTextField tfItemName;
 	private static MyTextField tfBarcode;
 	private static JNumberTextField tfCost;
@@ -29,8 +38,10 @@ public class AddNewItem extends JDialog{
 	private JButton btnUpdate;
 	private JButton btnCancel;
 
-	public AddNewItem(Frame parent){
+	private static JNumberTextField tfPurchasePrice;
+	public AddAndUpdateItem(Frame parent){
 		super(parent, true);
+		this.tfPurchasePrice = null;
 		ImageIcon frameIcon = new ImageIcon("picture/items_icon.png");
 		setIconImage(frameIcon.getImage());
 		setTitle("Add New Item");
@@ -40,13 +51,13 @@ public class AddNewItem extends JDialog{
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		JLabel lbItemName = new JLabel("Item Name"); add(lbItemName);
-		JLabel lbBarcode = new JLabel("Barcode"); add(lbBarcode);
-		JLabel lbCost = new JLabel("Cost"); add(lbCost);
-		JLabel lbSalePrice = new JLabel("Sale Price"); add(lbSalePrice);
-		JLabel lbQuantity = new JLabel("Quantity"); add(lbQuantity);
-		JLabel lbLimitQuantity = new JLabel("Quantity Limit"); add(lbLimitQuantity);
-		JLabel lbRemark = new JLabel("Remark"); add(lbRemark);
+		lbItemName = new JLabel("Item Name"); add(lbItemName);
+		lbBarcode = new JLabel("Barcode"); add(lbBarcode);
+		lbCost = new JLabel("Cost"); add(lbCost);
+		lbSalePrice = new JLabel("Sale Price"); add(lbSalePrice);
+		lbQuantity = new JLabel("Quantity"); add(lbQuantity);
+		lbLimitQuantity = new JLabel("Quantity Limit"); add(lbLimitQuantity);
+		lbRemark = new JLabel("Remark"); add(lbRemark);
 
 		tfItemName = new MyTextField(); tfItemName.setHorizontalAlignment(JLabel.RIGHT); add(tfItemName);
 		tfBarcode = new MyTextField(); tfBarcode.setHorizontalAlignment(JLabel.RIGHT); add(tfBarcode);
@@ -89,7 +100,8 @@ public class AddNewItem extends JDialog{
 					String selectedItem = Items.getSelectedItem();
 					Items.createItemListTable(StockTable.retrieveAll());
 					Items.removeAlreadyItems();
-					Items.setSelectedItem(selectedItem);
+					if(selectedItem != null) Items.setSelectedItem(selectedItem); else Items.setSelectedItem(itemName);
+					if(tfPurchasePrice != null) tfPurchasePrice.setText(cost);
 					setVisible(false);
 					dispose();
 				}
@@ -105,7 +117,21 @@ public class AddNewItem extends JDialog{
 		});
 	}
 
-	public AddNewItem(Frame parent, String[] input, String toFilter){
+	public AddAndUpdateItem(Frame parent, JNumberTextField tfPurchasePrice){
+		this(parent);
+		this.tfPurchasePrice = tfPurchasePrice;
+		setSize(360, 360);
+
+		lbQuantity.setVisible(false);
+		tfQuantity.setText("0");
+		tfQuantity.setVisible(false);
+
+		lbLimitQuantity.setBounds(20, 180, 100, 30); tfLimitQuantity.setBounds(130, 180, 200, 30);
+		lbRemark.setBounds(20, 220, 100, 30); tfRemark.setBounds(130, 220, 200, 30);
+		btnAdd.setBounds(20, 270, 150, 50); btnCancel.setBounds(180, 270, 150, 50);
+	}
+
+	public AddAndUpdateItem(Frame parent, String[] input, String toFilter){
 		this(parent);
 		setTitle("Update Item Details");
 

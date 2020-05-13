@@ -18,7 +18,7 @@ import external_classes.MyTextField;
 import stock.Items;
 import supplier.SupplierInfo;
 
-public class AddNewSupplier extends JDialog{
+public class AddAndUpdateSupplier extends JDialog{
 
 	private static MyTextField tfSupplierName;
 	private static JNumberTextField tfPhone;
@@ -28,7 +28,7 @@ public class AddNewSupplier extends JDialog{
 	private JButton btnUpdate;
 	private JButton btnCancel;
 
-	public AddNewSupplier(Frame frame){
+	public AddAndUpdateSupplier(Frame frame){
 		super(frame, true);
 		ImageIcon frameIcon = new ImageIcon("picture/supplier_icon.png");
 		setIconImage(frameIcon.getImage());
@@ -86,7 +86,7 @@ public class AddNewSupplier extends JDialog{
 		});
 	}
 
-	public AddNewSupplier(Frame frame, String[] input, String toFilter){
+	public AddAndUpdateSupplier(Frame frame, String[] input, String toFilter){
 		this(frame);
 		setTitle("Update Supplier Details");
 

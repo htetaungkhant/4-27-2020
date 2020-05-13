@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -33,7 +34,7 @@ import external_classes.MyTextField;
 import main.Main;
 import purchase.dialog.AddNewPurchaseRecord;
 import purchase.dialog.UpdatePurchaseRecord;
-import stock.dialog.AddNewItem;
+import stock.dialog.AddAndUpdateItem;
 import supplier.SupplierInfo;
 
 public class Purchase extends JPanel{
@@ -124,6 +125,8 @@ public class Purchase extends JPanel{
 				JDialog d = new JDialog(Main.frame, "Choose Supplier",true);
 				SupplierInfo supplierList = new SupplierInfo(d, btnChooseSupplier);
 				d.add(supplierList);
+				ImageIcon frameIcon = new ImageIcon("picture/supplier_icon.png");
+				d.setIconImage(frameIcon.getImage());
 				d.setSize(600, 500);
 				d.setLocationRelativeTo(null);
 				d.setVisible(true);

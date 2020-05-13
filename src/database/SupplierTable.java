@@ -34,31 +34,6 @@ public class SupplierTable {
 		return result;
 	}
 
-	public static String[] retrieveSupplierNamesOnly(){
-		String[] result = {};
-		Connection connection = DBConnection.createConnection();
-		String query="SELECT supplier_name FROM supplier ORDER BY supplier_name";
-
-		try {
-			Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			ResultSet resultSet=statement.executeQuery(query);
-			resultSet.last();
-			result=new String[resultSet.getRow()];
-			resultSet.beforeFirst();
-			int row=-1;
-			while(resultSet.next()){
-					++row;
-					result[row]=(String)resultSet.getString("supplier_name");
-			}
-			statement.close();
-			connection.close();
-			return result;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-
 	public static Object[][] retrieveFilterBySupplierName(String supplierName){
 		Object[][] result = null;
 		Connection connection = DBConnection.createConnection();
@@ -69,7 +44,7 @@ public class SupplierTable {
 			statement.setString(1, "%" +supplierName+ "%" );
 			ResultSet resultSet=statement.executeQuery();
 			resultSet.last();
-			result=new Object[resultSet.getRow()][7];
+			result=new Object[resultSet.getRow()][3];
 			resultSet.beforeFirst();
 			int row=-1;
 			while(resultSet.next()){
@@ -124,25 +99,6 @@ public class SupplierTable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public static int getSupplierID(String supplierName){
-		int result = 0;
-		Connection connection = DBConnection.createConnection();
-		String query = "SELECT idsupplier FROM supplier WHERE supplier_name=?";
-		try {
-			PreparedStatement statement = connection.prepareStatement(query);
-			statement.setString(1, supplierName);
-			ResultSet rs = statement.executeQuery();
-			if(rs.next()){
-				result = rs.getInt("idsupplier");
-			}
-			statement.close();
-			connection.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
 	}
 
 	public static boolean isSupplierExist(String supplierName){
