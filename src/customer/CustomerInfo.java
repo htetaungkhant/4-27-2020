@@ -65,7 +65,7 @@ public class CustomerInfo extends JPanel{
 		//creating Table Panel
 		customerList = new JTable(modelForCustomerList);
 		createCustomerTable(CustomerTable.retrieveAll());
-
+		removeDefaultCustomer();
 		JScrollPane tablePanel = new JScrollPane(customerList);
 		add(tablePanel, BorderLayout.CENTER);
 		//End of Table Panel
@@ -84,11 +84,13 @@ public class CustomerInfo extends JPanel{
 				if(tfSearch.getText().equals("")){
 					btnAddNewCustomer.setEnabled(true);
 					createCustomerTable(CustomerTable.retrieveAll());
+					removeDefaultCustomer();
 					removeAlreadyCustomers();
 				}
 				else{
 					btnAddNewCustomer.setEnabled(false);
 					createCustomerTable(CustomerTable.retrieveFilterByCustomerName(tfSearch.getText()));
+					removeDefaultCustomer();
 					removeAlreadyCustomers();
 				}
 			}
@@ -98,11 +100,13 @@ public class CustomerInfo extends JPanel{
 				if(tfSearch.getText().equals("")){
 					btnAddNewCustomer.setEnabled(true);
 					createCustomerTable(CustomerTable.retrieveAll());
+					removeDefaultCustomer();
 					removeAlreadyCustomers();
 				}
 				else{
 					btnAddNewCustomer.setEnabled(false);
 					createCustomerTable(CustomerTable.retrieveFilterByCustomerName(tfSearch.getText()));
+					removeDefaultCustomer();
 					removeAlreadyCustomers();
 				}
 			}
@@ -111,11 +115,13 @@ public class CustomerInfo extends JPanel{
 				if(tfSearch.getText().equals("")){
 					btnAddNewCustomer.setEnabled(true);
 					createCustomerTable(CustomerTable.retrieveAll());
+					removeDefaultCustomer();
 					removeAlreadyCustomers();
 				}
 				else{
 					btnAddNewCustomer.setEnabled(false);
 					createCustomerTable(CustomerTable.retrieveFilterByCustomerName(tfSearch.getText()));
+					removeDefaultCustomer();
 					removeAlreadyCustomers();
 				}
 			}
@@ -178,7 +184,8 @@ public class CustomerInfo extends JPanel{
 				}
 				else{
 					int row = customerList.getSelectedRow();
-					existedCustomer.add((String) customerList.getValueAt(row, 0));
+					if(btnInput.getText().equals("Default Customer")) existedCustomer.add((String) customerList.getValueAt(row, 0));
+					else existedCustomer.set(existedCustomer.indexOf(btnInput.getText()), (String) customerList.getValueAt(row, 0));
 					btnInput.setText((String) customerList.getValueAt(row, 0));
 					d.setVisible(false);
 					d.dispose();
@@ -201,6 +208,15 @@ public class CustomerInfo extends JPanel{
 		};
 		customerList.setModel(modelForCustomerList);
 		customerList.setRowHeight(30);
+	}
+
+	public static void removeDefaultCustomer(){
+		for(int i = 0; i < customerList.getRowCount(); i++){
+			if(customerList.getValueAt(i, 0).equals("Default Customer")){
+				modelForCustomerList.removeRow(i);
+				break;
+			}
+		}
 	}
 
 	public static String getSelectedCustomer(){

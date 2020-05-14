@@ -104,6 +104,38 @@ public class StockTable {
 		return result;
 	}
 
+	public static Object[][] retrieveFilterByBarcode(String barcode){
+		Object[][] result = null;
+		Connection connection = DBConnection.createConnection();
+		String query="SELECT * FROM stock WHERE barcode LIKE ? ORDER BY item_name";
+
+		try {
+			PreparedStatement statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			statement.setString(1, "%" +barcode+ "%" );
+			ResultSet resultSet=statement.executeQuery();
+			resultSet.last();
+			result=new Object[resultSet.getRow()][7];
+			resultSet.beforeFirst();
+			int row=-1;
+			while(resultSet.next()){
+					++row;
+					result[row][0]=(String)resultSet.getString("item_name");
+					result[row][1]=(String)resultSet.getString("barcode");
+					result[row][2]=resultSet.getInt("cost");
+					result[row][3]=resultSet.getInt("sale_price");
+					result[row][4]=resultSet.getInt("quantity");
+					result[row][5]=resultSet.getInt("limit_quantity");
+					result[row][6]=(String)resultSet.getString("remark");
+			}
+			statement.close();
+			connection.close();
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 	public static void insert(String[] data){
 			Connection connection = DBConnection.createConnection();
 			String query= "INSERT INTO stock(item_name,barcode,cost,sale_price,quantity,limit_quantity,remark) VALUES(?,?,?,?,?,?,?)";
@@ -183,6 +215,27 @@ public class StockTable {
 				statement.setInt(3, (int) table.getValueAt(row, 1));
 				statement.setInt(4, (int) table.getValueAt(row, 1));
 				statement.setString(5, (String) table.getValueAt(row, 0));
+				statement.addBatch();
+			}
+
+			statement.executeBatch();
+			statement.close();
+			connection.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	public static void subtractQuantity(JTable table){
+		int rows = table.getRowCount();
+		Connection connection = DBConnection.createConnection();
+		String query= "UPDATE stock SET quantity=quantity-? WHERE idstock=?";
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+			for(int row = 0; row < rows; row++){
+				statement.setInt(1, (int) table.getValueAt(row, 1));
+				statement.setInt(2, (int) table.getModel().getValueAt(row, 0));
 				statement.addBatch();
 			}
 

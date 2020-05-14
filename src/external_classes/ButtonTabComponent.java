@@ -44,16 +44,19 @@ public class ButtonTabComponent extends JPanel {
         button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-	            int index = pane.indexOfTabComponent(ButtonTabComponent.this);
-	            if (index != -1) {
-	            	for(int i = 0; i < POS.getCustomerListSize(); i++){
-	            		if(newInvoicePanel.getTextFrombtnCustomer().equals(POS.getCustomer(i))){
-	            			POS.removeCustomer(i);
-	            			break;
-	            		}
-	            	}
-	                pane.remove(index);
-	            }
+				   int result = JOptionPane.showConfirmDialog(null, "Are you sure to close without saving?", "Withour Saving?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		           if(result == JOptionPane.YES_OPTION){
+		        	   int index = pane.indexOfTabComponent(ButtonTabComponent.this);
+			            if (index != -1) {
+			            	for(int i = 0; i < POS.getCustomerListSize(); i++){
+			            		if(newInvoicePanel.getTextFrombtnCustomer().equals(POS.getCustomer(i))){
+			            			POS.removeCustomer(i);
+			            			break;
+			            		}
+			            	}
+			                pane.remove(index);
+			            }
+		           }
 			}
 		});
         add(button);

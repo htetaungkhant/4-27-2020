@@ -17,6 +17,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -27,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.ListSelectionModel;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
@@ -38,6 +40,9 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
+import com.alee.extended.button.WebSwitch;
+import com.alee.laf.grouping.GroupPane;
+import com.alee.managers.style.StyleId;
 import com.sun.javafx.font.Disposer;
 
 import database.StockTable;
@@ -80,8 +85,16 @@ public class Items extends JPanel{
 
 		//creating Top Right Panel
 		JPanel topRightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		WebSwitch searchByBarcode = new WebSwitch(StyleId.wswitch);
+		JLabel byName = new JLabel("Name");
+		byName.setHorizontalAlignment(JLabel.CENTER);
+		JLabel byBarcode = new JLabel("Barcode");
+		byBarcode.setHorizontalAlignment(JLabel.CENTER);
+		searchByBarcode.setSwitchComponents(byBarcode, byName);
+		searchByBarcode.setPreferredSize(120, 40);
 		MyTextField tfSearch = new MyTextField(30, "Search your Item");
 		tfSearch.setPreferredSize(new Dimension(250,40));
+		topRightPanel.add(searchByBarcode);
 		topRightPanel.add(tfSearch);
 		topPanel.add(topRightPanel);
 
@@ -118,22 +131,16 @@ public class Items extends JPanel{
 			}
 		});
 
-		tfSearch.addKeyListener(new KeyListener() {
+		searchByBarcode.addActionListener(new ActionListener() {
 			@Override
-			public void keyTyped(KeyEvent e) {
-				if(tfSearch.getText().equals("")){
-					btnAddItem.setEnabled(true);
-					createItemListTable(StockTable.retrieveAll());
-					removeAlreadyItems();
-				}
-				else{
-					btnAddItem.setEnabled(false);
-					createItemListTable(StockTable.retrieveFilterByItemName(tfSearch.getText()));
-					removeAlreadyItems();
-				}
-			}		@Override
-			public void keyReleased(KeyEvent e) {
+			public void actionPerformed(ActionEvent e) {
+				tfSearch.setText("");
+			}
+		});
 
+		tfSearch.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void removeUpdate(DocumentEvent e) {
 				if(tfSearch.getText().equals("")){
 					btnAddItem.setEnabled(true);
 					createItemListTable(StockTable.retrieveAll());
@@ -141,12 +148,13 @@ public class Items extends JPanel{
 				}
 				else{
 					btnAddItem.setEnabled(false);
-					createItemListTable(StockTable.retrieveFilterByItemName(tfSearch.getText()));
+					if(searchByBarcode.isSelected()) createItemListTable(StockTable.retrieveFilterByBarcode(tfSearch.getText()));
+					else createItemListTable(StockTable.retrieveFilterByItemName(tfSearch.getText()));
 					removeAlreadyItems();
 				}
 			}
 			@Override
-			public void keyPressed(KeyEvent e) {
+			public void insertUpdate(DocumentEvent e) {
 				if(tfSearch.getText().equals("")){
 					btnAddItem.setEnabled(true);
 					createItemListTable(StockTable.retrieveAll());
@@ -154,7 +162,22 @@ public class Items extends JPanel{
 				}
 				else{
 					btnAddItem.setEnabled(false);
-					createItemListTable(StockTable.retrieveFilterByItemName(tfSearch.getText()));
+					if(searchByBarcode.isSelected()) createItemListTable(StockTable.retrieveFilterByBarcode(tfSearch.getText()));
+					else createItemListTable(StockTable.retrieveFilterByItemName(tfSearch.getText()));
+					removeAlreadyItems();
+				}
+			}
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				if(tfSearch.getText().equals("")){
+					btnAddItem.setEnabled(true);
+					createItemListTable(StockTable.retrieveAll());
+					removeAlreadyItems();
+				}
+				else{
+					btnAddItem.setEnabled(false);
+					if(searchByBarcode.isSelected()) createItemListTable(StockTable.retrieveFilterByBarcode(tfSearch.getText()));
+					else createItemListTable(StockTable.retrieveFilterByItemName(tfSearch.getText()));
 					removeAlreadyItems();
 				}
 			}

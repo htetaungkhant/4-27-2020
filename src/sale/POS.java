@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +31,10 @@ import javax.swing.table.TableColumn;
 import com.alee.extended.date.WebDateField;
 
 import customer.CustomerInfo;
+import database.CustomerTable;
+import database.PurchaseTable;
+import database.SaleDetailTable;
+import database.SaleTable;
 import database.StockTable;
 import external_classes.JNumberTextField;
 import external_classes.MyTextField;
@@ -39,7 +44,20 @@ import net.miginfocom.swing.MigLayout;
 public class POS extends JPanel{
 
 	private static ArrayList<String> existedCustomers = new ArrayList<String>();
+
 	private JButton btnCustomer;
+	private MyTextField tfBarcode;
+	private JNumberTextField tfPrice;
+	private JNumberTextField tfQty;
+	private WebDateField datePicker;
+	private String[] columnNames;
+	private Object[][] tableData;
+	private DefaultTableModel modelForItemList;
+	private JTable itemList;
+	private JTextArea taRemark;
+	private JNumberTextField tfTotalAmount;
+	private JNumberTextField tfNetAmount;
+	private JNumberTextField tfDiscount;
 
 	public POS() {
 		setLayout(new BorderLayout());
@@ -52,7 +70,7 @@ public class POS extends JPanel{
 		btnCustomer = new JButton("Default Customer");
 		btnCustomer.setPreferredSize(new Dimension(150, 40));
 		JLabel lbBarcode = new JLabel("Barcode");
-		MyTextField tfBarcode = new MyTextField();
+		tfBarcode = new MyTextField();
 		tfBarcode.setPreferredSize(new Dimension(150, 40));
 		SwingUtilities.invokeLater(new Runnable() {
 		      public void run() {
@@ -60,13 +78,13 @@ public class POS extends JPanel{
 		      }
 		    });
 		JLabel lbPrice = new JLabel("Price");
-		JNumberTextField tfPrice = new JNumberTextField(10);
+		tfPrice = new JNumberTextField(10);
 		tfPrice.setEditable(false);
 		tfPrice.setFocusable(false);
 		tfPrice.setHorizontalAlignment(JLabel.RIGHT);
 		tfPrice.setPreferredSize(new Dimension(100, 40));
 		JLabel lbQty = new JLabel("Qty");
-		JNumberTextField tfQty = new JNumberTextField(10);
+		tfQty = new JNumberTextField(10);
 		tfQty.setHorizontalAlignment(JLabel.RIGHT);
 		tfQty.setPreferredSize(new Dimension(50, 40));
 		JButton btnAddItem = new JButton("ADD");
@@ -84,7 +102,7 @@ public class POS extends JPanel{
 		//creating Top Right Panel
 		JPanel topRightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		JLabel lbDate = new JLabel("Date");
-		WebDateField datePicker = new WebDateField(new Date());
+		datePicker = new WebDateField(new Date());
 		datePicker.setPreferredSize(120, 40);
 		datePicker.setAllowUserInput(false);
 		topRightPanel.add(lbDate);
@@ -95,10 +113,10 @@ public class POS extends JPanel{
 		//End of Top Panel
 
 		//creating Table Panel
-		Object[][] tableData = null;
-		String[] columnNames = new String[]{"idstock", "Item Name", "Quantity", "cost", "Unit Price", "Amount", "Del"};
+		tableData = null;
+		columnNames = new String[]{"idstock", "Item Name", "Quantity", "cost", "Unit Price", "Amount", "Del"};
 
-		DefaultTableModel modelForItemList = new DefaultTableModel(tableData, columnNames){
+		modelForItemList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
@@ -106,7 +124,7 @@ public class POS extends JPanel{
 				return getValueAt(0,column).getClass();
 			}
 		};
-		JTable itemList = new JTable(modelForItemList);
+		itemList = new JTable(modelForItemList);
 		itemList.setRowHeight(40);
 		itemList.removeColumn(itemList.getColumnModel().getColumn(0));
 		itemList.removeColumn(itemList.getColumnModel().getColumn(2));
@@ -122,21 +140,30 @@ public class POS extends JPanel{
 		//creating Bottom Panel
 		JPanel bottomPanel = new JPanel(new BorderLayout());
 
+		//creating Bottom Left Panel
+		JPanel bottomLeftPanel = new JPanel(new MigLayout());
+		JLabel lbRemark = new JLabel("Remark");
+//		lbRemark.setVerticalAlignment(JLabel.TOP);
+		taRemark = new JTextArea(7, 30);
+		bottomLeftPanel.add(lbRemark);
+		bottomLeftPanel.add(new JScrollPane(taRemark));
+		bottomPanel.add(bottomLeftPanel, BorderLayout.WEST);
+
 		//creating Bottom Right Panel
 		JPanel bottomRightPanel = new JPanel(new MigLayout());
 		JLabel lbTotalAmount = new JLabel("Total Amount");
-		JNumberTextField tfTotalAmount = new JNumberTextField(10);
+		tfTotalAmount = new JNumberTextField(10);
 		tfTotalAmount.setText("0");
 		tfTotalAmount.setEditable(false);
 		tfTotalAmount.setFocusable(false);
 		tfTotalAmount.setHorizontalAlignment(JLabel.RIGHT);
 		tfTotalAmount.setPreferredSize(new Dimension(120, 40));
 		JLabel lbNetAmount = new JLabel("Net Amount");
-		JNumberTextField tfNetAmount = new JNumberTextField(10);
+		tfNetAmount = new JNumberTextField(10);
 		tfNetAmount.setHorizontalAlignment(JLabel.RIGHT);
 		tfNetAmount.setPreferredSize(new Dimension(120, 40));
 		JLabel lbDiscount = new JLabel("Discount");
-		JNumberTextField tfDiscount = new JNumberTextField(10);
+		tfDiscount = new JNumberTextField(10);
 		tfDiscount.setText("0");
 		tfDiscount.setEditable(false);
 		tfDiscount.setFocusable(false);
@@ -285,24 +312,36 @@ public class POS extends JPanel{
 				else if(tfNetAmount.getText().equals("") || Integer.parseInt(tfNetAmount.getText()) == 0){
 					JOptionPane.showMessageDialog(null, "Please, fill suitable net amount.", "Error", JOptionPane.INFORMATION_MESSAGE);
 				}
+				else{
+					Date date = datePicker.getDate();
+					String customerName = btnCustomer.getText();
+					int totalAmount = Integer.parseInt(tfTotalAmount.getText());
+					int netAmount = Integer.parseInt(tfNetAmount.getText());
+					int discount = totalAmount - netAmount;
+					String remark = taRemark.getText();
+					Object[] data = {date, customerName, totalAmount, netAmount, discount, remark};
+					int idsale = SaleTable.insert(data);
+					if(idsale > 0){
+						if(SaleDetailTable.insert(itemList, idsale)){
+							StockTable.subtractQuantity(itemList);
+							reset();
+						}
+						else{
+							SaleTable.delete(idsale);
+							JOptionPane.showMessageDialog(null, "Somethings worng!!!", "Error", JOptionPane.INFORMATION_MESSAGE);
+						}
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "Somethings worng!!!", "Error", JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
 			}
 		});
 
 		btnReset.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				btnCustomer.setText("Default Customer");
-				datePicker.setDate(new Date());
-				tfBarcode.setText("");
-				tfPrice.setText("");
-				tfQty.setText("");
-				modelForItemList.setRowCount(0);
-				tfTotalAmount.setText("");
-				tfTotalAmount.setText("0");
-				tfNetAmount.setText("");
-				tfDiscount.setText("");
-				tfDiscount.setText("0");
-				tfBarcode.requestFocus();
+				reset();
 			}
 		});
 
@@ -324,8 +363,29 @@ public class POS extends JPanel{
 		});
 	}
 
+	public void reset(){
+		existedCustomers.remove(btnCustomer.getText());
+		btnCustomer.setText("Default Customer");
+		datePicker.setDate(new Date());
+		tfBarcode.setText("");
+		tfPrice.setText("");
+		tfQty.setText("");
+		modelForItemList.setRowCount(0);
+		tfTotalAmount.setText("");
+		tfTotalAmount.setText("0");
+		tfNetAmount.setText("");
+		tfDiscount.setText("");
+		tfDiscount.setText("0");
+		taRemark.setText("");
+		tfBarcode.requestFocus();
+	}
+
 	public String getTextFrombtnCustomer(){
 		return btnCustomer.getText();
+	}
+
+	public static void removeAllExistingCustomers(){
+		existedCustomers.removeAll(existedCustomers);
 	}
 
 	public static int getCustomerListSize(){

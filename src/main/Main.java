@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -153,8 +154,6 @@ public class Main{
 		pos.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MenuElement[] path = MenuSelectionManager.defaultManager().getSelectedPath();
-				if(path[0].getComponent() == pos) System.out.println("gg");
 				pane.removeAll();
 				pane.revalidate();
 				pane.repaint();
