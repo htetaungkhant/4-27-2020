@@ -70,6 +70,8 @@ public class AddAndUpdateCustomer extends JDialog{
 					CustomerTable.insert(data);
 					String customer = CustomerInfo.getSelectedCustomer();
 					CustomerInfo.createCustomerTable(CustomerTable.retrieveAll());
+					CustomerInfo.removeDefaultCustomer();
+					CustomerInfo.removeAlreadyCustomers();
 					CustomerInfo.setSelectedCustomer(customer);
 					setVisible(false);
 					dispose();
@@ -86,13 +88,13 @@ public class AddAndUpdateCustomer extends JDialog{
 		});
 	}
 
-	public AddAndUpdateCustomer(Frame frame, String[] input, String toFilter){
+	public AddAndUpdateCustomer(Frame frame, Object[] input, String toFilter){
 		this(frame);
 		setTitle("Update Customer Details");
 
-		tfCustomerName.setText(input[0]);
-		tfPhone.setText(input[1]);
-		tfAddress.setText(input[2]);
+		tfCustomerName.setText((String)input[1]);
+		tfPhone.setText((String)input[2]);
+		tfAddress.setText((String)input[3]);
 
 		btnAdd.setVisible(false);
 		btnUpdate = new JButton("Update"); add(btnUpdate);
@@ -107,14 +109,15 @@ public class AddAndUpdateCustomer extends JDialog{
 				String address = tfAddress.getText();
 				String[] data = {customerName, phone, address};
 
-				if(!tfCustomerName.getText().equals(input[0]) && CustomerTable.isCustomerNameExist(customerName)){
+				if(!tfCustomerName.getText().equals(input[1]) && CustomerTable.isCustomerNameExist(customerName)){
 					JOptionPane.showMessageDialog(null, "Customer Name already Exists.", "Error", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(!isEmpty(data)){
-					CustomerTable.update(data, input[0]);
-					int row = CustomerInfo.getSelectedRow();
+					CustomerTable.update(data, (int)input[0]);
 					CustomerInfo.createCustomerTable(CustomerTable.retrieveFilterByCustomerName(toFilter));
-					CustomerInfo.setSelectedRow(row);
+					CustomerInfo.removeDefaultCustomer();
+					CustomerInfo.removeAlreadyCustomers();
+					CustomerInfo.setSelectedRow((int)input[0]);
 					setVisible(false);
 					dispose();
 				}

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -131,7 +132,8 @@ public class CustomerInfo extends JPanel{
 			public void mouseClicked(MouseEvent e){
 				if(e.getClickCount() == 2){
 					int row=((JTable)e.getSource()).getSelectedRow();
-					String[] data = {
+					Object[] data = {
+							(int) customerList.getModel().getValueAt(row, 0),
 							(String) customerList.getValueAt(row, 0),
 							(String) customerList.getValueAt(row, 1),
 							(String) customerList.getValueAt(row, 2),
@@ -170,7 +172,7 @@ public class CustomerInfo extends JPanel{
 						break;
 					}
 				}
-				btnInput.setText("Default Customer");
+				btnInput.setText("Choose Customer");
 				d.setVisible(false);
 				d.dispose();
 			}
@@ -184,7 +186,7 @@ public class CustomerInfo extends JPanel{
 				}
 				else{
 					int row = customerList.getSelectedRow();
-					if(btnInput.getText().equals("Default Customer")) existedCustomer.add((String) customerList.getValueAt(row, 0));
+					if(btnInput.getText().equals("Choose Customer")) existedCustomer.add((String) customerList.getValueAt(row, 0));
 					else existedCustomer.set(existedCustomer.indexOf(btnInput.getText()), (String) customerList.getValueAt(row, 0));
 					btnInput.setText((String) customerList.getValueAt(row, 0));
 					d.setVisible(false);
@@ -196,7 +198,7 @@ public class CustomerInfo extends JPanel{
 
 	public static void createCustomerTable(Object[][] input) {
 		tableData = input;
-		columnNames = new String[]{"Customer Name", "Phone", "Address"};
+		columnNames = new String[]{"ID", "Customer Name", "Phone", "Address"};
 
 		modelForCustomerList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {
@@ -207,7 +209,8 @@ public class CustomerInfo extends JPanel{
 	        }
 		};
 		customerList.setModel(modelForCustomerList);
-		customerList.setRowHeight(30);
+		customerList.setRowHeight(40);
+		customerList.removeColumn(customerList.getColumnModel().getColumn(0));
 	}
 
 	public static void removeDefaultCustomer(){
@@ -237,12 +240,14 @@ public class CustomerInfo extends JPanel{
 		}
 	}
 
-	public static int getSelectedRow(){
-		return customerList.getSelectedRow();
-	}
-
-	public static void setSelectedRow(int row){
-		customerList.setRowSelectionInterval(row, row);
+	public static void setSelectedRow(int id){
+		for(int i = 0; i < customerList.getRowCount(); i++){
+			if((int)customerList.getModel().getValueAt(i, 0) == id){
+				customerList.setRowSelectionInterval(i, i);
+				customerList.scrollRectToVisible(new Rectangle(customerList.getCellRect(i, 0, true)));
+				break;
+			}
+		}
 	}
 
 	public static void removeAlreadyCustomers(){

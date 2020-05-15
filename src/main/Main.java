@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
@@ -32,6 +33,7 @@ import customer.CustomerInfo;
 import purchase.Purchase;
 import sale.POS;
 import sale.PosManager;
+import sale.Sale;
 import stock.Items;
 import supplier.SupplierInfo;
 
@@ -65,8 +67,8 @@ public class Main{
 		menuBar.add(saving);
 		menuBar.add(new JSeparator(SwingConstants.VERTICAL));
 		cash.setIcon(new ImageIcon("picture/account_icon.png"));
-		menuBar.add(cash);
-		menuBar.add(new JSeparator(SwingConstants.VERTICAL));
+//		menuBar.add(cash);
+//		menuBar.add(new JSeparator(SwingConstants.VERTICAL));
 		menuBar.add(Box.createHorizontalGlue());
 		menuBar.add(new JSeparator(SwingConstants.VERTICAL));
 		logout.setIcon(new ImageIcon("picture/logout_icon.png"));
@@ -157,8 +159,19 @@ public class Main{
 				pane.removeAll();
 				pane.revalidate();
 				pane.repaint();
-				PosManager purchase = new PosManager();
-				pane.add(purchase);
+				PosManager posManager = new PosManager();
+				pane.add(posManager);
+			}
+		});
+
+		saleRecord.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				pane.removeAll();
+				pane.revalidate();
+				pane.repaint();
+				Sale saleInfo = new Sale();
+				pane.add(saleInfo);
 			}
 		});
 
@@ -168,14 +181,17 @@ public class Main{
 				pane.removeAll();
 				pane.revalidate();
 				pane.repaint();
-				CustomerInfo supplierInfo = new CustomerInfo();
-				pane.add(supplierInfo);
+				CustomerInfo customerInfo = new CustomerInfo();
+				pane.add(customerInfo);
 			}
 		});
 
 		exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				int result = JOptionPane.showConfirmDialog(null, " Are you sure to exit?", "Exit?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if(result == JOptionPane.YES_OPTION){
+					System.exit(0);
+				}
 			}
 		});
 

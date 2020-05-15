@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -124,7 +125,8 @@ public class SupplierInfo extends JPanel{
 			public void mouseClicked(MouseEvent e){
 				if(e.getClickCount() == 2){
 					int row=((JTable)e.getSource()).getSelectedRow();
-					String[] data = {
+					Object[] data = {
+							(int) supplierList.getModel().getValueAt(row, 0),
 							(String) supplierList.getValueAt(row, 0),
 							(String) supplierList.getValueAt(row, 1),
 							(String) supplierList.getValueAt(row, 2),
@@ -173,9 +175,7 @@ public class SupplierInfo extends JPanel{
 					JOptionPane.showMessageDialog(null, "Please, select supplier", "Error", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else{
-					int row = supplierList.getSelectedRow();
-					btnInput.setText((String) supplierList.getValueAt(row, 0));
-					Purchase.createPurchaseRecordTable();
+					btnInput.setText((String) supplierList.getValueAt(supplierList.getSelectedRow(), 0));
 					d.setVisible(false);
 					d.dispose();
 				}
@@ -185,7 +185,7 @@ public class SupplierInfo extends JPanel{
 
 	public static void createSupplierTable(Object[][] input) {
 		tableData = input;
-		columnNames = new String[]{"Supplier Name", "Phone", "Address"};
+		columnNames = new String[]{"ID", "Supplier Name", "Phone", "Address"};
 
 		modelForSupplierList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {
@@ -196,7 +196,8 @@ public class SupplierInfo extends JPanel{
 	        }
 		};
 		supplierList.setModel(modelForSupplierList);
-		supplierList.setRowHeight(30);
+		supplierList.setRowHeight(40);
+		supplierList.removeColumn(supplierList.getColumnModel().getColumn(0));
 	}
 
 	public static String getSelectedSupplier(){
@@ -217,12 +218,14 @@ public class SupplierInfo extends JPanel{
 		}
 	}
 
-	public static int getSelectedRow(){
-		return supplierList.getSelectedRow();
-	}
-
-	public static void setSelectedRow(int row){
-		supplierList.setRowSelectionInterval(row, row);
+	public static void setSelectedRow(int id){
+		for(int i = 0; i < supplierList.getRowCount(); i++){
+			if((int)supplierList.getModel().getValueAt(i, 0) == id){
+				supplierList.setRowSelectionInterval(i, i);
+				supplierList.scrollRectToVisible(new Rectangle(supplierList.getCellRect(i, 0, true)));
+				break;
+			}
+		}
 	}
 
 	public static void removeAlreadySupplier(){

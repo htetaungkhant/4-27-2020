@@ -30,6 +30,7 @@ import com.alee.extended.date.WebDateField;
 
 import database.PurchaseTable;
 import database.SupplierTable;
+import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import main.Main;
 import purchase.dialog.AddNewPurchaseRecord;
@@ -48,7 +49,7 @@ public class Purchase extends JPanel{
 	private static WebDateField datePicker2;
 
 	private static JButton btnChooseSupplier;
-	private static MyTextField tfInvoiceNumber;
+	private static JNumberTextField tfInvoiceNumber;
 
 	public Purchase(){
 		setLayout(new BorderLayout());
@@ -76,7 +77,7 @@ public class Purchase extends JPanel{
 //		jcbSupplierList.setPreferredSize(new Dimension(150, 40));
 		btnChooseSupplier = new JButton("Choose Supplier");
 		btnChooseSupplier.setPreferredSize(new Dimension(150, 40));
-		tfInvoiceNumber = new MyTextField(30, "Invoice Number");
+		tfInvoiceNumber = new JNumberTextField("Invoice Number", 10);
 		tfInvoiceNumber.setPreferredSize(new Dimension(110,40));
 		tfInvoiceNumber.setHorizontalAlignment(JLabel.CENTER);
 		topLeftPanel.add(lbStartDate);
@@ -122,6 +123,7 @@ public class Purchase extends JPanel{
 		btnChooseSupplier.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String beforeSupplier = btnChooseSupplier.getText();
 				JDialog d = new JDialog(Main.frame, "Choose Supplier",true);
 				SupplierInfo supplierList = new SupplierInfo(d, btnChooseSupplier);
 				d.add(supplierList);
@@ -130,6 +132,7 @@ public class Purchase extends JPanel{
 				d.setSize(600, 500);
 				d.setLocationRelativeTo(null);
 				d.setVisible(true);
+				if(!beforeSupplier.equals(btnChooseSupplier.getText())) createPurchaseRecordTable();
 			}
 		});
 
@@ -181,7 +184,7 @@ public class Purchase extends JPanel{
 	        }
 		};
 		purchaseRecordList.setModel(modelForPurchaseRecordList);
-		purchaseRecordList.setRowHeight(30);
+		purchaseRecordList.setRowHeight(40);
 		purchaseRecordList.removeColumn(purchaseRecordList.getColumnModel().getColumn(0));
 	}
 

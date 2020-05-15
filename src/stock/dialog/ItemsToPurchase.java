@@ -36,7 +36,7 @@ public class ItemsToPurchase extends JDialog{
 	        }
 		};
 		JTable itemsList2Purchase = new JTable(modelForSupplierList);
-		itemsList2Purchase.setRowHeight(30);
+		itemsList2Purchase.setRowHeight(40);
 		JScrollPane tablePanel = new JScrollPane(itemsList2Purchase);
 		add(tablePanel, BorderLayout.CENTER);
 		//End of Table Panel

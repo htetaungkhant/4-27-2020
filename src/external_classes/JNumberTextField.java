@@ -1,5 +1,6 @@
 package external_classes;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
@@ -18,10 +19,21 @@ public class JNumberTextField extends JTextField {
 			((AbstractDocument)this.getDocument()).setDocumentFilter(filter);
 	}
 
+	public JNumberTextField(String placeHolder,int limit) {
+        super();
+
+        TextPrompt tp = new TextPrompt(placeHolder,this);
+        tp.setForeground(Color.gray);
+
+        DocumentFilter filter = new LimitTextFieldInputSize(limit);
+		((AbstractDocument)this.getDocument()).setDocumentFilter(filter);
+ }
+
 	 public JNumberTextField(String placeHolder,int size,int limit) {
 	        super(size);
 
-	        TextPrompt tp7 = new TextPrompt(placeHolder,this);
+	        TextPrompt tp = new TextPrompt(placeHolder,this);
+	        tp.setForeground(Color.gray);
 //	        tp7.setFont(Fonts.zawgyione11);
 
 	        DocumentFilter filter = new LimitTextFieldInputSize(limit);

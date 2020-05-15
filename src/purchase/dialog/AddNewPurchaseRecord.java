@@ -70,7 +70,7 @@ public class AddNewPurchaseRecord extends JDialog{
 		datePicker.setPreferredSize(100, 40);
 		JButton btnChooseSupplier = new JButton("Choose Supplier");
 		btnChooseSupplier.setPreferredSize(new Dimension(150, 40));
-		MyTextField tfInvoiceNumber = new MyTextField(30, "Enter Invoice No");
+		JNumberTextField tfInvoiceNumber = new JNumberTextField("Enter Invoice No", 10);
 		tfInvoiceNumber.setPreferredSize(new Dimension(120,40));
 		tfInvoiceNumber.setHorizontalAlignment(JLabel.CENTER);
 		topLeftPanel.add(datePicker);
@@ -189,7 +189,7 @@ public class AddNewPurchaseRecord extends JDialog{
 					Date date = datePicker.getDate();
 					String supplierName = btnChooseSupplier.getText();
 					String invoiceNumber = tfInvoiceNumber.getText();
-					if(invoiceNumber.equals("")) invoiceNumber="-";
+					if(invoiceNumber.equals("")) invoiceNumber="-----";
 					int amount = Integer.parseInt(tfTotalAmount.getText());
 					int paidAmount = Integer.parseInt(tfPaidAmount.getText());
 					Object[] data = {date, supplierName, invoiceNumber, amount, paidAmount};
@@ -249,7 +249,7 @@ public class AddNewPurchaseRecord extends JDialog{
 			}
 		};
 		itemList.setModel(modelForItemList);
-		itemList.setRowHeight(30);
+		itemList.setRowHeight(40);
 		TableColumn column5 = itemList.getColumnModel().getColumn(4);
 		column5.setMinWidth(40);
 		column5.setMaxWidth(100);

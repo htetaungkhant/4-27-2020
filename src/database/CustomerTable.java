@@ -16,14 +16,15 @@ public class CustomerTable {
 			Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			ResultSet resultSet=statement.executeQuery(query);
 			resultSet.last();
-			result=new Object[resultSet.getRow()][3];
+			result=new Object[resultSet.getRow()][4];
 			resultSet.beforeFirst();
 			int row=-1;
 			while(resultSet.next()){
 					++row;
-					result[row][0]=(String)resultSet.getString("customer_name");
-					result[row][1]=(String)resultSet.getString("phone");
-					result[row][2]=(String)resultSet.getString("address");
+					result[row][0]=resultSet.getInt("idcustomer");
+					result[row][1]=(String)resultSet.getString("customer_name");
+					result[row][2]=(String)resultSet.getString("phone");
+					result[row][3]=(String)resultSet.getString("address");
 			}
 			statement.close();
 			connection.close();
@@ -44,14 +45,15 @@ public class CustomerTable {
 			statement.setString(1, "%" +customerName+ "%" );
 			ResultSet resultSet=statement.executeQuery();
 			resultSet.last();
-			result=new Object[resultSet.getRow()][3];
+			result=new Object[resultSet.getRow()][4];
 			resultSet.beforeFirst();
 			int row=-1;
 			while(resultSet.next()){
 					++row;
-					result[row][0]=(String)resultSet.getString("customer_name");
-					result[row][1]=(String)resultSet.getString("phone");
-					result[row][2]=(String)resultSet.getString("address");
+					result[row][0]=resultSet.getInt("idcustomer");
+					result[row][1]=(String)resultSet.getString("customer_name");
+					result[row][2]=(String)resultSet.getString("phone");
+					result[row][3]=(String)resultSet.getString("address");
 			}
 			statement.close();
 			connection.close();
@@ -83,16 +85,16 @@ public class CustomerTable {
 		}
 	}
 
-	public static void update(String[] data, String originalCustomerName){
+	public static void update(Object[] data, int id){
 		Connection connection = DBConnection.createConnection();
-		String query = "UPDATE customer SET customer_name=?,phone=?,address=? WHERE customer_name=?";
+		String query = "UPDATE customer SET customer_name=?,phone=?,address=? WHERE idcustomer=?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(query);
 
-			statement.setString(1, data[0]);
-			statement.setString(2, data[1]);
-			statement.setString(3, data[2]);
-			statement.setString(4, originalCustomerName);
+			statement.setString(1, (String)data[0]);
+			statement.setString(2, (String)data[1]);
+			statement.setString(3, (String)data[2]);
+			statement.setInt(4, id);
 			statement.executeUpdate();
 			statement.close();
 			connection.close();

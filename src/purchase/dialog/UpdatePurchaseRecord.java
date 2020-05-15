@@ -188,7 +188,7 @@ public class UpdatePurchaseRecord extends JDialog{
 			}
 		};
 		itemList.setModel(modelForItemList);
-		itemList.setRowHeight(30);
+		itemList.setRowHeight(40);
 		itemList.removeColumn(itemList.getColumnModel().getColumn(0));
 	}
 }

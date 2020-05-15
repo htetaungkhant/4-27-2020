@@ -135,6 +135,7 @@ public class Items extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				tfSearch.setText("");
+				tfSearch.requestFocus();
 			}
 		});
 
@@ -187,14 +188,15 @@ public class Items extends JPanel{
 			public void mouseClicked(MouseEvent e){
 				if(e.getClickCount() == 2){
 					int row=((JTable)e.getSource()).getSelectedRow();
-					String[] data = {
-							(String) itemList.getValueAt(row, 0),
-							(String) itemList.getValueAt(row, 1),
-							Integer.toString((int)itemList.getValueAt(row, 2)),
-							Integer.toString((int)itemList.getValueAt(row, 3)),
-							Integer.toString((int)itemList.getValueAt(row, 4)),
-							Integer.toString((int)itemList.getValueAt(row, 5)),
-							(String) itemList.getValueAt(row, 6),
+					Object[] data = {
+							itemList.getModel().getValueAt(row, 0),
+							itemList.getValueAt(row, 0),
+							itemList.getValueAt(row, 1),
+							itemList.getValueAt(row, 2),
+							itemList.getValueAt(row, 3),
+							itemList.getValueAt(row, 4),
+							itemList.getValueAt(row, 5),
+							itemList.getValueAt(row, 6),
 					};
 					AddAndUpdateItem addNewItem = new AddAndUpdateItem(Main.frame, data, tfSearch.getText());
 					addNewItem.setVisible(true);
@@ -296,19 +298,19 @@ public class Items extends JPanel{
 
 	public static void createItemListTable(Object[][] input){
 		tableData = input;
-		columnNames = new String[]{"Item Name", "Barcode", "Cost", "Sale Price", "Quantity","Quantity Limit","Remark"};
+		columnNames = new String[]{"ID", "Item Name", "Barcode", "Cost", "Sale Price", "Quantity","Quantity Limit","Remark"};
 
 		modelForItemList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
 			public Class<?> getColumnClass(int columnIndex) {
-//	            return tableData[0][columnIndex].getClass();
 				return getValueAt(0,columnIndex).getClass();
 	        }
 		};
 		itemList.setModel(modelForItemList);
-		itemList.setRowHeight(30);
+		itemList.setRowHeight(40);
+		itemList.removeColumn(itemList.getColumnModel().getColumn(0));
 //		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 //		rightRenderer.setHorizontalAlignment( JLabel.RIGHT );
 //		DefaultTableCellRenderer centerRender = new DefaultTableCellRenderer();
@@ -352,12 +354,14 @@ public class Items extends JPanel{
 		}
 	}
 
-	public static int getSelectedRow(){
-		return itemList.getSelectedRow();
-	}
-
-	public static void setSelectedRow(int row){
-		itemList.setRowSelectionInterval(row, row);
+	public static void setSelectedRow(int id){
+			for(int i = 0; i < itemList.getRowCount(); i++){
+				if((int)itemList.getModel().getValueAt(i, 0) == id){
+					itemList.setRowSelectionInterval(i, i);
+					itemList.scrollRectToVisible(new Rectangle(itemList.getCellRect(i, 0, true)));
+					break;
+				}
+			}
 	}
 
 	public static void removeAlreadyItems(){

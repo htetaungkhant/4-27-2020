@@ -70,6 +70,7 @@ public class AddAndUpdateSupplier extends JDialog{
 					SupplierTable.insert(data);
 					String supplier = SupplierInfo.getSelectedSupplier();
 					SupplierInfo.createSupplierTable(SupplierTable.retrieveAll());
+					SupplierInfo.removeAlreadySupplier();
 					SupplierInfo.setSelectedSupplier(supplier);
 					setVisible(false);
 					dispose();
@@ -86,13 +87,13 @@ public class AddAndUpdateSupplier extends JDialog{
 		});
 	}
 
-	public AddAndUpdateSupplier(Frame frame, String[] input, String toFilter){
+	public AddAndUpdateSupplier(Frame frame, Object[] input, String toFilter){
 		this(frame);
 		setTitle("Update Supplier Details");
 
-		tfSupplierName.setText(input[0]);
-		tfPhone.setText(input[1]);
-		tfAddress.setText(input[2]);
+		tfSupplierName.setText((String)input[1]);
+		tfPhone.setText((String)input[2]);
+		tfAddress.setText((String)input[3]);
 
 		btnAdd.setVisible(false);
 		btnUpdate = new JButton("Update"); add(btnUpdate);
@@ -107,14 +108,14 @@ public class AddAndUpdateSupplier extends JDialog{
 				String address = tfAddress.getText();
 				String[] data = {supplierName, phone, address};
 
-				if(!tfSupplierName.getText().equals(input[0]) && SupplierTable.isSupplierNameExist(supplierName)){
+				if(!tfSupplierName.getText().equals(input[1]) && SupplierTable.isSupplierNameExist(supplierName)){
 					JOptionPane.showMessageDialog(null, "Supplier Name already Exists.", "Error", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(!isEmpty(data)){
-					SupplierTable.update(data, input[0]);
-					int row = SupplierInfo.getSelectedRow();
+					SupplierTable.update(data, (int)input[0]);
 					SupplierInfo.createSupplierTable(SupplierTable.retrieveFilterBySupplierName(toFilter));
-					SupplierInfo.setSelectedRow(row);
+					SupplierInfo.removeAlreadySupplier();
+					SupplierInfo.setSelectedRow((int)input[0]);
 					setVisible(false);
 					dispose();
 				}

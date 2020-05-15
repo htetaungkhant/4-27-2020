@@ -19,18 +19,19 @@ public class StockTable {
 			Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			ResultSet resultSet=statement.executeQuery(query);
 			resultSet.last();
-			result=new Object[resultSet.getRow()][7];
+			result=new Object[resultSet.getRow()][8];
 			resultSet.beforeFirst();
 			int row=-1;
 			while(resultSet.next()){
 					++row;
-					result[row][0]=(String)resultSet.getString("item_name");
-					result[row][1]=(String)resultSet.getString("barcode");
-					result[row][2]=resultSet.getInt("cost");
-					result[row][3]=resultSet.getInt("sale_price");
-					result[row][4]=resultSet.getInt("quantity");
-					result[row][5]=resultSet.getInt("limit_quantity");
-					result[row][6]=(String)resultSet.getString("remark");
+					result[row][0]=resultSet.getInt("idstock");
+					result[row][1]=(String)resultSet.getString("item_name");
+					result[row][2]=(String)resultSet.getString("barcode");
+					result[row][3]=resultSet.getInt("cost");
+					result[row][4]=resultSet.getInt("sale_price");
+					result[row][5]=resultSet.getInt("quantity");
+					result[row][6]=resultSet.getInt("limit_quantity");
+					result[row][7]=(String)resultSet.getString("remark");
 			}
 			statement.close();
 			connection.close();
@@ -82,18 +83,19 @@ public class StockTable {
 			statement.setString(1, "%" +itemName+ "%" );
 			ResultSet resultSet=statement.executeQuery();
 			resultSet.last();
-			result=new Object[resultSet.getRow()][7];
+			result=new Object[resultSet.getRow()][8];
 			resultSet.beforeFirst();
 			int row=-1;
 			while(resultSet.next()){
 					++row;
-					result[row][0]=(String)resultSet.getString("item_name");
-					result[row][1]=(String)resultSet.getString("barcode");
-					result[row][2]=resultSet.getInt("cost");
-					result[row][3]=resultSet.getInt("sale_price");
-					result[row][4]=resultSet.getInt("quantity");
-					result[row][5]=resultSet.getInt("limit_quantity");
-					result[row][6]=(String)resultSet.getString("remark");
+					result[row][0]=resultSet.getInt("idstock");
+					result[row][1]=(String)resultSet.getString("item_name");
+					result[row][2]=(String)resultSet.getString("barcode");
+					result[row][3]=resultSet.getInt("cost");
+					result[row][4]=resultSet.getInt("sale_price");
+					result[row][5]=resultSet.getInt("quantity");
+					result[row][6]=resultSet.getInt("limit_quantity");
+					result[row][7]=(String)resultSet.getString("remark");
 			}
 			statement.close();
 			connection.close();
@@ -114,18 +116,19 @@ public class StockTable {
 			statement.setString(1, "%" +barcode+ "%" );
 			ResultSet resultSet=statement.executeQuery();
 			resultSet.last();
-			result=new Object[resultSet.getRow()][7];
+			result=new Object[resultSet.getRow()][8];
 			resultSet.beforeFirst();
 			int row=-1;
 			while(resultSet.next()){
 					++row;
-					result[row][0]=(String)resultSet.getString("item_name");
-					result[row][1]=(String)resultSet.getString("barcode");
-					result[row][2]=resultSet.getInt("cost");
-					result[row][3]=resultSet.getInt("sale_price");
-					result[row][4]=resultSet.getInt("quantity");
-					result[row][5]=resultSet.getInt("limit_quantity");
-					result[row][6]=(String)resultSet.getString("remark");
+					result[row][0]=resultSet.getInt("idstock");
+					result[row][1]=(String)resultSet.getString("item_name");
+					result[row][2]=(String)resultSet.getString("barcode");
+					result[row][3]=resultSet.getInt("cost");
+					result[row][4]=resultSet.getInt("sale_price");
+					result[row][5]=resultSet.getInt("quantity");
+					result[row][6]=resultSet.getInt("limit_quantity");
+					result[row][7]=(String)resultSet.getString("remark");
 			}
 			statement.close();
 			connection.close();
@@ -157,20 +160,20 @@ public class StockTable {
 			}
 	}
 
-	public static void update(String[] data, String originalBarcode){
+	public static void update(Object[] data, int idstock){
 		Connection connection = DBConnection.createConnection();
-		String query = "UPDATE stock SET item_name=?,barcode=?,cost=?,sale_price=?,quantity=?,limit_quantity=?,remark=? WHERE barcode=?";
+		String query = "UPDATE stock SET item_name=?,barcode=?,cost=?,sale_price=?,quantity=?,limit_quantity=?,remark=? WHERE idstock=?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(query);
 
-			statement.setString(1, data[0]);
-			statement.setString(2, data[1]);
-			statement.setInt(3, Integer.parseInt(data[2]));
-			statement.setInt(4, Integer.parseInt(data[3]));
-			statement.setInt(5, Integer.parseInt(data[4]));
-			statement.setInt(6, Integer.parseInt(data[5]));
-			statement.setString(7, data[6]);
-			statement.setString(8, originalBarcode);
+			statement.setString(1, (String)data[0]);
+			statement.setString(2, (String)data[1]);
+			statement.setInt(3,Integer.parseInt((String)data[2]));
+			statement.setInt(4, Integer.parseInt((String)data[3]));
+			statement.setInt(5, Integer.parseInt((String)data[4]));
+			statement.setInt(6, Integer.parseInt((String)data[5]));
+			statement.setString(7, (String)data[6]);
+			statement.setInt(8, idstock);
 			statement.executeUpdate();
 			statement.close();
 			connection.close();

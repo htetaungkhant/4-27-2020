@@ -67,7 +67,7 @@ public class POS extends JPanel{
 
 		//creating Top Left Panel
 		JPanel topLeftPanel = new JPanel(new MigLayout());
-		btnCustomer = new JButton("Default Customer");
+		btnCustomer = new JButton("Choose Customer");
 		btnCustomer.setPreferredSize(new Dimension(150, 40));
 		JLabel lbBarcode = new JLabel("Barcode");
 		tfBarcode = new MyTextField();
@@ -236,37 +236,14 @@ public class POS extends JPanel{
 		tfQty.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Object[] itemDetail = StockTable.getItemDetail(tfBarcode.getText());
-				if(tfBarcode.getText().equals("")){
-					JOptionPane.showMessageDialog(null, "Please, fill barcode", "Error", JOptionPane.INFORMATION_MESSAGE);
-					tfQty.setText("");
-					tfPrice.setText("");
-					tfBarcode.requestFocus();
-				}
-				else if(itemDetail == null){
-					JOptionPane.showMessageDialog(null, "Invalid barcode", "Invalid", JOptionPane.ERROR_MESSAGE);
-					tfBarcode.setText("");
-				}
-				else if(tfQty.getText().equals("")){
-					JOptionPane.showMessageDialog(null, "Please, fill qty", "Error", JOptionPane.INFORMATION_MESSAGE);
-				}
-				else if(Integer.parseInt(tfQty.getText()) == 0){
-					tfQty.setText("");
-					tfPrice.setText("");
-					tfBarcode.setText("");
-					tfBarcode.requestFocus();
-				}
-				else if((int)itemDetail[4] < (Integer.parseInt(tfQty.getText())+getAlreadyItemQuantity((String) itemDetail[1], itemList))){
-					JOptionPane.showMessageDialog(null, "Can't get this quantity.", "Can't get", JOptionPane.ERROR_MESSAGE);
-				}
-				else{
-					int qty = Integer.parseInt(tfQty.getText());
-					addItem2Invoice(qty, itemDetail, tfTotalAmount, itemList);
-					tfQty.setText("");
-					tfPrice.setText("");
-					tfBarcode.setText("");
-					tfBarcode.requestFocus();
-				}
+				addItemAction();
+			}
+		});
+
+		btnAddItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addItemAction();
 			}
 		});
 
@@ -305,36 +282,7 @@ public class POS extends JPanel{
 		tfNetAmount.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(itemList.getRowCount() == 0){
-					JOptionPane.showMessageDialog(null, "Please, add some items for sale.", "Error", JOptionPane.INFORMATION_MESSAGE);
-					tfBarcode.requestFocus();
-				}
-				else if(tfNetAmount.getText().equals("") || Integer.parseInt(tfNetAmount.getText()) == 0){
-					JOptionPane.showMessageDialog(null, "Please, fill suitable net amount.", "Error", JOptionPane.INFORMATION_MESSAGE);
-				}
-				else{
-					Date date = datePicker.getDate();
-					String customerName = btnCustomer.getText();
-					int totalAmount = Integer.parseInt(tfTotalAmount.getText());
-					int netAmount = Integer.parseInt(tfNetAmount.getText());
-					int discount = totalAmount - netAmount;
-					String remark = taRemark.getText();
-					Object[] data = {date, customerName, totalAmount, netAmount, discount, remark};
-					int idsale = SaleTable.insert(data);
-					if(idsale > 0){
-						if(SaleDetailTable.insert(itemList, idsale)){
-							StockTable.subtractQuantity(itemList);
-							reset();
-						}
-						else{
-							SaleTable.delete(idsale);
-							JOptionPane.showMessageDialog(null, "Somethings worng!!!", "Error", JOptionPane.INFORMATION_MESSAGE);
-						}
-					}
-					else{
-						JOptionPane.showMessageDialog(null, "Somethings worng!!!", "Error", JOptionPane.INFORMATION_MESSAGE);
-					}
-				}
+				saveAction();
 			}
 		});
 
@@ -342,6 +290,20 @@ public class POS extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				reset();
+			}
+		});
+
+		btnSave.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				saveAction();
+			}
+		});
+
+		btnPrint.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				saveAction();
 			}
 		});
 
@@ -356,6 +318,7 @@ public class POS extends JPanel{
 				return false;
 			}
 		});
+
 		btnPrint.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -363,9 +326,76 @@ public class POS extends JPanel{
 		});
 	}
 
+	public void addItemAction(){
+		Object[] itemDetail = StockTable.getItemDetail(tfBarcode.getText());
+		if(tfBarcode.getText().equals("")){
+			JOptionPane.showMessageDialog(null, "Please, fill barcode", "Error", JOptionPane.INFORMATION_MESSAGE);
+			tfQty.setText("");
+			tfPrice.setText("");
+			tfBarcode.requestFocus();
+		}
+		else if(itemDetail == null){
+			JOptionPane.showMessageDialog(null, "Invalid barcode", "Invalid", JOptionPane.ERROR_MESSAGE);
+			tfBarcode.setText("");
+		}
+		else if(tfQty.getText().equals("")){
+			JOptionPane.showMessageDialog(null, "Please, fill qty", "Error", JOptionPane.INFORMATION_MESSAGE);
+		}
+		else if(Integer.parseInt(tfQty.getText()) == 0){
+			tfQty.setText("");
+			tfPrice.setText("");
+			tfBarcode.setText("");
+			tfBarcode.requestFocus();
+		}
+		else if((int)itemDetail[4] < (Integer.parseInt(tfQty.getText())+getAlreadyItemQuantity((String) itemDetail[1], itemList))){
+			JOptionPane.showMessageDialog(null, "Can't get this quantity.", "Can't get", JOptionPane.ERROR_MESSAGE);
+		}
+		else{
+			int qty = Integer.parseInt(tfQty.getText());
+			addItem2Invoice(qty, itemDetail, tfTotalAmount, itemList);
+			tfQty.setText("");
+			tfPrice.setText("");
+			tfBarcode.setText("");
+			tfBarcode.requestFocus();
+		}
+	}
+
+	public void saveAction(){
+		if(itemList.getRowCount() == 0){
+			JOptionPane.showMessageDialog(null, "Please, add some items for sale.", "Error", JOptionPane.INFORMATION_MESSAGE);
+			tfBarcode.requestFocus();
+		}
+		else if(tfNetAmount.getText().equals("") || Integer.parseInt(tfNetAmount.getText()) == 0){
+			JOptionPane.showMessageDialog(null, "Please, fill suitable net amount.", "Error", JOptionPane.INFORMATION_MESSAGE);
+		}
+		else{
+			Date date = datePicker.getDate();
+			String customerName = btnCustomer.getText();
+			int totalAmount = Integer.parseInt(tfTotalAmount.getText());
+			int netAmount = Integer.parseInt(tfNetAmount.getText());
+			int discount = totalAmount - netAmount;
+			String remark = taRemark.getText();
+			Object[] data = {date, customerName, totalAmount, netAmount, discount, remark};
+			int idsale = SaleTable.insert(data);
+			if(idsale > 0){
+				if(SaleDetailTable.insert(itemList, idsale)){
+					StockTable.subtractQuantity(itemList);
+					reset();
+				}
+				else{
+					SaleTable.delete(idsale);
+					JOptionPane.showMessageDialog(null, "Somethings worng!!!", "Error", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+			else{
+				JOptionPane.showMessageDialog(null, "Somethings worng!!!", "Error", JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
+	}
+
 	public void reset(){
 		existedCustomers.remove(btnCustomer.getText());
-		btnCustomer.setText("Default Customer");
+		btnCustomer.setText("Choose Customer");
 		datePicker.setDate(new Date());
 		tfBarcode.setText("");
 		tfPrice.setText("");

@@ -131,17 +131,17 @@ public class AddAndUpdateItem extends JDialog{
 		btnAdd.setBounds(20, 270, 150, 50); btnCancel.setBounds(180, 270, 150, 50);
 	}
 
-	public AddAndUpdateItem(Frame parent, String[] input, String toFilter){
+	public AddAndUpdateItem(Frame parent, Object[] input, String toFilter){
 		this(parent);
 		setTitle("Update Item Details");
 
-		tfItemName.setText(input[0]);
-		tfBarcode.setText(input[1]);
-		tfCost.setText(input[2]);tfCost.setEditable(false);
-		tfSalePrice.setText(input[3]);
-		tfQuantity.setText(input[4]);
-		tfLimitQuantity.setText(input[5]);
-		tfRemark.setText(input[6]);
+		tfItemName.setText((String)input[1]);
+		tfBarcode.setText((String)input[2]);
+		tfCost.setText(Integer.toString((int)input[3]));tfCost.setEditable(false);
+		tfSalePrice.setText(Integer.toString((int)input[4]));
+		tfQuantity.setText(Integer.toString((int)input[5]));
+		tfLimitQuantity.setText(Integer.toString((int)input[6]));
+		tfRemark.setText((String)input[7]);
 
 		btnAdd.setVisible(false);
 		btnUpdate = new JButton("Update"); add(btnUpdate);
@@ -160,18 +160,17 @@ public class AddAndUpdateItem extends JDialog{
 				String remark = tfRemark.getText();
 				String[] data = {itemName, barcode, cost, salePrice, quantity, quantityLimit, remark};
 
-				if(!tfItemName.getText().equals(input[0]) && StockTable.isItemNameExist(itemName)){
+				if(!tfItemName.getText().equals(input[1]) && StockTable.isItemNameExist(itemName)){
 					JOptionPane.showMessageDialog(null, "ItemName already Exists.", "Error", JOptionPane.INFORMATION_MESSAGE);
 				}
-				else if(!tfBarcode.getText().equals(input[1]) && StockTable.isBarcodeExist(barcode)){
+				else if(!tfBarcode.getText().equals(input[2]) && StockTable.isBarcodeExist(barcode)){
 					JOptionPane.showMessageDialog(null, "Barcode already Exists.", "Error", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(!isEmpty(data)){
-					StockTable.update(data, input[1]);
-					int row = Items.getSelectedRow();
+					StockTable.update(data, (int)input[0]);
 					Items.createItemListTable(StockTable.retrieveFilterByItemName(toFilter));
 					Items.removeAlreadyItems();
-					Items.setSelectedRow(row);
+					Items.setSelectedRow((int)input[0]);
 					setVisible(false);
 					dispose();
 				}
