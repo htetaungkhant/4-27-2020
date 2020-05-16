@@ -57,6 +57,32 @@ public class SaleTable {
 		return result;
 	}
 
+	public static Object[] retrieve(int idsale){
+		Object[] result = new Object[7];
+		Connection connection = DBConnection.createConnection();
+		String query="SELECT LPAD(s.idsale, 10, '0'), date, customer_name, amount, net_amount, discount, remark FROM sale s INNER JOIN customer c ON s.customer = c.idcustomer WHERE s.idsale=?";
+		try {
+			PreparedStatement statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			statement.setInt(1, idsale);
+			ResultSet resultSet = statement.executeQuery();
+			if(resultSet.next()){
+				result[0] = resultSet.getString("LPAD(s.idsale, 10, '0')");
+				result[1] = new SimpleDateFormat("MMM d, yyyy").format(resultSet.getDate("date"));
+				result[2] = resultSet.getString("customer_name");
+				result[3] = resultSet.getInt("amount");
+				result[4] = resultSet.getInt("net_amount");
+				result[5] = resultSet.getInt("discount");
+				result[6] = resultSet.getString("remark");
+			}
+			statement.close();
+			connection.close();
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 	public static int insert(Object[] data){
 		int result = 0;
 		Connection connection = DBConnection.createConnection();

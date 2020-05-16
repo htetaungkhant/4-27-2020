@@ -371,6 +371,7 @@ public class POS extends JPanel{
 		else{
 			Date date = datePicker.getDate();
 			String customerName = btnCustomer.getText();
+			if(customerName.equals("Choose Customer")) customerName = "Default Customer";
 			int totalAmount = Integer.parseInt(tfTotalAmount.getText());
 			int netAmount = Integer.parseInt(tfNetAmount.getText());
 			int discount = totalAmount - netAmount;

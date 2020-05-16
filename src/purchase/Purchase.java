@@ -164,8 +164,8 @@ public class Purchase extends JPanel{
 				if(e.getClickCount() == 2){
 					int row=((JTable)e.getSource()).getSelectedRow();
 					int idpurchase = (int) purchaseRecordList.getModel().getValueAt(row, 0);
-					UpdatePurchaseRecord updateRecord = new UpdatePurchaseRecord(Main.frame, idpurchase);
-					updateRecord.setVisible(true);
+					UpdatePurchaseRecord updatePurchaseRecord = new UpdatePurchaseRecord(Main.frame, idpurchase);
+					updatePurchaseRecord.setVisible(true);
 				}
 			}
 		});

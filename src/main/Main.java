@@ -111,6 +111,13 @@ public class Main{
 		stock.add(item);
 		stock.setMnemonic(KeyEvent.VK_T);
 
+		//Menu Items for Saving Menu
+		JMenuItem dailyRecord = new JMenuItem("Daily Records", new ImageIcon("picture/add_daily_records_icon.png"));
+		JMenuItem savingPeople = new JMenuItem("Saving People", new ImageIcon("picture/saving_people_icon.png"));
+		saving.add(dailyRecord);
+		saving.add(savingPeople);
+		saving.setMnemonic(KeyEvent.VK_V);
+
 		//Menu Items for Accounts Menu
 		JMenuItem savingAccount = new JMenuItem("Saving Account");
 		JMenuItem sellingAccount = new JMenuItem("Selling Account");
@@ -119,13 +126,6 @@ public class Main{
 		cash.add(savingAccount);
 		cash.add(sellingAccount);
 		cash.setMnemonic(KeyEvent.VK_C);
-
-		//Menu Items for Saving Menu
-		JMenuItem showRecord = new JMenuItem("Show Records");
-		JMenuItem showSavingPeople = new JMenuItem("Show Saving People");
-		saving.add(showRecord);
-		saving.add(showSavingPeople);
-		saving.setMnemonic(KeyEvent.VK_V);
 
 		frame.setJMenuBar(menuBar);
 		//End of creating Menu Bar

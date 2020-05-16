@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -31,6 +33,7 @@ import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import main.Main;
 import purchase.Purchase;
+import sale.dialog.UpdateSaleRecord;
 import supplier.SupplierInfo;
 
 public class Sale extends JPanel{
@@ -127,6 +130,17 @@ public class Sale extends JPanel{
 			@Override
 			public void keyPressed(KeyEvent e) {
 				createSaleRecordTable();
+			}
+		});
+
+		saleRecordList.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e){
+				if(e.getClickCount() == 2){
+					int row=((JTable)e.getSource()).getSelectedRow();
+					int idsale = Integer.parseInt((String) saleRecordList.getValueAt(row, 2));
+					UpdateSaleRecord updateSaleRecord = new UpdateSaleRecord(Main.frame, idsale);
+					updateSaleRecord.setVisible(true);
+				}
 			}
 		});
 	}
