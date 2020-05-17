@@ -124,4 +124,23 @@ public class SaleTable {
 			e.printStackTrace();
 		}
 	}
+
+	public static void update(Object[] data, int idsale){
+		Connection connection = DBConnection.createConnection();
+		String query = "UPDATE sale SET amount=?,net_amount=?,discount=?,remark=? WHERE idsale=?";
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+
+			statement.setInt(1, (int)data[0]);
+			statement.setInt(2, (int)data[1]);
+			statement.setInt(3, (int) data[2]);
+			statement.setString(4, (String) data[3]);
+			statement.setInt(5, idsale);
+			statement.executeUpdate();
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

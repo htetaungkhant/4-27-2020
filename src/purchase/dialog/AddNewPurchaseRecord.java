@@ -183,7 +183,10 @@ public class AddNewPurchaseRecord extends JDialog{
 					JOptionPane.showMessageDialog(null, "Please, add some items", "No Item", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(tfPaidAmount.getText().equals("")){
-					JOptionPane.showMessageDialog(null, "Please, enter paid amount", "Need Paid Amount", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Please, fill suitable paid amount", "Need Paid Amount", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else if(Integer.parseInt(tfPaidAmount.getText()) > Integer.parseInt(tfTotalAmount.getText())){
+					JOptionPane.showMessageDialog(null, "Your paid amount is invalid!!!", "Invalid Paid Amount", JOptionPane.ERROR_MESSAGE);
 				}
 				else{
 					Date date = datePicker.getDate();
@@ -249,6 +252,7 @@ public class AddNewPurchaseRecord extends JDialog{
 			}
 		};
 		itemList.setModel(modelForItemList);
+		itemList.getTableHeader().setPreferredSize(new Dimension(0, 40));
 		itemList.setRowHeight(40);
 		TableColumn column5 = itemList.getColumnModel().getColumn(4);
 		column5.setMinWidth(40);

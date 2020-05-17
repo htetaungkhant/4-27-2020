@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JSpinner;
@@ -65,6 +66,47 @@ public class SaleDetailTable {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return false;
+		}
+	}
+
+	public static void delete(ArrayList<Integer> list2Delete){
+		Connection connection = DBConnection.createConnection();
+		String query= "DELETE FROM sale_detail WHERE idsale_detail=?";
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+			for(int i = 0; i < list2Delete.size(); i++){
+				statement.setInt(1, list2Delete.get(i));
+				statement.addBatch();
+			}
+
+			statement.executeBatch();
+			statement.close();
+			connection.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	public static void update(JTable table){
+		int rows = table.getRowCount();
+		Connection connection = DBConnection.createConnection();
+		String query= "UPDATE sale_detail SET quantity=?, amount=? WHERE idsale_detail=?";
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+			for(int row = 0; row < rows; row++){
+				statement.setInt(1, (int) table.getValueAt(row, 1));
+				statement.setInt(2, (int) table.getValueAt(row, 3));
+				statement.setInt(3, (int) table.getModel().getValueAt(row, 0));
+				statement.addBatch();
+			}
+
+			statement.executeBatch();
+			statement.close();
+			connection.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 }

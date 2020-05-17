@@ -1,6 +1,7 @@
 package stock.dialog;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Frame;
 
 import javax.swing.ImageIcon;
@@ -36,6 +37,7 @@ public class ItemsToPurchase extends JDialog{
 	        }
 		};
 		JTable itemsList2Purchase = new JTable(modelForSupplierList);
+		itemsList2Purchase.getTableHeader().setPreferredSize(new Dimension(0, 40));
 		itemsList2Purchase.setRowHeight(40);
 		JScrollPane tablePanel = new JScrollPane(itemsList2Purchase);
 		add(tablePanel, BorderLayout.CENTER);

@@ -184,6 +184,7 @@ public class Purchase extends JPanel{
 	        }
 		};
 		purchaseRecordList.setModel(modelForPurchaseRecordList);
+		purchaseRecordList.getTableHeader().setPreferredSize(new Dimension(0, 40));
 		purchaseRecordList.setRowHeight(40);
 		purchaseRecordList.removeColumn(purchaseRecordList.getColumnModel().getColumn(0));
 	}

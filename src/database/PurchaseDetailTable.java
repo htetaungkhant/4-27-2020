@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.swing.JTable;
 
@@ -39,6 +40,26 @@ public class PurchaseDetailTable {
 		}
 		return result;
 	}
+
+//	public static ArrayList<Object> getItemIdList(int idpurchase){
+//		ArrayList<Object> result = new ArrayList<Object>();
+//		Connection connection = DBConnection.createConnection();
+//		String query="SELECT item FROM purchase_detail pd WHERE pd.invoice_number=?";
+//		try {
+//			PreparedStatement statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+//			statement.setInt(1, idpurchase);
+//			ResultSet resultSet = statement.executeQuery();
+//			while(resultSet.next()){
+//				result.add(resultSet.getInt("item"));
+//			}
+//			statement.close();
+//			connection.close();
+//			return result;
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return result;
+//	}
 
 	public static boolean insert(JTable table, int invoiceNumber){
 		int rows = table.getRowCount();

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -239,6 +240,45 @@ public class StockTable {
 			for(int row = 0; row < rows; row++){
 				statement.setInt(1, (int) table.getValueAt(row, 1));
 				statement.setInt(2, (int) table.getModel().getValueAt(row, 0));
+				statement.addBatch();
+			}
+
+			statement.executeBatch();
+			statement.close();
+			connection.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	public static void addQuantity( ArrayList<Integer> filter){
+		Connection connection = DBConnection.createConnection();
+		String query= "UPDATE stock s INNER JOIN sale_detail sd ON s.idstock=sd.item SET s.quantity=s.quantity+sd.quantity WHERE sd.idsale_detail=?";
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+			for(int i = 0; i < filter.size(); i++){
+				statement.setInt(1, filter.get(i));
+				statement.addBatch();
+			}
+
+			statement.executeBatch();
+			statement.close();
+			connection.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	public static void addUpdatedQuantity( JTable itemList){
+		Connection connection = DBConnection.createConnection();
+		String query= "UPDATE stock s INNER JOIN sale_detail sd ON s.idstock=sd.item SET s.quantity=s.quantity+(sd.quantity-?) WHERE sd.idsale_detail=?";
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+			for(int i = 0; i < itemList.getRowCount(); i++){
+				statement.setInt(1, (int)itemList.getValueAt(i, 1));
+				statement.setInt(2, (int)itemList.getModel().getValueAt(i, 0));
 				statement.addBatch();
 			}
 

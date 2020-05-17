@@ -196,6 +196,7 @@ public class SupplierInfo extends JPanel{
 	        }
 		};
 		supplierList.setModel(modelForSupplierList);
+		supplierList.getTableHeader().setPreferredSize(new Dimension(0, 40));
 		supplierList.setRowHeight(40);
 		supplierList.removeColumn(supplierList.getColumnModel().getColumn(0));
 	}

@@ -3,6 +3,7 @@ package sale;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -38,16 +39,16 @@ import supplier.SupplierInfo;
 
 public class Sale extends JPanel{
 
-	private String[] columnNames;
-	private Object[][] tableData;
-	private DefaultTableModel modelForSaleRecordList;
-	private JTable saleRecordList;
+	private static String[] columnNames;
+	private static Object[][] tableData;
+	private static DefaultTableModel modelForSaleRecordList;
+	private static JTable saleRecordList;
 
-	private WebDateField datePicker1;
-	private WebDateField datePicker2;
+	private static WebDateField datePicker1;
+	private static WebDateField datePicker2;
 
-	private JButton btnChooseCustomer;
-	private JNumberTextField tfInvoiceNumber;
+	private static JButton btnChooseCustomer;
+	private static JNumberTextField tfInvoiceNumber;
 
 	public Sale() {
 		setLayout(new BorderLayout());
@@ -145,7 +146,7 @@ public class Sale extends JPanel{
 		});
 	}
 
-	public void createSaleRecordTable(){
+	public static void createSaleRecordTable(){
 		tableData = SaleTable.retrieve(datePicker1.getDate(), datePicker2.getDate(), btnChooseCustomer.getText(), tfInvoiceNumber.getText());
 		columnNames = new String[]{"Date", "Customer", "Invoice Number", "Amount", "Net Amount", "Discount", "Remark"};
 
@@ -158,6 +159,17 @@ public class Sale extends JPanel{
 	        }
 		};
 		saleRecordList.setModel(modelForSaleRecordList);
+		saleRecordList.getTableHeader().setPreferredSize(new Dimension(0, 40));
 		saleRecordList.setRowHeight(40);
+	}
+
+	public static void setSelectedRow(int idsale){
+		for(int row = 0; row < saleRecordList.getRowCount(); row++){
+			if(Integer.parseInt((String)saleRecordList.getValueAt(row, 2)) == idsale){
+				saleRecordList.setRowSelectionInterval(row, row);
+				saleRecordList.scrollRectToVisible(new Rectangle(saleRecordList.getCellRect(row, 2, true)));
+				break;
+			}
+		}
 	}
 }

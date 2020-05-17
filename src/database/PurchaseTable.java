@@ -68,7 +68,7 @@ public class PurchaseTable {
 			statement.setInt(1, idpurchase);
 			ResultSet resultSet = statement.executeQuery();
 			if(resultSet.next()){
-				result[0] = new SimpleDateFormat("MMM d, yyyy").format(resultSet.getDate("date"));
+				result[0] = resultSet.getDate("date");
 				result[1] = resultSet.getString("supplier_name");
 				result[2] = resultSet.getString("original_invoice_number");
 				result[3] = resultSet.getInt("amount");

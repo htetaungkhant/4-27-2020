@@ -309,6 +309,7 @@ public class Items extends JPanel{
 	        }
 		};
 		itemList.setModel(modelForItemList);
+		itemList.getTableHeader().setPreferredSize(new Dimension(0, 40));
 		itemList.setRowHeight(40);
 		itemList.removeColumn(itemList.getColumnModel().getColumn(0));
 //		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();

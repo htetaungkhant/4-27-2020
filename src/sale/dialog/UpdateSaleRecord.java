@@ -10,8 +10,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EventObject;
 
@@ -28,6 +31,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerListModel;
 import javax.swing.SpinnerModel;
@@ -36,6 +40,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -45,16 +51,24 @@ import javax.swing.table.TableColumn;
 import database.PurchaseDetailTable;
 import database.SaleDetailTable;
 import database.SaleTable;
+import database.StockTable;
 import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import net.miginfocom.swing.MigLayout;
+import sale.Sale;
 
 public class UpdateSaleRecord extends JDialog{
 
-	private String[] columnNames;
 	private Object[][] tableData;
+	private String[] columnNames;
 	private DefaultTableModel modelForItemList;
 	private JTable itemList;
+	private JTextArea taRemark;
+	private JNumberTextField tfTotalAmount;
+	private JNumberTextField tfNetAmount;
+	private JNumberTextField tfDiscount;
+
+	private ArrayList<Integer> itemList2Delete = new ArrayList<Integer>();
 
 	public UpdateSaleRecord(Frame parent, int idsale) {
 		super(parent, true);
@@ -102,34 +116,63 @@ public class UpdateSaleRecord extends JDialog{
 		//End of Top Panel
 
 		//creating Table Panel
+		columnNames = new String[]{"ID","Item Name", "Quantity", "Sale Price", "Amount", "Del"};
+		tableData = SaleDetailTable.retrieve(idsale);
+		modelForItemList = new DefaultTableModel(tableData, columnNames){
+			public boolean isCellEditable(int row, int column) {
+				if(column == 2) return true;
+				return false;
+			}
+			public Class<?> getColumnClass(int column){
+				return getValueAt(0,column).getClass();
+			}
+		};
 		itemList = new JTable(modelForItemList);
-		createItemListTable(SaleDetailTable.retrieve(idsale));
+		itemList.getTableHeader().setPreferredSize(new Dimension(0, 40));
+		itemList.setRowHeight(40);
+		itemList.removeColumn(itemList.getColumnModel().getColumn(0));
+		TableColumn column3 = itemList.getColumnModel().getColumn(1);
+		SpinnerEditor spinnerEditor = new SpinnerEditor(itemList);
+		column3.setCellEditor(spinnerEditor);
+		TableColumn column6 = itemList.getColumnModel().getColumn(4);
+		column6.setMinWidth(40);
+		column6.setMaxWidth(100);
+		column6.setPreferredWidth(50);
 
 		JScrollPane tablePanel = new JScrollPane(itemList);
 		add(tablePanel, BorderLayout.CENTER);
 		//End of Table Panel
 
 		//creating Bottom Panel
-		JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		JPanel bottomPanel = new JPanel(new BorderLayout());
+
+		//creating Bottom Left Panel
+		JPanel bottomLeftPanel = new JPanel(new MigLayout());
+		JLabel lbRemark = new JLabel("Remark");
+		taRemark = new JTextArea(7, 30);
+		taRemark.setText((String)data[6]);
+		bottomLeftPanel.add(lbRemark);
+		bottomLeftPanel.add(new JScrollPane(taRemark));
+		bottomPanel.add(bottomLeftPanel, BorderLayout.WEST);
 
 		//creating Bottom Right Panel
 		JPanel bottomRightPanel = new JPanel(new MigLayout());
 
 		JLabel lbTotalAmount = new JLabel("Total Amount");
-		JNumberTextField tfTotalAmount = new JNumberTextField(10);
+		tfTotalAmount = new JNumberTextField(10);
 		tfTotalAmount.setText(Integer.toString((int)data[3]));
 		tfTotalAmount.setHorizontalAlignment(JLabel.RIGHT);
 		tfTotalAmount.setPreferredSize(new Dimension(120, 40));
 		tfTotalAmount.setEditable(false);
 
-		JLabel lbPaidAmount = new JLabel("Net Amount");
-		JNumberTextField tfPaidAmount = new JNumberTextField(10);
-		tfPaidAmount.setText(Integer.toString((int)data[4]));
-		tfPaidAmount.setHorizontalAlignment(JLabel.RIGHT);
-		tfPaidAmount.setPreferredSize(new Dimension(120, 40));
+		JLabel lbNetAmount = new JLabel("Net Amount");
+		tfNetAmount = new JNumberTextField(10);
+		tfNetAmount.setText(Integer.toString((int)data[4]));
+		tfNetAmount.setHorizontalAlignment(JLabel.RIGHT);
+		tfNetAmount.setPreferredSize(new Dimension(120, 40));
 
 		JLabel lbDiscount = new JLabel("Discount");
-		JNumberTextField tfDiscount = new JNumberTextField(10);
+		tfDiscount = new JNumberTextField(10);
 		tfDiscount.setText(Integer.toString((int)data[5]));
 		tfDiscount.setHorizontalAlignment(JLabel.RIGHT);
 		tfDiscount.setPreferredSize(new Dimension(120, 40));
@@ -142,16 +185,19 @@ public class UpdateSaleRecord extends JDialog{
 		btnSave.setPreferredSize(new Dimension(80, 40));
 		JButton btnPrint = new JButton("Print");
 		btnPrint.setPreferredSize(new Dimension(80, 40));
-		bottomRightPanel.add(lbTotalAmount);
-		bottomRightPanel.add(tfTotalAmount, "gapleft 20, wrap");
-		bottomRightPanel.add(lbPaidAmount);
-		bottomRightPanel.add(tfPaidAmount, "gapleft 20, wrap");
-		bottomRightPanel.add(lbDiscount);
-		bottomRightPanel.add(tfDiscount, "gapleft 20, wrap");
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.setPreferredSize(new Dimension(80, 40));
+		bottomRightPanel.add(lbTotalAmount, "span 4, split 2, align right");
+		bottomRightPanel.add(tfTotalAmount, "wrap");
+		bottomRightPanel.add(lbNetAmount, "span 4, split 2, align right");
+		bottomRightPanel.add(tfNetAmount, "wrap");
+		bottomRightPanel.add(lbDiscount, "span 4, split 2, align right");
+		bottomRightPanel.add(tfDiscount, "wrap");
 		bottomRightPanel.add(btnDelete);
-		bottomRightPanel.add(btnSave, "split 2");
+		bottomRightPanel.add(btnSave);
 		bottomRightPanel.add(btnPrint);
-		bottomPanel.add(bottomRightPanel);
+		bottomRightPanel.add(btnCancel);
+		bottomPanel.add(bottomRightPanel, BorderLayout.EAST);
 
 		add(bottomPanel, BorderLayout.SOUTH);
 		//End of Bottom Panel
@@ -159,48 +205,163 @@ public class UpdateSaleRecord extends JDialog{
 		itemList.getModel().addTableModelListener(new TableModelListener() {
 			@Override
 			public void tableChanged(TableModelEvent e) {
+				int amount = 0;
+				for(int i = 0; i < itemList.getRowCount(); i++){
+					amount += (int)itemList.getValueAt(i, 3);
+				}
+//				tfTotalAmount.setText("");
+				tfTotalAmount.setText(Integer.toString(amount));
+			}
+		});
+
+		itemList.addMouseListener(new MouseAdapter(){
+			@Override
+			public void mouseClicked(MouseEvent e){
+				int row = itemList.getSelectedRow();
+					if(itemList.getSelectedColumn()==itemList.getColumnCount()-1){
+						int result = JOptionPane.showConfirmDialog(null, " Are you sure to delete?", "delete?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+						if(result == JOptionPane.YES_OPTION){
+							itemList2Delete.add((int)itemList.getModel().getValueAt(row, 0));
+							spinnerEditor.removeQuantity(row);
+							modelForItemList.removeRow(row);
+						}
+					}
+			}
+		});
+
+		tfTotalAmount.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+			}
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if(tfNetAmount.getText().equals("")) {
+					tfDiscount.setText("");
+					tfDiscount.setText(Integer.toString(Integer.parseInt(tfTotalAmount.getText()) - 0));
+				}
+				else {
+					tfDiscount.setText("");
+					tfDiscount.setText(Integer.toString(Integer.parseInt(tfTotalAmount.getText()) - Integer.parseInt(tfNetAmount.getText())));
+				}
+			}
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			}
+		});
+
+		tfNetAmount.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(tfNetAmount.getText().equals("")){
+					tfDiscount.setText("");
+					tfDiscount.setText(Long.toString(Long.parseLong(tfTotalAmount.getText()) - 0));
+					}
+				else{
+					tfDiscount.setText("");
+					tfDiscount.setText(Long.toString(Long.parseLong(tfTotalAmount.getText()) - Long.parseLong(tfNetAmount.getText())));
+					}
+			}
+		});
+
+		btnDelete.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int result = JOptionPane.showConfirmDialog(null, " Are you sure to delete?", "Delete?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if(result == JOptionPane.YES_OPTION){
+					for(int row = 0; row < itemList.getRowCount(); row++){
+						itemList2Delete.add((int)itemList.getModel().getValueAt(row, 0));
+					}
+					StockTable.addQuantity(itemList2Delete);
+					SaleTable.delete(idsale);
+					Sale.createSaleRecordTable();
+					setVisible(false);
+					dispose();
+				}
+			}
+		});
+
+		btnSave.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(itemList.getRowCount() <= 0){
+					int result = JOptionPane.showConfirmDialog(null, " We will delete this invoice because no item exist. Are you sure to delete?", "delete?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if(result == JOptionPane.YES_OPTION){
+						StockTable.addQuantity(itemList2Delete);
+						SaleTable.delete(idsale);
+						Sale.createSaleRecordTable();
+						setVisible(false);
+						dispose();
+					}
+				}
+				else if(tfNetAmount.getText().equals("")){
+					JOptionPane.showMessageDialog(null, "Please, fill suitable net amount.", "Error", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else{
+					if(itemList2Delete.size() > 0){
+						StockTable.addQuantity(itemList2Delete);
+						SaleDetailTable.delete(itemList2Delete);
+					}
+					int amount = Integer.parseInt(tfTotalAmount.getText());
+					int netAmount = Integer.parseInt(tfNetAmount.getText());
+					int discount = Integer.parseInt(tfDiscount.getText());
+					String remark = taRemark.getText();
+					StockTable.addUpdatedQuantity(itemList);
+					SaleDetailTable.update(itemList);
+					SaleTable.update(new Object[]{amount, netAmount, discount, remark}, idsale);
+					Sale.createSaleRecordTable();
+					Sale.setSelectedRow(idsale);
+					setVisible(false);
+					dispose();
+				}
+			}
+		});
+
+		btnCancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				dispose();
 			}
 		});
 	}
 
-	public void createItemListTable(Object[][] input){
-		tableData = input;
-		columnNames = new String[]{"ID","Item Name", "Quantity", "Sale Price", "Amount", "Del"};
-
-		modelForItemList = new DefaultTableModel(tableData, columnNames){
-			public boolean isCellEditable(int row, int column) {
-				if(column == 2) return true;
-				return false;
-			}
-			public Class<?> getColumnClass(int column){
-				return getValueAt(0,column).getClass();
-			}
-		};
-		itemList.setModel(modelForItemList);
-		itemList.setRowHeight(40);
-		itemList.removeColumn(itemList.getColumnModel().getColumn(0));
-		TableColumn column3 = itemList.getColumnModel().getColumn(1);
-		column3.setCellEditor(new SpinnerEditor(itemList));
-		TableColumn column6 = itemList.getColumnModel().getColumn(4);
-		column6.setMinWidth(40);
-		column6.setMaxWidth(100);
-		column6.setPreferredWidth(50);
-	}
+//	public void createItemListTable(Object[][] input){
+//		tableData = input;
+//		columnNames = new String[]{"ID","Item Name", "Quantity", "Sale Price", "Amount", "Del"};
+//
+//		modelForItemList = new DefaultTableModel(tableData, columnNames){
+//			public boolean isCellEditable(int row, int column) {
+//				if(column == 2) return true;
+//				return false;
+//			}
+//			public Class<?> getColumnClass(int column){
+//				return getValueAt(0,column).getClass();
+//			}
+//		};
+//		itemList.setModel(modelForItemList);
+//		itemList.setRowHeight(40);
+//		itemList.removeColumn(itemList.getColumnModel().getColumn(0));
+//		TableColumn column3 = itemList.getColumnModel().getColumn(1);
+//		column3.setCellEditor(new SpinnerEditor(itemList));
+//		TableColumn column6 = itemList.getColumnModel().getColumn(4);
+//		column6.setMinWidth(40);
+//		column6.setMaxWidth(100);
+//		column6.setPreferredWidth(50);
+//	}
 }
 class SpinnerEditor extends DefaultCellEditor
 {
     JSpinner spinner;
     JSpinner.DefaultEditor editor;
     JTextField textField;
-    int[] quantity;
+    ArrayList<Integer> quantity = new ArrayList<Integer>();
 
     public SpinnerEditor(JTable itemList) {
         super(new JTextField());
         spinner = new JSpinner();
-        quantity = new int[itemList.getRowCount()];
 
         for(int i = 0; i < itemList.getRowCount(); i++){
-        	quantity[i] = (int) itemList.getValueAt(i, 1);
+        	quantity.add(i, (int) itemList.getValueAt(i, 1));
         }
 
         spinner.addChangeListener(new ChangeListener() {
@@ -213,7 +374,7 @@ class SpinnerEditor extends DefaultCellEditor
     }
 
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-	    		SpinnerModel sm = new SpinnerNumberModel((int)value, 1, quantity[row], 1);
+	    		SpinnerModel sm = new SpinnerNumberModel((int)value, 1, (int)quantity.get(row), 1);
 	    		spinner.setModel(sm);
 	            editor = ((JSpinner.DefaultEditor)spinner.getEditor());
 	            textField = editor.getTextField();
@@ -233,5 +394,9 @@ class SpinnerEditor extends DefaultCellEditor
 
     public Object getCellEditorValue() {
         return spinner.getValue();
+    }
+
+    public void removeQuantity(int row){
+    	quantity.remove(row);
     }
 }

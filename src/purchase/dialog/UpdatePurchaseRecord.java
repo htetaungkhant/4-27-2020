@@ -66,7 +66,7 @@ public class UpdatePurchaseRecord extends JDialog{
 		JLabel lbDate = new JLabel("Date");
 		MyTextField date = new MyTextField();
 		date.setHorizontalAlignment(JLabel.CENTER);
-		date.setText((String) data[0]);
+		date.setText(new SimpleDateFormat("MMM d, yyyy").format(data[0]));
 		date.setPreferredSize(new Dimension(150, 40));
 		date.setEditable(false);
 		JLabel lbSupplier = new JLabel("Supplier");
@@ -152,6 +152,8 @@ public class UpdatePurchaseRecord extends JDialog{
 		add(bottomPanel, BorderLayout.SOUTH);
 		//End of Bottom Panel
 
+
+
 		btnClose.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -188,6 +190,7 @@ public class UpdatePurchaseRecord extends JDialog{
 			}
 		};
 		itemList.setModel(modelForItemList);
+		itemList.getTableHeader().setPreferredSize(new Dimension(0, 40));
 		itemList.setRowHeight(40);
 		itemList.removeColumn(itemList.getColumnModel().getColumn(0));
 	}

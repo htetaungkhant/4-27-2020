@@ -365,7 +365,7 @@ public class POS extends JPanel{
 			JOptionPane.showMessageDialog(null, "Please, add some items for sale.", "Error", JOptionPane.INFORMATION_MESSAGE);
 			tfBarcode.requestFocus();
 		}
-		else if(tfNetAmount.getText().equals("") || Integer.parseInt(tfNetAmount.getText()) == 0){
+		else if(tfNetAmount.getText().equals("")){
 			JOptionPane.showMessageDialog(null, "Please, fill suitable net amount.", "Error", JOptionPane.INFORMATION_MESSAGE);
 		}
 		else{

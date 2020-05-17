@@ -209,6 +209,7 @@ public class CustomerInfo extends JPanel{
 	        }
 		};
 		customerList.setModel(modelForCustomerList);
+		customerList.getTableHeader().setPreferredSize(new Dimension(0, 40));
 		customerList.setRowHeight(40);
 		customerList.removeColumn(customerList.getColumnModel().getColumn(0));
 	}
