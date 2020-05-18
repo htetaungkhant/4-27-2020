@@ -31,6 +31,7 @@ import com.alee.managers.style.StyleId;
 
 import database.PurchaseDetailTable;
 import database.PurchaseTable;
+import database.SaleDetailTable;
 import database.StockTable;
 import external_classes.Fonts;
 import external_classes.JNumberTextField;
@@ -104,7 +105,8 @@ public class UpdatePurchaseRecord extends JDialog{
 		JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
 		//creating Bottom Right Panel
-		JPanel bottomRightPanel = new JPanel();
+		JPanel bottomRightPanel = new JPanel(new MigLayout());
+
 		JLabel lbTotalAmount = new JLabel("Total Amount");
 		lbTotalAmount.setHorizontalAlignment(JLabel.RIGHT);
 		lbTotalAmount.setPreferredSize(new Dimension(100, 40));
@@ -123,36 +125,23 @@ public class UpdatePurchaseRecord extends JDialog{
 		tfPaidAmount.setEditable(false);
 		JButton btnDelete = new JButton("Delete Invoice");
 		btnDelete.setVisible(false);
+		if(!SaleDetailTable.isAlreadySale((Date) data[0], idpurchase)){
+			btnDelete.setVisible(true);
+		}
 		btnDelete.setForeground(Color.red);
-		btnDelete.setPreferredSize(new Dimension(120, 40));
+		btnDelete.setPreferredSize(new Dimension(100, 40));
 		JButton btnClose = new JButton("Close");
 		btnClose.setPreferredSize(new Dimension(120, 40));
-
-		GroupLayout groupLayout = new GroupLayout(bottomRightPanel);
-		groupLayout.setAutoCreateGaps(true);
-		groupLayout.setAutoCreateContainerGaps(true);
-		bottomRightPanel.setLayout(groupLayout);
-		groupLayout.setHorizontalGroup(groupLayout.createSequentialGroup()
-				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addComponent(lbTotalAmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																												.addComponent(lbPaidAmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																												.addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addComponent(tfTotalAmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																												.addComponent(tfPaidAmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																												.addComponent(btnClose, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)));
-
-		groupLayout.setVerticalGroup(groupLayout.createSequentialGroup()
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lbTotalAmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																												.addComponent(tfTotalAmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lbPaidAmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																												.addComponent(tfPaidAmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																												.addComponent(btnClose, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)));
+		bottomRightPanel.add(lbTotalAmount);
+		bottomRightPanel.add(tfTotalAmount, "wrap");
+		bottomRightPanel.add(lbPaidAmount);
+		bottomRightPanel.add(tfPaidAmount, "wrap");
+		bottomRightPanel.add(btnDelete);
+		bottomRightPanel.add(btnClose);
 		bottomPanel.add(bottomRightPanel);
 
 		add(bottomPanel, BorderLayout.SOUTH);
 		//End of Bottom Panel
-
-
 
 		btnClose.addActionListener(new ActionListener() {
 			@Override

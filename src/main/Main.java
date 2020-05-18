@@ -33,6 +33,7 @@ import customer.CustomerInfo;
 import purchase.Purchase;
 import sale.POS;
 import sale.PosManager;
+import sale.Report;
 import sale.Sale;
 import stock.Items;
 import supplier.SupplierInfo;
@@ -82,14 +83,14 @@ public class Main{
 		KeyStroke keyStrokeForSaleRecord = KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK);
 		saleRecord.setAccelerator(keyStrokeForSaleRecord);
 		JMenuItem customer = new JMenuItem("Customers", new ImageIcon("picture/customer_icon.png"));
-		KeyStroke keyStrokeForCustomer = KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK);
-		customer.setAccelerator(keyStrokeForCustomer);
+		JMenuItem reports = new JMenuItem("Reports", new ImageIcon("picture/reports_icon.png"));
 		JMenuItem exit = new JMenuItem("Exit", new ImageIcon("picture/exit_icon.png"));
 		KeyStroke keyStrokeForExit = KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_DOWN_MASK);
 		exit.setAccelerator(keyStrokeForExit);
 		sale.add(pos);
 		sale.add(saleRecord);
 		sale.add(customer);
+		sale.add(reports);
 		sale.add(exit);
 		sale.setMnemonic(KeyEvent.VK_S);
 
@@ -183,6 +184,17 @@ public class Main{
 				pane.repaint();
 				CustomerInfo customerInfo = new CustomerInfo();
 				pane.add(customerInfo);
+			}
+		});
+
+		reports.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				pane.removeAll();
+				pane.revalidate();
+				pane.repaint();
+				Report report = new Report();
+				pane.add(report);
 			}
 		});
 

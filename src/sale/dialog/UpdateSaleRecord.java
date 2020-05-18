@@ -183,8 +183,8 @@ public class UpdateSaleRecord extends JDialog{
 		btnDelete.setPreferredSize(new Dimension(80, 40));
 		JButton btnSave = new JButton("Save");
 		btnSave.setPreferredSize(new Dimension(80, 40));
-		JButton btnPrint = new JButton("Print");
-		btnPrint.setPreferredSize(new Dimension(80, 40));
+		JButton btnPrint = new JButton("Save and Print");
+		btnPrint.setPreferredSize(new Dimension(100, 40));
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.setPreferredSize(new Dimension(80, 40));
 		bottomRightPanel.add(lbTotalAmount, "span 4, split 2, align right");
@@ -209,7 +209,7 @@ public class UpdateSaleRecord extends JDialog{
 				for(int i = 0; i < itemList.getRowCount(); i++){
 					amount += (int)itemList.getValueAt(i, 3);
 				}
-//				tfTotalAmount.setText("");
+				tfTotalAmount.setText("");
 				tfTotalAmount.setText(Integer.toString(amount));
 			}
 		});

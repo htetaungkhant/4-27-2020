@@ -1,0 +1,1 @@
+﻿SELECT s.date, c.customer_name, s.net_amount AS sale,SUM(sd.quantity*sd.cogs) AS cost, s.net_amount-SUM(sd.quantity*sd.cogs) AS profit FROM sale s INNER JOIN customer c ON s.customer=c.idcustomer INNER JOIN sale_detail sd ON s.idsale=sd.invoice_number WHERE s.date BETWEEN '2020-05-18 03:35:36' AND '2020-05-18 17:22:22' GROUP BY s.idsale;
