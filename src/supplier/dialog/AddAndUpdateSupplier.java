@@ -33,7 +33,7 @@ public class AddAndUpdateSupplier extends JDialog{
 		ImageIcon frameIcon = new ImageIcon("picture/supplier_icon.png");
 		setIconImage(frameIcon.getImage());
 		setTitle("Add New Supplier");
-		setSize(360, 250);
+		setSize(360, 260);
 		setResizable(false);
 		setLayout(null);
 		setLocationRelativeTo(null);
@@ -51,10 +51,10 @@ public class AddAndUpdateSupplier extends JDialog{
 		btnAdd = new JButton("Add"); add(btnAdd);
 		btnCancel = new JButton("Cancel"); add(btnCancel);
 
-		lbSupplierName.setBounds(20, 20, 100, 30); tfSupplierName.setBounds(130, 20, 200, 30);
-		lbPhone.setBounds(20, 60, 100, 30); tfPhone.setBounds(130, 60, 200, 30);
-		lbAddress.setBounds(20, 100, 100, 30); tfAddress.setBounds(130, 100, 200, 30);
-		btnAdd.setBounds(20, 150, 150, 50);btnCancel.setBounds(180, 150, 150, 50);
+		lbSupplierName.setBounds(20, 20, 100, 40); tfSupplierName.setBounds(130, 20, 200, 40);
+		lbPhone.setBounds(20, 70, 100, 40); tfPhone.setBounds(130, 70, 200, 40);
+		lbAddress.setBounds(20, 120, 100, 40); tfAddress.setBounds(130, 120, 200, 40);
+		btnAdd.setBounds(20, 170, 150, 50);btnCancel.setBounds(180, 170, 150, 50);
 
 		btnAdd.addActionListener(new ActionListener() {
 			@Override
@@ -97,7 +97,7 @@ public class AddAndUpdateSupplier extends JDialog{
 
 		btnAdd.setVisible(false);
 		btnUpdate = new JButton("Update"); add(btnUpdate);
-		btnUpdate.setBounds(20, 150, 150, 50);
+		btnUpdate.setBounds(20, 170, 150, 50);
 
 		btnUpdate.addActionListener(new ActionListener() {
 			@Override
