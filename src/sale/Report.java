@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import com.alee.extended.date.WebDateField;
 
 import database.DBConnection;
+import main.Main;
 import net.miginfocom.swing.MigLayout;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -32,49 +33,51 @@ import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.swing.JRViewer;
+import tester.ProgressBar;
 
 public class Report extends JPanel{
 
 	public Report() {
-		setLayout(new BorderLayout());
+			setLayout(new BorderLayout());
 
-				//creating Top Panel
-				JPanel topPanel = new JPanel(new MigLayout());
-				JLabel lbStartDate = new JLabel("Start Date");
-				WebDateField datePicker1=new WebDateField();
-				Calendar calendar = Calendar.getInstance();
-				calendar.add(Calendar.MONTH, -1);
-				datePicker1.setDate(calendar.getTime());
-				datePicker1.setAllowUserInput(false);
-				datePicker1.setPreferredSize(100, 40);
-				JLabel lbEndDate = new JLabel("End Date");
-				WebDateField datePicker2=new WebDateField(new Date());
-				datePicker2.setAllowUserInput(false);
-				datePicker2.setPreferredSize(100, 40);
-				JButton btnGenerate = new JButton("Generate");
-				btnGenerate.setPreferredSize(new Dimension(120, 40));
-				topPanel.add(lbStartDate);
-				topPanel.add(datePicker1, "wrap");
-				topPanel.add(lbEndDate);
-				topPanel.add(datePicker2, "wrap");
-				topPanel.add(btnGenerate, "span 2, align center");
+			//creating Top Panel
+			JPanel topPanel = new JPanel(new MigLayout());
+			JLabel lbStartDate = new JLabel("Start Date");
+			WebDateField datePicker1=new WebDateField();
+			Calendar calendar = Calendar.getInstance();
+			calendar.add(Calendar.MONTH, -1);
+			datePicker1.setDate(calendar.getTime());
+			datePicker1.setAllowUserInput(false);
+			datePicker1.setPreferredSize(100, 40);
+			JLabel lbEndDate = new JLabel("End Date");
+			WebDateField datePicker2=new WebDateField(new Date());
+			datePicker2.setAllowUserInput(false);
+			datePicker2.setPreferredSize(100, 40);
+			JButton btnGenerate = new JButton("Generate");
+			btnGenerate.setPreferredSize(new Dimension(120, 40));
+			topPanel.add(lbStartDate);
+			topPanel.add(datePicker1, "wrap");
+			topPanel.add(lbEndDate);
+			topPanel.add(datePicker2, "wrap");
+			topPanel.add(btnGenerate, "span 2, align center");
 
-				add(topPanel, BorderLayout.WEST);
-				//End of Top Panel
+			add(topPanel, BorderLayout.WEST);
+			//End of Top Panel
 
-				JScrollPane reportPanel= new JScrollPane(createReport(null));
-				add(reportPanel, BorderLayout.CENTER);
+			//creating Report Panel
+			JScrollPane reportPanel= new JScrollPane(createReport(null));
+			add(reportPanel, BorderLayout.CENTER);
+			//End of Report Panel
 
-
-				btnGenerate.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						HashMap parameter = new HashMap();
-						parameter.put("first_date", new Timestamp(datePicker1.getDate().getTime()));
-						parameter.put("second_date", new Timestamp(datePicker2.getDate().getTime()));
-						reportPanel.setViewportView(createReport(parameter));
-					}
-				});
+			btnGenerate.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					HashMap parameter = new HashMap();
+					parameter.put("first_date", new Timestamp(datePicker1.getDate().getTime()));
+					parameter.put("second_date", new Timestamp(datePicker2.getDate().getTime()));
+					reportPanel.setViewportView(createReport(parameter));
+				}
+			});
 	}
 
 	public JRViewer createReport(HashMap parameter){

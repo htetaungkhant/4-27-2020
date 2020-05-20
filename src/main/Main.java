@@ -3,6 +3,7 @@ package main;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,17 +15,21 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
 import javax.swing.MenuElement;
 import javax.swing.MenuSelectionManager;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.DefaultMenuLayout;
@@ -37,6 +42,7 @@ import sale.Report;
 import sale.Sale;
 import stock.Items;
 import supplier.SupplierInfo;
+import tester.ProgressBar;
 
 public class Main{
 
@@ -190,11 +196,20 @@ public class Main{
 		reports.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				pane.removeAll();
-				pane.revalidate();
-				pane.repaint();
-				Report report = new Report();
-				pane.add(report);
+				ProgressBar pb = new ProgressBar();
+				pb.setVisible(true);
+				SwingUtilities.invokeLater ( new Runnable ()
+		        {
+		            public void run ()
+		            {
+						pane.removeAll();
+						pane.revalidate();
+						pane.repaint();
+						Report report = new Report();
+						pane.add(report);
+						pb.dispose();
+		            }
+		        } );
 			}
 		});
 

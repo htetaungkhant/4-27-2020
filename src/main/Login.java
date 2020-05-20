@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
@@ -116,9 +117,14 @@ public class Login {
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
-
-		WebLookAndFeel.install ();
-		createAndShowGUI();
+		 SwingUtilities.invokeLater ( new Runnable ()
+	        {
+	            public void run ()
+	            {
+	                WebLookAndFeel.install ();
+	        		createAndShowGUI();
+	            }
+	        } );
 	}
 
 }
