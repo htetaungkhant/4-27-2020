@@ -67,19 +67,25 @@ public class Sale extends JPanel{
 		//creating Top Panel
 		JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JLabel lbStartDate = new JLabel("Start Date");
+		lbStartDate.setFont(Fonts.pyisuNormal15);
 		datePicker1=new WebDateField(new Date());
+		datePicker1.setFont(Fonts.pyisuNormal15);
 //		Calendar calendar = Calendar.getInstance();
 //		calendar.add(Calendar.MONTH, -1);
 //		datePicker1.setDate(calendar.getTime());
 		datePicker1.setAllowUserInput(false);
 		datePicker1.setPreferredSize(100, 40);
 		JLabel lbEndDate = new JLabel("End Date");
+		lbEndDate.setFont(Fonts.pyisuNormal15);
 		datePicker2=new WebDateField(new Date());
+		datePicker2.setFont(Fonts.pyisuNormal15);
 		datePicker2.setAllowUserInput(false);
 		datePicker2.setPreferredSize(100, 40);
 		btnChooseCustomer = new JButton("Choose Customer");
+		btnChooseCustomer.setFont(Fonts.pyisuNormal15);
 		btnChooseCustomer.setPreferredSize(new Dimension(150, 40));
 		tfInvoiceNumber = new JNumberTextField("Invoice Number", 10);
+		tfInvoiceNumber.setFont(Fonts.pyisuNormal15);
 		tfInvoiceNumber.setPreferredSize(new Dimension(110,40));
 		tfInvoiceNumber.setHorizontalAlignment(JLabel.CENTER);
 		topPanel.add(lbStartDate);
@@ -99,20 +105,16 @@ public class Sale extends JPanel{
 		JPanel bottomRightPanel = new JPanel(new MigLayout());
 		JLabel lbTotalSale = new JLabel("Total Sale Amount: ");
 		lbTotalSale.setHorizontalAlignment(JLabel.RIGHT);
-		lbTotalSale.setFont(Fonts.pyisuBold20);
-		lbTotalSale.setPreferredSize(new Dimension(200, 40));
+		lbTotalSale.setFont(Fonts.pyisuBold18);
 		JLabel lbTotalNetSale = new JLabel("Total Net Amount: ");
 		lbTotalNetSale.setHorizontalAlignment(JLabel.RIGHT);
-		lbTotalNetSale.setFont(Fonts.pyisuBold20);
-		lbTotalNetSale.setPreferredSize(new Dimension(200, 40));
+		lbTotalNetSale.setFont(Fonts.pyisuBold18);
 		lbTotalSaleAmount = new JLabel("0");
-		lbTotalSaleAmount.setFont(Fonts.pyisuBold20);
+		lbTotalSaleAmount.setFont(Fonts.pyisuBold18);
 		lbTotalSaleAmount.setHorizontalAlignment(JLabel.RIGHT);
-		lbTotalSaleAmount.setPreferredSize(new Dimension(140, 40));
 		lbTotalNetSaleAmount = new JLabel("0");
-		lbTotalNetSaleAmount.setFont(Fonts.pyisuBold20);
+		lbTotalNetSaleAmount.setFont(Fonts.pyisuBold18);
 		lbTotalNetSaleAmount.setHorizontalAlignment(JLabel.RIGHT);
-		lbTotalNetSaleAmount.setPreferredSize(new Dimension(140, 40));
 		bottomRightPanel.add(lbTotalSale);
 		bottomRightPanel.add(lbTotalSaleAmount, "wrap");
 		bottomRightPanel.add(lbTotalNetSale);
@@ -200,10 +202,10 @@ public class Sale extends JPanel{
 	        }
 		};
 		saleRecordList.setModel(modelForSaleRecordList);
-		saleRecordList.getTableHeader().setPreferredSize(new Dimension(0, 40));
-		saleRecordList.getTableHeader().setFont(Fonts.pyisuNormal20);
+		saleRecordList.getTableHeader().setPreferredSize(new Dimension(0, 50));
+		saleRecordList.getTableHeader().setFont(Fonts.pyisuNormal16);
 		saleRecordList.setRowHeight(40);
-		saleRecordList.setFont(Fonts.pyisuNormal18);
+		saleRecordList.setFont(Fonts.pyisuNormal15);
 
 		int totalSaleAmount = 0;
 		int totalNetSaleAmount = 0;

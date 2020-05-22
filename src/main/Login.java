@@ -25,6 +25,7 @@ import javax.swing.border.EmptyBorder;
 import com.alee.laf.WebLookAndFeel;
 
 import database.LoginChecker;
+import external_classes.Fonts;
 
 public class Login {
 
@@ -32,12 +33,18 @@ public class Login {
 		Container pane = frame.getContentPane();
 		pane.setLayout(null);
 
-        JButton btnLogin = new JButton("Login");
-		JButton btnCancel = new JButton("Cancel");
 		JLabel lbUsername = new JLabel("Username");
+		lbUsername.setFont(Fonts.pyisuNormal15);
 		JLabel lbPassword = new JLabel("Password");
+		lbPassword.setFont(Fonts.pyisuNormal15);
 		JTextField tfUsername = new JTextField(20);
+		tfUsername.setFont(Fonts.pyisuNormal15);
 		JPasswordField tfPassword = new JPasswordField(20);
+		tfPassword.setFont(Fonts.pyisuNormal15);
+        JButton btnLogin = new JButton("Login");
+        btnLogin.setFont(Fonts.pyisuNormal18);
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.setFont(Fonts.pyisuNormal18);
 		pane.add(lbUsername);
 		pane.add(tfUsername);
 		pane.add(lbPassword);
@@ -45,10 +52,10 @@ public class Login {
 		pane.add(btnLogin);
 		pane.add(btnCancel);
 
-		lbUsername.setBounds(60, 20, 80, 30);
-		tfUsername.setBounds(150, 20, 150, 30);
-		lbPassword.setBounds(60, 70, 80, 30);
-		tfPassword.setBounds(150, 70, 150, 30);
+		lbUsername.setBounds(60, 20, 80, 40);
+		tfUsername.setBounds(150, 20, 150, 40);
+		lbPassword.setBounds(60, 70, 80, 40);
+		tfPassword.setBounds(150, 70, 150, 40);
 		btnLogin.setBounds(80, 130, 100, 50);
 		btnCancel.setBounds(200, 130, 100, 50);
 

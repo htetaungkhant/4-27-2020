@@ -35,6 +35,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.DefaultMenuLayout;
 
 import customer.CustomerInfo;
+import external_classes.Fonts;
 import purchase.Purchase;
 import sale.POS;
 import sale.PosManager;
@@ -52,7 +53,7 @@ public class Main{
 
 		//creating Menu Bar
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setLayout(new DefaultMenuLayout(menuBar, BoxLayout.X_AXIS));;
+		menuBar.setLayout(new BoxLayout(menuBar, BoxLayout.X_AXIS));
 
 		JMenu sale = new JMenu("Sale");
 		JMenu purchase = new JMenu("Purchase");

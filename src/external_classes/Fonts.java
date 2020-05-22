@@ -8,12 +8,14 @@ import java.io.IOException;
 
 public class Fonts {
 
+	public static Font pyisuNormal14 = new Font("Pyidaungsu", Font.PLAIN, 14);
+	public static Font pyisuNormal15 = new Font("Pyidaungsu", Font.PLAIN, 15);
+	public static Font pyisuNormal16 = new Font("Pyidaungsu", Font.PLAIN, 16);
 	public static Font pyisuNormal18 = new Font("Pyidaungsu", Font.PLAIN, 18);
 	public static Font pyisuNormal20 = new Font("Pyidaungsu", Font.PLAIN, 20);
-	public static Font pyisuNormal40 = new Font("Pyidaungsu", Font.PLAIN, 40);
 
+	public static Font pyisuBold18 = new Font("Pyidaungsu", Font.BOLD, 18);
 	public static Font pyisuBold20 = new Font("Pyidaungsu", Font.BOLD, 20);
-	public static Font pyisuBold40 = new Font("Pyidaungsu", Font.BOLD, 40);
 
 	public static Font customFont(){
 		try {
