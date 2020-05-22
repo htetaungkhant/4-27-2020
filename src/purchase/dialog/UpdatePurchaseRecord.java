@@ -125,7 +125,7 @@ public class UpdatePurchaseRecord extends JDialog{
 		tfPaidAmount.setEditable(false);
 		JButton btnDelete = new JButton("Delete Invoice");
 		btnDelete.setVisible(false);
-		if(!SaleDetailTable.isAlreadySale((Date) data[0], idpurchase)){
+		if(!SaleDetailTable.isAlreadySale(idpurchase)){
 			btnDelete.setVisible(true);
 		}
 		btnDelete.setForeground(Color.red);

@@ -73,8 +73,8 @@ public class Report extends JPanel{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					HashMap parameter = new HashMap();
-					parameter.put("first_date", new Timestamp(datePicker1.getDate().getTime()));
-					parameter.put("second_date", new Timestamp(datePicker2.getDate().getTime()));
+					parameter.put("first_date", new java.sql.Date(datePicker1.getDate().getTime()));
+					parameter.put("second_date", new java.sql.Date(datePicker2.getDate().getTime()));
 					reportPanel.setViewportView(createReport(parameter));
 				}
 			});

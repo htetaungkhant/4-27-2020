@@ -12,10 +12,10 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
-	<parameter name="first_date" class="java.sql.Timestamp"/>
-	<parameter name="second_date" class="java.sql.Timestamp"/>
+	<parameter name="first_date" class="java.sql.Date"/>
+	<parameter name="second_date" class="java.sql.Date"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT s.date, c.customer_name, s.net_amount AS sale,SUM(sd.quantity*sd.cogs) AS cost, s.net_amount-SUM(sd.quantity*sd.cogs) AS profit FROM sale s INNER JOIN customer c ON s.customer=c.idcustomer INNER JOIN sale_detail sd ON s.idsale=sd.invoice_number WHERE s.date BETWEEN $P{first_date} AND $P{second_date} GROUP BY s.idsale;]]>
+		<![CDATA[SELECT s.date, c.customer_name, s.net_amount AS sale,SUM(sd.quantity*sd.cogs) AS cost, s.net_amount-SUM(sd.quantity*sd.cogs) AS profit FROM sale s INNER JOIN customer c ON s.customer=c.idcustomer INNER JOIN sale_detail sd ON s.idsale=sd.invoice_number WHERE DATE(s.date) BETWEEN $P{first_date} AND $P{second_date} GROUP BY s.idsale;]]>
 	</queryString>
 	<field name="date" class="java.sql.Timestamp">
 		<property name="com.jaspersoft.studio.field.label" value="date"/>

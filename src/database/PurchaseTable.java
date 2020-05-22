@@ -17,20 +17,20 @@ public class PurchaseTable {
 		Connection connection = DBConnection.createConnection();
 
 		try {
-			String query="SELECT idpurchase,date, supplier_name, original_invoice_number, amount, paid_amount FROM purchase p INNER JOIN supplier s ON p.supplier = s.idsupplier WHERE p.date BETWEEN ? AND ? AND p.original_invoice_number LIKE ? ORDER BY p.idpurchase";
+			String query="SELECT idpurchase,date, supplier_name, original_invoice_number, amount, paid_amount FROM purchase p INNER JOIN supplier s ON p.supplier = s.idsupplier WHERE DATE(p.date) BETWEEN ? AND ? AND p.original_invoice_number LIKE ? ORDER BY p.idpurchase";
 			PreparedStatement statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			statement.setTimestamp(1, new Timestamp(date1.getTime()));
-			statement.setTimestamp(2, new Timestamp(date2.getTime()));
+			statement.setDate(1, new java.sql.Date(date1.getTime()));
+			statement.setDate(2, new java.sql.Date(date2.getTime()));
 			statement.setString(3, "%" +invoiceNumber+ "%" );
 
 			if(!supplierName.equals("Choose Supplier")){
-				query="SELECT idpurchase,date, supplier_name, original_invoice_number, amount, paid_amount FROM purchase p INNER JOIN supplier s ON p.supplier = s.idsupplier AND s.supplier_name=? WHERE p.date BETWEEN ? AND ? AND p.original_invoice_number LIKE ? ORDER BY p.idpurchase";
+				query="SELECT idpurchase,date, supplier_name, original_invoice_number, amount, paid_amount FROM purchase p INNER JOIN supplier s ON p.supplier = s.idsupplier AND s.supplier_name=? WHERE DATE(p.date) BETWEEN ? AND ? AND p.original_invoice_number LIKE ? ORDER BY p.idpurchase";
 				statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 				statement.setString(1, supplierName);
 //				statement.setString(2, new SimpleDateFormat("yyyy-MM-dd").format(date1));
 //				statement.setString(3, new SimpleDateFormat("yyyy-MM-dd").format(date2));
-				statement.setTimestamp(2, new Timestamp(date1.getTime()));
-				statement.setTimestamp(3, new Timestamp(date2.getTime()));
+				statement.setDate(2, new java.sql.Date(date1.getTime()));
+				statement.setDate(3, new java.sql.Date(date2.getTime()));
 				statement.setString(4, "%" +invoiceNumber+ "%" );
 			}
 

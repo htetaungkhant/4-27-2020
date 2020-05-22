@@ -196,8 +196,8 @@ public class Main{
 		reports.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ProgressBar pb = new ProgressBar();
-				pb.setVisible(true);
+//				ProgressBar pb = new ProgressBar();
+//				pb.setVisible(true);
 				SwingUtilities.invokeLater ( new Runnable ()
 		        {
 		            public void run ()
@@ -207,7 +207,7 @@ public class Main{
 						pane.repaint();
 						Report report = new Report();
 						pane.add(report);
-						pb.dispose();
+//						pb.dispose();
 		            }
 		        } );
 			}

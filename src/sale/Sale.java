@@ -1,6 +1,7 @@
 package sale;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Rectangle;
@@ -10,11 +11,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -22,6 +26,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 import com.alee.extended.date.DateListener;
@@ -30,9 +36,11 @@ import com.alee.extended.date.WebDateField;
 import customer.CustomerInfo;
 import database.PurchaseTable;
 import database.SaleTable;
+import external_classes.Fonts;
 import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import main.Main;
+import net.miginfocom.swing.MigLayout;
 import purchase.Purchase;
 import sale.dialog.UpdateSaleRecord;
 import supplier.SupplierInfo;
@@ -50,16 +58,19 @@ public class Sale extends JPanel{
 	private static JButton btnChooseCustomer;
 	private static JNumberTextField tfInvoiceNumber;
 
+	private static JLabel lbTotalSaleAmount;
+	private static JLabel lbTotalNetSaleAmount;
+
 	public Sale() {
 		setLayout(new BorderLayout());
 
 		//creating Top Panel
 		JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JLabel lbStartDate = new JLabel("Start Date");
-		datePicker1=new WebDateField();
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.MONTH, -1);
-		datePicker1.setDate(calendar.getTime());
+		datePicker1=new WebDateField(new Date());
+//		Calendar calendar = Calendar.getInstance();
+//		calendar.add(Calendar.MONTH, -1);
+//		datePicker1.setDate(calendar.getTime());
 		datePicker1.setAllowUserInput(false);
 		datePicker1.setPreferredSize(100, 40);
 		JLabel lbEndDate = new JLabel("End Date");
@@ -80,6 +91,36 @@ public class Sale extends JPanel{
 
 		add(topPanel, BorderLayout.NORTH);
 		//End of Top Panel
+
+		//creating Bottom Panel
+		JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
+		//creating Bottom Right Panel
+		JPanel bottomRightPanel = new JPanel(new MigLayout());
+		JLabel lbTotalSale = new JLabel("Total Sale Amount: ");
+		lbTotalSale.setHorizontalAlignment(JLabel.RIGHT);
+		lbTotalSale.setFont(Fonts.pyisuBold20);
+		lbTotalSale.setPreferredSize(new Dimension(200, 40));
+		JLabel lbTotalNetSale = new JLabel("Total Net Amount: ");
+		lbTotalNetSale.setHorizontalAlignment(JLabel.RIGHT);
+		lbTotalNetSale.setFont(Fonts.pyisuBold20);
+		lbTotalNetSale.setPreferredSize(new Dimension(200, 40));
+		lbTotalSaleAmount = new JLabel("0");
+		lbTotalSaleAmount.setFont(Fonts.pyisuBold20);
+		lbTotalSaleAmount.setHorizontalAlignment(JLabel.RIGHT);
+		lbTotalSaleAmount.setPreferredSize(new Dimension(140, 40));
+		lbTotalNetSaleAmount = new JLabel("0");
+		lbTotalNetSaleAmount.setFont(Fonts.pyisuBold20);
+		lbTotalNetSaleAmount.setHorizontalAlignment(JLabel.RIGHT);
+		lbTotalNetSaleAmount.setPreferredSize(new Dimension(140, 40));
+		bottomRightPanel.add(lbTotalSale);
+		bottomRightPanel.add(lbTotalSaleAmount, "wrap");
+		bottomRightPanel.add(lbTotalNetSale);
+		bottomRightPanel.add(lbTotalNetSaleAmount);
+		bottomPanel.add(bottomRightPanel);
+
+		add(bottomPanel, BorderLayout.SOUTH);
+		//End of Bottom Panel
 
 		//creating Table Panel
 		saleRecordList = new JTable(modelForSaleRecordList);
@@ -148,7 +189,7 @@ public class Sale extends JPanel{
 
 	public static void createSaleRecordTable(){
 		tableData = SaleTable.retrieve(datePicker1.getDate(), datePicker2.getDate(), btnChooseCustomer.getText(), tfInvoiceNumber.getText());
-		columnNames = new String[]{"Date", "Customer", "Invoice Number", "Amount", "Net Amount", "Discount", "Remark"};
+		columnNames = new String[]{"ရက်စွဲ", "ဝယ်ယူသူအမည်", "ဘောင်ချာအမှတ်", "သင့်ငွေ", "ရငွေ", "လျော့ငွေ", "မှတ်ချက်"};
 
 		modelForSaleRecordList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {
@@ -160,7 +201,20 @@ public class Sale extends JPanel{
 		};
 		saleRecordList.setModel(modelForSaleRecordList);
 		saleRecordList.getTableHeader().setPreferredSize(new Dimension(0, 40));
+		saleRecordList.getTableHeader().setFont(Fonts.pyisuNormal20);
 		saleRecordList.setRowHeight(40);
+		saleRecordList.setFont(Fonts.pyisuNormal18);
+
+		int totalSaleAmount = 0;
+		int totalNetSaleAmount = 0;
+		for(int i = 0; i < saleRecordList.getRowCount(); i++){
+			totalSaleAmount += (int)saleRecordList.getValueAt(i, 3);
+			totalNetSaleAmount += (int)saleRecordList.getValueAt(i, 4);
+		}
+		lbTotalSaleAmount.setText("");
+		lbTotalSaleAmount.setText(new DecimalFormat("###,###,###.###").format(totalSaleAmount));
+		lbTotalNetSaleAmount.setText("");
+		lbTotalNetSaleAmount.setText(new DecimalFormat("###,###,###.###").format(totalNetSaleAmount));
 	}
 
 	public static void setSelectedRow(int idsale){

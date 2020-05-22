@@ -112,12 +112,13 @@ public class SaleDetailTable {
 		}
 	}
 
-	public static boolean isAlreadySale(Date date, int id){
+	public static boolean isAlreadySale(int id){
 		Connection connection = DBConnection.createConnection();
-		String query = "SELECT sd.idsale_detail FROM sale_detail sd INNER JOIN sale s ON sd.invoice_number=s.idsale WHERE s.date>=? AND sd.item IN (SELECT item FROM purchase_detail pd WHERE pd.invoice_number=?)";
+		String query = "SELECT sd.idsale_detail FROM sale_detail sd INNER JOIN sale s ON sd.invoice_number=s.idsale WHERE s.date>=(SELECT p.date FROM purchase p WHERE p.idpurchase=?) AND sd.item IN (SELECT item FROM purchase_detail pd WHERE pd.invoice_number=?)";
 		try {
 			PreparedStatement statement = connection.prepareStatement(query);
-			statement.setTimestamp(1, new Timestamp(date.getTime()));
+//			statement.setTimestamp(1, new Timestamp(date.getTime()));
+			statement.setInt(1, id);
 			statement.setInt(2, id);
 			ResultSet rs = statement.executeQuery();
 			if(rs.next()){

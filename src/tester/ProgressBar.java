@@ -22,7 +22,7 @@ public class ProgressBar extends JFrame
 		setLayout(new BorderLayout());
 		setSize(200, 200);
 		setUndecorated(true);
-		setOpacity(0.55f);
+//		setOpacity(0.55f);
 		setAlwaysOnTop(true);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

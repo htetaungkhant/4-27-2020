@@ -17,18 +17,18 @@ public class SaleTable {
 		Connection connection = DBConnection.createConnection();
 
 		try {
-			String query="SELECT LPAD(s.idsale, 10, '0'),date, customer_name, amount, net_amount, discount, remark FROM sale s INNER JOIN customer c ON s.customer = c.idcustomer WHERE s.date BETWEEN ? AND ? AND LPAD(s.idsale, 10, '0') LIKE ? ORDER BY s.idsale";
+			String query="SELECT LPAD(s.idsale, 10, '0'),date, customer_name, amount, net_amount, discount, remark FROM sale s INNER JOIN customer c ON s.customer = c.idcustomer WHERE DATE(s.date) BETWEEN ? AND ? AND LPAD(s.idsale, 10, '0') LIKE ? ORDER BY s.idsale";
 			PreparedStatement statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			statement.setTimestamp(1, new Timestamp(date1.getTime()));
-			statement.setTimestamp(2, new Timestamp(date2.getTime()));
+			statement.setDate(1, new java.sql.Date(date1.getTime()));		//statement.setTimestamp(1, new Timestamp(date1.getTime()));
+			statement.setDate(2, new java.sql.Date(date2.getTime()));
 			statement.setString(3, "%" +invoiceNumber+ "%" );
 
 			if(!customerName.equals("Choose Customer")){
 				query="SELECT LPAD(s.idsale, 10, '0'),date, customer_name, amount, net_amount, discount, remark FROM sale s INNER JOIN customer c ON s.customer = c.idcustomer AND c.customer_name=? WHERE s.date BETWEEN ? AND ? AND LPAD(s.idsale, 10, '0') LIKE ? ORDER BY s.idsale";
 				statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 				statement.setString(1, customerName);
-				statement.setTimestamp(2, new Timestamp(date1.getTime()));
-				statement.setTimestamp(3, new Timestamp(date2.getTime()));
+				statement.setDate(2, new java.sql.Date(date1.getTime()));
+				statement.setDate(3, new java.sql.Date(date2.getTime()));
 				statement.setString(4, "%" +invoiceNumber+ "%" );
 			}
 
