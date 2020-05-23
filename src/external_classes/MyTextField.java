@@ -24,9 +24,9 @@ public class MyTextField extends JTextField{
         super();
     }
 
-    public MyTextField(int size){
-    	super(size);
-        DocumentFilter filter = new LimitTextFieldInputSize(size);
+    public MyTextField(int limit){
+    	super();
+        DocumentFilter filter = new LimitTextFieldInputSize(limit);
 		((AbstractDocument)this.getDocument()).setDocumentFilter(filter);
     }
 
@@ -41,7 +41,8 @@ public class MyTextField extends JTextField{
     public MyTextField(int limit, String placeHolder) {
         super();
         TextPrompt tp = new TextPrompt(placeHolder,this);
-        tp.setForeground(Color.gray);
+        tp.setForeground(Color.decode("#5D6D7E"));
+        tp.setFont(Fonts.pyisuNormal12);
 
         DocumentFilter filter = new LimitTextFieldInputSize(limit);
 		((AbstractDocument)this.getDocument()).setDocumentFilter(filter);
@@ -50,9 +51,8 @@ public class MyTextField extends JTextField{
     public MyTextField(int size, int limit, String placeHolder) {
         super(size);
         TextPrompt tp = new TextPrompt(placeHolder,this);
-        tp.setForeground(Color.gray);
-//    	tp.changeStyle(Font.BOLD );
-//    	tp.changeAlpha(0.6f);
+        tp.setForeground(Color.decode("#5D6D7E"));
+        tp.setFont(Fonts.pyisuNormal12);
 
         DocumentFilter filter = new LimitTextFieldInputSize(limit);
 		((AbstractDocument)this.getDocument()).setDocumentFilter(filter);

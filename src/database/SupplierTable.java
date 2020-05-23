@@ -138,4 +138,32 @@ public class SupplierTable {
 		}
 		return false;
 	}
+	
+//	public static String[] getSupplierNames()
+//	{
+//				Connection connection=DBConnection.createConnection();
+//				String query="SELECT supplier_name FROM supplier ORDER BY supplier_name";
+//				try {
+//					PreparedStatement statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+//					ResultSet resultSet=statement.executeQuery();
+//
+//					resultSet.last();
+//					String[] result =new String[resultSet.getRow()+1];
+//					resultSet.first();
+//					resultSet.previous();
+//					int row=0;
+//					result[row]=("ငွေလွဲလက်ခံမည့်သူရွေးပါ");
+//					while(resultSet.next()){
+//						++row;
+//						result[row]=resultSet.getString(1);
+//					}
+//					statement.close();
+//					connection.close();
+//					return result;
+//				} catch (SQLException e) {
+//					e.printStackTrace();
+//					String[] result = {"ငွေလွဲလက်ခံမည့်သူရွေးပါ"};
+//					return result;
+//				}
+//		}
 }

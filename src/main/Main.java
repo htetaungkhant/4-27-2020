@@ -36,6 +36,7 @@ import javax.swing.plaf.basic.DefaultMenuLayout;
 
 import customer.CustomerInfo;
 import external_classes.Fonts;
+import purchase.MoneyTransfer;
 import purchase.Purchase;
 import sale.POS;
 import sale.PosManager;
@@ -105,10 +106,12 @@ public class Main{
 		JMenuItem purchaseRecord = new JMenuItem("Purchase Records", new ImageIcon("picture/purchase_record_icon.png"));
 		KeyStroke keyStrokeToPurchaseRecord = KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_DOWN_MASK);
 		purchaseRecord.setAccelerator(keyStrokeToPurchaseRecord);
+		JMenuItem transferMoney = new JMenuItem("Money Transfer", new ImageIcon("picture/money_transfer_icon.png"));
 		JMenuItem supplier = new JMenuItem("Suppliers", new ImageIcon("picture/supplier_icon.png"));
 		KeyStroke keyStrokeToSupplier = KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.CTRL_DOWN_MASK);
 		supplier.setAccelerator(keyStrokeToSupplier);
 		purchase.add(purchaseRecord);
+		purchase.add(transferMoney);
 		purchase.add(supplier);
 		purchase.setMnemonic(KeyEvent.VK_P);
 
@@ -233,6 +236,17 @@ public class Main{
 				pane.add(purchase);
 			}
 		});
+		
+		transferMoney.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				pane.removeAll();
+				pane.revalidate();
+				pane.repaint();
+				MoneyTransfer moneyTransfer = new MoneyTransfer();
+				pane.add(moneyTransfer);
+			}
+		});
 
 		supplier.addActionListener(new ActionListener() {
 			@Override
@@ -257,7 +271,7 @@ public class Main{
 	}
 
 	public static void createAndShowGUI() {
-        frame = new JFrame("Main");
+        frame = new JFrame("\"လင်းလင်း\" စတိုးဆိုင်");
         addComponentsToPane(frame);
 		Toolkit tk=Toolkit.getDefaultToolkit();
 		int x=(int)tk.getScreenSize().getWidth();

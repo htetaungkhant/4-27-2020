@@ -111,11 +111,18 @@ public class AddAndUpdateSupplier extends JDialog{
 				if(!tfSupplierName.getText().equals(input[1]) && SupplierTable.isSupplierNameExist(supplierName)){
 					JOptionPane.showMessageDialog(null, "Supplier Name already Exists.", "Error", JOptionPane.INFORMATION_MESSAGE);
 				}
-				else if(!isEmpty(data)){
-					SupplierTable.update(data, (int)input[0]);
-					SupplierInfo.createSupplierTable(SupplierTable.retrieveFilterBySupplierName(toFilter));
-					SupplierInfo.removeAlreadySupplier();
-					SupplierInfo.setSelectedRow((int)input[0]);
+				else if(!isEmpty(data) && !tfSupplierName.getText().equals(input[1])){
+					int result = JOptionPane.showConfirmDialog(null, " Are you sure to update?", "Sure?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if(result == JOptionPane.YES_OPTION){
+							SupplierTable.update(data, (int)input[0]);
+							SupplierInfo.createSupplierTable(SupplierTable.retrieveFilterBySupplierName(toFilter));
+							SupplierInfo.removeAlreadySupplier();
+							SupplierInfo.setSelectedRow((int)input[0]);
+							setVisible(false);
+							dispose();
+					}
+				}
+				else {
 					setVisible(false);
 					dispose();
 				}

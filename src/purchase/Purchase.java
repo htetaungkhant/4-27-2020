@@ -19,9 +19,11 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -30,6 +32,7 @@ import com.alee.extended.date.WebDateField;
 
 import database.PurchaseTable;
 import database.SupplierTable;
+import external_classes.Fonts;
 import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import main.Main;
@@ -51,6 +54,8 @@ public class Purchase extends JPanel{
 	private static JButton btnChooseSupplier;
 	private static JNumberTextField tfInvoiceNumber;
 
+	private static JButton btnAddNewRecord;
+	
 	public Purchase(){
 		setLayout(new BorderLayout());
 
@@ -77,7 +82,7 @@ public class Purchase extends JPanel{
 //		jcbSupplierList.setPreferredSize(new Dimension(150, 40));
 		btnChooseSupplier = new JButton("Choose Supplier");
 		btnChooseSupplier.setPreferredSize(new Dimension(150, 40));
-		tfInvoiceNumber = new JNumberTextField("Invoice Number", 10);
+		tfInvoiceNumber = new JNumberTextField("ဘောင်ချာနံပါတ်", 10);
 		tfInvoiceNumber.setPreferredSize(new Dimension(110,40));
 		tfInvoiceNumber.setHorizontalAlignment(JLabel.CENTER);
 		topLeftPanel.add(lbStartDate);
@@ -90,7 +95,7 @@ public class Purchase extends JPanel{
 
 		//creating Top Right Panel
 		JPanel topRightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		JButton btnAddNewRecord = new JButton("Add New Record");
+		btnAddNewRecord = new JButton("Add New Record");
 		btnAddNewRecord.setPreferredSize(new Dimension(150, 40));
 		topRightPanel.add(btnAddNewRecord);
 		topPanel.add(topRightPanel, BorderLayout.EAST);
@@ -123,7 +128,6 @@ public class Purchase extends JPanel{
 		btnChooseSupplier.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String beforeSupplier = btnChooseSupplier.getText();
 				JDialog d = new JDialog(Main.frame, "Choose Supplier",true);
 				SupplierInfo supplierList = new SupplierInfo(d, btnChooseSupplier);
 				d.add(supplierList);
@@ -132,7 +136,9 @@ public class Purchase extends JPanel{
 				d.setSize(600, 500);
 				d.setLocationRelativeTo(null);
 				d.setVisible(true);
-				if(!beforeSupplier.equals(btnChooseSupplier.getText())) createPurchaseRecordTable();
+				int row = getSelectedRow();
+				createPurchaseRecordTable();
+				if(row != -1) setSelectedRow(row);
 			}
 		});
 
@@ -166,6 +172,58 @@ public class Purchase extends JPanel{
 					int idpurchase = (int) purchaseRecordList.getModel().getValueAt(row, 0);
 					UpdatePurchaseRecord updatePurchaseRecord = new UpdatePurchaseRecord(Main.frame, idpurchase);
 					updatePurchaseRecord.setVisible(true);
+				}
+			}
+		});
+	}
+	
+	public Purchase(JDialog d, JButton btnInput, MyTextField tfSupplier, JNumberTextField tfInvoiceNo, JNumberTextField tfRemainingAmount) {
+		this();
+		btnAddNewRecord.setVisible(false);
+		
+		purchaseRecordList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		//creating Bottom Panel
+		JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		JButton btnSelect = new JButton("ရွေးမည်");
+		btnSelect.setFont(Fonts.pyisuNormal15);
+		btnSelect.setPreferredSize(new Dimension(100, 40));
+		JButton btnCancel = new JButton("ပယ်ဖျက်မည်");
+		btnCancel.setFont(Fonts.pyisuNormal15);
+		btnCancel.setPreferredSize(new Dimension(100, 40));
+		bottomPanel.add(btnCancel);
+		bottomPanel.add(btnSelect);
+		add(bottomPanel, BorderLayout.SOUTH);
+		//End of Bottom Panel
+
+		btnCancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				btnInput.setText("ငွေလွဲဘောင်ချာရွေးပါ");
+				tfSupplier.setText(""); tfSupplier.setEnabled(false);
+				tfInvoiceNo.setText(""); tfInvoiceNo.setEnabled(false);
+				tfRemainingAmount.setText("0"); tfRemainingAmount.setEnabled(false);
+				d.setVisible(false);
+				d.dispose();
+			}
+		});
+		
+		btnSelect.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(purchaseRecordList.getSelectionModel().isSelectionEmpty()){
+					JLabel label = new JLabel("ကျေးဇူးပြု၍ ဘောင်ချာရွေးပါ");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "မှားယွင်းမှု", JOptionPane.INFORMATION_MESSAGE);
+				}	
+				else {
+					int row = purchaseRecordList.getSelectedRow();
+					btnInput.setText("ပြန်လည်ရွေးချယ်နိုင်ပါသည်");
+					tfSupplier.setText(""); tfSupplier.setText((String) purchaseRecordList.getValueAt(row, 1)); tfSupplier.setEnabled(true);
+					tfInvoiceNo.setText(""); tfInvoiceNo.setText((String) purchaseRecordList.getValueAt(row, 2)); tfInvoiceNo.setEnabled(true);
+					tfRemainingAmount.setText(""); tfRemainingAmount.setText(Integer.toString((int) purchaseRecordList.getValueAt(row, 3) - (int) purchaseRecordList.getValueAt(row, 4))); tfRemainingAmount.setEnabled(true);
+					d.setVisible(false);
+					d.dispose();
 				}
 			}
 		});

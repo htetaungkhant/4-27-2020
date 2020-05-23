@@ -83,7 +83,7 @@ public class Sale extends JPanel{
 		datePicker2.setPreferredSize(100, 40);
 		btnChooseCustomer = new JButton("Choose Customer");
 		btnChooseCustomer.setFont(Fonts.pyisuNormal15);
-		btnChooseCustomer.setPreferredSize(new Dimension(150, 40));
+		btnChooseCustomer.setPreferredSize(new Dimension(230, 40));
 		tfInvoiceNumber = new JNumberTextField("Invoice Number", 10);
 		tfInvoiceNumber.setFont(Fonts.pyisuNormal15);
 		tfInvoiceNumber.setPreferredSize(new Dimension(110,40));
@@ -191,7 +191,7 @@ public class Sale extends JPanel{
 
 	public static void createSaleRecordTable(){
 		tableData = SaleTable.retrieve(datePicker1.getDate(), datePicker2.getDate(), btnChooseCustomer.getText(), tfInvoiceNumber.getText());
-		columnNames = new String[]{"ရက်စွဲ", "ဝယ်ယူသူအမည်", "ဘောင်ချာအမှတ်", "သင့်ငွေ", "ရငွေ", "လျော့ငွေ", "မှတ်ချက်"};
+		columnNames = new String[]{"ရက်စွဲ", "ဝယ်ယူသူအမည်", "ဘောင်ချာနံပါတ်", "သင့်ငွေ", "ရငွေ", "လျော့ငွေ", "မှတ်ချက်"};
 
 		modelForSaleRecordList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {

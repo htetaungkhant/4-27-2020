@@ -307,23 +307,17 @@ public class POS extends JPanel{
 			}
 		});
 
-		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
-			@Override
-			public boolean dispatchKeyEvent(KeyEvent e) {
-				if(e.getID() == KeyEvent.KEY_PRESSED){
-					if(e.getKeyCode() == KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK).getKeyCode()){
-						btnPrint.doClick();
-					}
-				}
-				return false;
-			}
-		});
-
-		btnPrint.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+//		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+//			@Override
+//			public boolean dispatchKeyEvent(KeyEvent e) {
+//				if(e.getID() == KeyEvent.KEY_PRESSED){
+//					if(e.getKeyCode() == KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK).getKeyCode()){
+//						btnPrint.doClick();
+//					}
+//				}
+//				return false;
+//			}
+//		});
 	}
 
 	public void addItemAction(){

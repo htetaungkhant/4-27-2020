@@ -8,6 +8,7 @@ import java.io.IOException;
 
 public class Fonts {
 
+	public static Font pyisuNormal12 = new Font("Pyidaungsu", Font.PLAIN, 12);
 	public static Font pyisuNormal14 = new Font("Pyidaungsu", Font.PLAIN, 14);
 	public static Font pyisuNormal15 = new Font("Pyidaungsu", Font.PLAIN, 15);
 	public static Font pyisuNormal16 = new Font("Pyidaungsu", Font.PLAIN, 16);

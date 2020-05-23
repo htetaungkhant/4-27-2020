@@ -106,7 +106,7 @@ public class Login {
     }
 
 	public static void createAndShowGUI() {
-        JFrame frame = new JFrame("Login");
+        JFrame frame = new JFrame("\"လင်းလင်း\" စတိုးဆိုင်");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addComponentsToPane(frame);
         frame.setSize(350, 240);

@@ -20,13 +20,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import database.SupplierTable;
 import external_classes.MyTextField;
 import main.Main;
-import purchase.Purchase;
-import purchase.dialog.AddNewPurchaseRecord;
 import supplier.dialog.AddAndUpdateSupplier;
 
 public class SupplierInfo extends JPanel{
@@ -160,9 +157,6 @@ public class SupplierInfo extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				btnInput.setText("Choose Supplier");
-				int row = Purchase.getSelectedRow();
-				Purchase.createPurchaseRecordTable();
-				if(row!=-1) Purchase.setSelectedRow(row);
 				d.setVisible(false);
 				d.dispose();
 			}

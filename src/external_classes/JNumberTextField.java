@@ -12,10 +12,10 @@ import javax.swing.text.DocumentFilter;
 
 public class JNumberTextField extends JTextField {
 
-	public JNumberTextField(int size) {
+	public JNumberTextField(int limit) {
 			super();
 
-			DocumentFilter filter = new LimitTextFieldInputSize(size);
+			DocumentFilter filter = new LimitTextFieldInputSize(limit);
 			((AbstractDocument)this.getDocument()).setDocumentFilter(filter);
 	}
 
@@ -23,7 +23,8 @@ public class JNumberTextField extends JTextField {
         super();
 
         TextPrompt tp = new TextPrompt(placeHolder,this);
-        tp.setForeground(Color.gray);
+        tp.setForeground(Color.decode("#5D6D7E"));
+        tp.setFont(Fonts.pyisuNormal12);
 
         DocumentFilter filter = new LimitTextFieldInputSize(limit);
 		((AbstractDocument)this.getDocument()).setDocumentFilter(filter);
@@ -33,8 +34,8 @@ public class JNumberTextField extends JTextField {
 	        super(size);
 
 	        TextPrompt tp = new TextPrompt(placeHolder,this);
-	        tp.setForeground(Color.gray);
-//	        tp7.setFont(Fonts.zawgyione11);
+	        tp.setForeground(Color.decode("#5D6D7E"));
+	        tp.setFont(Fonts.pyisuNormal12);
 
 	        DocumentFilter filter = new LimitTextFieldInputSize(limit);
 			((AbstractDocument)this.getDocument()).setDocumentFilter(filter);
