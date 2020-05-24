@@ -22,6 +22,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import database.SupplierTable;
+import external_classes.Fonts;
 import external_classes.MyTextField;
 import main.Main;
 import supplier.dialog.AddAndUpdateSupplier;
@@ -44,14 +45,16 @@ public class SupplierInfo extends JPanel{
 
 		//creating Top Left Panel
 		JPanel topLeftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JButton btnAddNewSupplier = new JButton("Add New Supplier");
+		JButton btnAddNewSupplier = new JButton("ကုန်ပေးသူအသစ်ထည့်ရန်");
+		btnAddNewSupplier.setFont(Fonts.pyisuNormal15);
 		btnAddNewSupplier.setPreferredSize(new Dimension(170, 40));
 		topLeftPanel.add(btnAddNewSupplier);
 		topPanel.add(topLeftPanel);
 
 		//creating Top Right Panel
 		JPanel topRightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		MyTextField tfSearch = new MyTextField(30, "Search supplier");
+		MyTextField tfSearch = new MyTextField(30, "ကုန်ပေးသူရှာရန်");
+		tfSearch.setFont(Fonts.pyisuNormal15);
 		tfSearch.setPreferredSize(new Dimension(250,40));
 		topRightPanel.add(tfSearch);
 		topPanel.add(topRightPanel);
@@ -144,9 +147,11 @@ public class SupplierInfo extends JPanel{
 
 		//creating Bottom Panel
 		JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		JButton btnSelect = new JButton("Select");
+		JButton btnSelect = new JButton("ရွေးမည်");
+		btnSelect.setFont(Fonts.pyisuNormal15);
 		btnSelect.setPreferredSize(new Dimension(100, 40));
-		JButton btnCancel = new JButton("Cancel");
+		JButton btnCancel = new JButton("မလုပ်ဆောင်ပါ");
+		btnCancel.setFont(Fonts.pyisuNormal15);
 		btnCancel.setPreferredSize(new Dimension(100, 40));
 		bottomPanel.add(btnCancel);
 		bottomPanel.add(btnSelect);
@@ -179,7 +184,7 @@ public class SupplierInfo extends JPanel{
 
 	public static void createSupplierTable(Object[][] input) {
 		tableData = input;
-		columnNames = new String[]{"ID", "Supplier Name", "Phone", "Address"};
+		columnNames = new String[]{"ID", "ကုန်ပေးသူအမည်", "ဖုန်းနံပါတ်", "လိပ်စာ"};
 
 		modelForSupplierList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {
@@ -190,8 +195,10 @@ public class SupplierInfo extends JPanel{
 	        }
 		};
 		supplierList.setModel(modelForSupplierList);
-		supplierList.getTableHeader().setPreferredSize(new Dimension(0, 40));
+		supplierList.getTableHeader().setPreferredSize(new Dimension(0, 50));
+		supplierList.getTableHeader().setFont(Fonts.pyisuNormal16);
 		supplierList.setRowHeight(40);
+		supplierList.setFont(Fonts.pyisuNormal15);
 		supplierList.removeColumn(supplierList.getColumnModel().getColumn(0));
 	}
 

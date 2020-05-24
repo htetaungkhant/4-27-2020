@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import database.StockTable;
 import database.SupplierTable;
+import external_classes.Fonts;
 import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import stock.Items;
@@ -32,29 +33,29 @@ public class AddAndUpdateSupplier extends JDialog{
 		super(frame, true);
 		ImageIcon frameIcon = new ImageIcon("picture/supplier_icon.png");
 		setIconImage(frameIcon.getImage());
-		setTitle("Add New Supplier");
-		setSize(360, 260);
+		setTitle("ကုန်ပေးသူအသစ်သွင်းခြင်း");
+		setSize(360, 300);
 		setResizable(false);
 		setLayout(null);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		JLabel lbSupplierName = new JLabel("Supplier Name"); add(lbSupplierName);
-		JLabel lbPhone = new JLabel("Phone Number"); add(lbPhone);
-		JLabel lbAddress = new JLabel("Address"); add(lbAddress);
+		JLabel lbSupplierName = new JLabel("ကုန်ပေးသူအမည်"); lbSupplierName.setFont(Fonts.pyisuNormal15); add(lbSupplierName);
+		JLabel lbPhone = new JLabel("ဖုန်းနံပါတ်"); lbPhone.setFont(Fonts.pyisuNormal15); add(lbPhone);
+		JLabel lbAddress = new JLabel("လိပ်စာ"); lbAddress.setFont(Fonts.pyisuNormal15); add(lbAddress);
 
-		tfSupplierName = new MyTextField(); add(tfSupplierName);
-		tfPhone = new JNumberTextField(15); add(tfPhone);
-		tfAddress = new MyTextField(); add(tfAddress);
+		tfSupplierName = new MyTextField(); tfSupplierName.setFont(Fonts.pyisuNormal15); add(tfSupplierName);
+		tfPhone = new JNumberTextField(15); tfPhone.setFont(Fonts.pyisuNormal15); add(tfPhone);
+		tfAddress = new MyTextField(); tfAddress.setFont(Fonts.pyisuNormal15); add(tfAddress);
 		resetTextFields();
 
-		btnAdd = new JButton("Add"); add(btnAdd);
-		btnCancel = new JButton("Cancel"); add(btnCancel);
+		btnAdd = new JButton("ထည့်မည်"); btnAdd.setFont(Fonts.pyisuNormal15); add(btnAdd);
+		btnCancel = new JButton("မလုပ်ဆောင်ပါ"); btnCancel.setFont(Fonts.pyisuNormal15); add(btnCancel);
 
 		lbSupplierName.setBounds(20, 20, 100, 40); tfSupplierName.setBounds(130, 20, 200, 40);
 		lbPhone.setBounds(20, 70, 100, 40); tfPhone.setBounds(130, 70, 200, 40);
 		lbAddress.setBounds(20, 120, 100, 40); tfAddress.setBounds(130, 120, 200, 40);
-		btnAdd.setBounds(20, 170, 150, 50);btnCancel.setBounds(180, 170, 150, 50);
+		btnCancel.setBounds(20, 190, 150, 50); btnAdd.setBounds(180, 190, 150, 50);
 
 		btnAdd.addActionListener(new ActionListener() {
 			@Override
@@ -64,16 +65,23 @@ public class AddAndUpdateSupplier extends JDialog{
 				String address = tfAddress.getText();
 				String[] data = {supplierName, phone, address};
 				if(SupplierTable.isSupplierExist(supplierName)){
-					JOptionPane.showMessageDialog(null, "Supplier already Exists.", "Error", JOptionPane.INFORMATION_MESSAGE);
+					JLabel label = new JLabel("ကုန်ပေးသူရှိပီးသားဖြစ်နေပါသည်");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "ရှိပီးသား", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(!isEmpty(data)){
-					SupplierTable.insert(data);
-					String supplier = SupplierInfo.getSelectedSupplier();
-					SupplierInfo.createSupplierTable(SupplierTable.retrieveAll());
-					SupplierInfo.removeAlreadySupplier();
-					SupplierInfo.setSelectedSupplier(supplier);
-					setVisible(false);
-					dispose();
+					JLabel label = new JLabel("ထည့်မှာသေချာပါပီလား။ ပြန်ဖျက်၍ မရနိုင်ပါ။");
+					label.setFont(Fonts.pyisuNormal15);
+					int result = JOptionPane.showConfirmDialog(null, label, "သေချာလား", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if(result == JOptionPane.YES_OPTION){
+							SupplierTable.insert(data);
+							String supplier = SupplierInfo.getSelectedSupplier();
+							SupplierInfo.createSupplierTable(SupplierTable.retrieveAll());
+							SupplierInfo.removeAlreadySupplier();
+							SupplierInfo.setSelectedSupplier(supplier);
+							setVisible(false);
+							dispose();
+						}
 				}
 			}
 		});
@@ -89,15 +97,15 @@ public class AddAndUpdateSupplier extends JDialog{
 
 	public AddAndUpdateSupplier(Frame frame, Object[] input, String toFilter){
 		this(frame);
-		setTitle("Update Supplier Details");
+		setTitle("ကုန်ပေးသူအချက်အလက်ပြောင်းလဲခြင်း");
 
 		tfSupplierName.setText((String)input[1]);
 		tfPhone.setText((String)input[2]);
 		tfAddress.setText((String)input[3]);
 
 		btnAdd.setVisible(false);
-		btnUpdate = new JButton("Update"); add(btnUpdate);
-		btnUpdate.setBounds(20, 170, 150, 50);
+		btnUpdate = new JButton("ပြောင်းလဲမည်"); btnUpdate.setFont(Fonts.pyisuNormal15); add(btnUpdate);
+		btnUpdate.setBounds(180, 190, 150, 50);
 
 		btnUpdate.addActionListener(new ActionListener() {
 			@Override
@@ -108,11 +116,19 @@ public class AddAndUpdateSupplier extends JDialog{
 				String address = tfAddress.getText();
 				String[] data = {supplierName, phone, address};
 
-				if(!tfSupplierName.getText().equals(input[1]) && SupplierTable.isSupplierNameExist(supplierName)){
-					JOptionPane.showMessageDialog(null, "Supplier Name already Exists.", "Error", JOptionPane.INFORMATION_MESSAGE);
+				if(supplierName.equals(input[1]) && phone.equals(input[2]) && address.equals(input[3])) {
+					setVisible(false);
+					dispose();					
 				}
-				else if(!isEmpty(data) && !tfSupplierName.getText().equals(input[1])){
-					int result = JOptionPane.showConfirmDialog(null, " Are you sure to update?", "Sure?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				else if(!supplierName.equals(input[1]) && SupplierTable.isSupplierNameExist(supplierName)){
+					JLabel label = new JLabel("ကုန်ပေးသူရှိပီးသားဖြစ်နေပါသည်");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "ရှိပီးသား", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else if(!isEmpty(data)){
+					JLabel label = new JLabel("ပြောင်းလဲမှာသေချာပီလား");
+					label.setFont(Fonts.pyisuNormal15);
+					int result = JOptionPane.showConfirmDialog(null, label, "သေချာလား", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if(result == JOptionPane.YES_OPTION){
 							SupplierTable.update(data, (int)input[0]);
 							SupplierInfo.createSupplierTable(SupplierTable.retrieveFilterBySupplierName(toFilter));
@@ -122,19 +138,17 @@ public class AddAndUpdateSupplier extends JDialog{
 							dispose();
 					}
 				}
-				else {
-					setVisible(false);
-					dispose();
-				}
 			}
 		});
 	}
 
 	private boolean isEmpty(String[] data){
-		String[] labels = {"Supplier Name", "Phone", "Address"};
+		String[] labels = {"ကုန်ပေးသူအမည်", "ဖုန်းနံပါတ်", "လိပ်စာ"};
 		for(int i = 0; i < data.length; i++){
 			if(data[i].equals("")){
-				JOptionPane.showMessageDialog(null, labels[i]+" cannot be empty.", "Empty Error", JOptionPane.INFORMATION_MESSAGE);
+				JLabel label = new JLabel(labels[i]+"ထည့်ပါ");
+				label.setFont(Fonts.pyisuNormal15);
+				JOptionPane.showMessageDialog(null, label, "အလွတ်မဖြစ်နိုင်ပါ", JOptionPane.INFORMATION_MESSAGE);
 				return true;
 			}
 		}

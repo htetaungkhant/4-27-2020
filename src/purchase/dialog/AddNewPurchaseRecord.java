@@ -162,12 +162,12 @@ public class AddNewPurchaseRecord extends JDialog{
 		btnAddItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JDialog d = new JDialog(Main.frame, "Choose Item",true);
+				JDialog d = new JDialog(Main.frame, "ကုန်ပစ္စည်းရွေးပါ",true);
 				Items itemList = new Items(d, getItemNameList());
 				d.add(itemList);
 				ImageIcon frameIcon = new ImageIcon("picture/items_icon.png");
 				d.setIconImage(frameIcon.getImage());
-				d.setSize(1000, 600);
+				d.setSize(1100, 600);
 				d.setLocationRelativeTo(null);
 				d.setVisible(true);
 			}

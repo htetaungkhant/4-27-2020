@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import database.StockTable;
+import external_classes.Fonts;
 import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import stock.Items;
@@ -44,41 +45,41 @@ public class AddAndUpdateItem extends JDialog{
 		this.tfPurchasePrice = null;
 		ImageIcon frameIcon = new ImageIcon("picture/items_icon.png");
 		setIconImage(frameIcon.getImage());
-		setTitle("Add New Item");
-		setSize(360, 400);
+		setTitle("ကုန်ပစ္စည်းအသစ်ထည့်သွင်းခြင်း");
+		setSize(450, 500);
 		setResizable(false);
 		setLayout(null);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		lbItemName = new JLabel("Item Name"); add(lbItemName);
-		lbBarcode = new JLabel("Barcode"); add(lbBarcode);
-		lbCost = new JLabel("Cost"); add(lbCost);
-		lbSalePrice = new JLabel("Sale Price"); add(lbSalePrice);
-		lbQuantity = new JLabel("Quantity"); add(lbQuantity);
-		lbLimitQuantity = new JLabel("Quantity Limit"); add(lbLimitQuantity);
-		lbRemark = new JLabel("Remark"); add(lbRemark);
+		lbItemName = new JLabel("ကုန်ပစ္စည်းအမည်"); lbItemName.setFont(Fonts.pyisuNormal15); add(lbItemName);
+		lbBarcode = new JLabel("ဘားကုဒ်"); lbBarcode.setFont(Fonts.pyisuNormal15); add(lbBarcode);
+		lbCost = new JLabel("ကုန်ကျစရိတ်"); lbCost.setFont(Fonts.pyisuNormal15); add(lbCost);
+		lbSalePrice = new JLabel("ရောင်းဈေး"); lbSalePrice.setFont(Fonts.pyisuNormal15); add(lbSalePrice);
+		lbQuantity = new JLabel("အရေအတွက်"); lbQuantity.setFont(Fonts.pyisuNormal15); add(lbQuantity);
+		lbLimitQuantity = new JLabel("သတ်မှတ်အရေအတွက်"); lbLimitQuantity.setFont(Fonts.pyisuNormal15); add(lbLimitQuantity);
+		lbRemark = new JLabel("မှတ်ချက်"); lbRemark.setFont(Fonts.pyisuNormal15); add(lbRemark);
 
-		tfItemName = new MyTextField(); tfItemName.setHorizontalAlignment(JLabel.RIGHT); add(tfItemName);
-		tfBarcode = new MyTextField(); tfBarcode.setHorizontalAlignment(JLabel.RIGHT); add(tfBarcode);
-		tfCost = new JNumberTextField(10); tfCost.setHorizontalAlignment(JLabel.RIGHT); add(tfCost);
-		tfSalePrice = new JNumberTextField(10); tfSalePrice.setHorizontalAlignment(JLabel.RIGHT); add(tfSalePrice);
-		tfQuantity = new JNumberTextField(5); tfQuantity.setHorizontalAlignment(JLabel.RIGHT); add(tfQuantity);
-		tfLimitQuantity = new JNumberTextField(5); tfLimitQuantity.setHorizontalAlignment(JLabel.RIGHT); add(tfLimitQuantity);
-		tfRemark = new MyTextField(); tfRemark.setHorizontalAlignment(JLabel.RIGHT); add(tfRemark);
+		tfItemName = new MyTextField(); tfItemName.setFont(Fonts.pyisuNormal15); tfItemName.setHorizontalAlignment(JLabel.RIGHT); add(tfItemName);
+		tfBarcode = new MyTextField(); tfBarcode.setFont(Fonts.pyisuNormal15); tfBarcode.setHorizontalAlignment(JLabel.RIGHT); add(tfBarcode);
+		tfCost = new JNumberTextField(10); tfCost.setFont(Fonts.pyisuNormal15); tfCost.setHorizontalAlignment(JLabel.RIGHT); add(tfCost);
+		tfSalePrice = new JNumberTextField(10); tfSalePrice.setFont(Fonts.pyisuNormal15); tfSalePrice.setHorizontalAlignment(JLabel.RIGHT); add(tfSalePrice);
+		tfQuantity = new JNumberTextField(5); tfQuantity.setFont(Fonts.pyisuNormal15); tfQuantity.setHorizontalAlignment(JLabel.RIGHT); add(tfQuantity);
+		tfLimitQuantity = new JNumberTextField(5); tfLimitQuantity.setFont(Fonts.pyisuNormal15); tfLimitQuantity.setHorizontalAlignment(JLabel.RIGHT); add(tfLimitQuantity);
+		tfRemark = new MyTextField(); tfRemark.setFont(Fonts.pyisuNormal15); tfRemark.setHorizontalAlignment(JLabel.RIGHT); add(tfRemark);
 //		resetTextFields();
 
-		btnAdd = new JButton("Add"); add(btnAdd);
-		btnCancel = new JButton("Cancel"); add(btnCancel);
+		btnAdd = new JButton("ထည့်မည်");  btnAdd.setFont(Fonts.pyisuNormal15); add(btnAdd);
+		btnCancel = new JButton("မလုပ်ဆောင်ပါ"); btnCancel.setFont(Fonts.pyisuNormal15); add(btnCancel);
 
-		lbItemName.setBounds(20, 20, 100, 30); tfItemName.setBounds(130, 20, 200, 30);
-		lbBarcode.setBounds(20, 60, 100, 30); tfBarcode.setBounds(130, 60, 200, 30);
-		lbCost.setBounds(20, 100, 100, 30); tfCost.setBounds(130, 100, 200, 30);
-		lbSalePrice.setBounds(20, 140, 100, 30); tfSalePrice.setBounds(130, 140, 200, 30);
-		lbQuantity.setBounds(20, 180, 100, 30); tfQuantity.setBounds(130, 180, 200, 30);
-		lbLimitQuantity.setBounds(20, 220, 100, 30); tfLimitQuantity.setBounds(130, 220, 200, 30);
-		lbRemark.setBounds(20, 260, 100, 30); tfRemark.setBounds(130, 260, 200, 30);
-		btnAdd.setBounds(20, 310, 150, 50); btnCancel.setBounds(180, 310, 150, 50);
+		lbItemName.setBounds(20, 20, 100, 40); tfItemName.setBounds(170, 20, 240, 40);
+		lbBarcode.setBounds(20, 70, 100, 40); tfBarcode.setBounds(170, 70, 240, 40);
+		lbCost.setBounds(20, 120, 100, 40); tfCost.setBounds(170, 120, 240, 40);
+		lbSalePrice.setBounds(20, 170, 100, 40); tfSalePrice.setBounds(170, 170, 240, 40);
+		lbQuantity.setBounds(20, 220, 100, 40); tfQuantity.setBounds(170, 220, 240, 40);
+		lbLimitQuantity.setBounds(20, 270, 140, 40); tfLimitQuantity.setBounds(170, 270, 240, 40);
+		lbRemark.setBounds(20, 320, 100, 40); tfRemark.setBounds(170, 320, 240, 40);
+		btnCancel.setBounds(50, 390, 150, 50); btnAdd.setBounds(230, 390, 150, 50);
 
 		btnAdd.addActionListener(new ActionListener() {
 			@Override
@@ -92,18 +93,25 @@ public class AddAndUpdateItem extends JDialog{
 				String remark = tfRemark.getText();
 				String[] data = {itemName, barcode, cost, salePrice, quantity, limitQuantity, remark};
 				if(StockTable.isItemExist(itemName, barcode)){
-					JOptionPane.showMessageDialog(null, "Item already Exists.", "Error", JOptionPane.INFORMATION_MESSAGE);
+					JLabel label = new JLabel("ကုန်ပစ္စည်းရှိပီးသားဖြစ်နေပါသည်");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "ရှိပီးသား", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(!isEmpty(data)){
-					StockTable.insert(data);
 //					resetTextFields();
-					String selectedItem = Items.getSelectedItem();
-					Items.createItemListTable(StockTable.retrieveAll());
-					Items.removeAlreadyItems();
-					if(selectedItem != null) Items.setSelectedItem(selectedItem); else Items.setSelectedItem(itemName);
-					if(tfPurchasePrice != null) tfPurchasePrice.setText(cost);
-					setVisible(false);
-					dispose();
+					JLabel label = new JLabel("ထည့်မှာသေချာပါပီလား။ ပြန်ဖျက်၍ မရနိုင်ပါ။");
+					label.setFont(Fonts.pyisuNormal15);
+					int result = JOptionPane.showConfirmDialog(null, label, "သေချာလား", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if(result == JOptionPane.YES_OPTION){
+							StockTable.insert(data);
+							String selectedItem = Items.getSelectedItem();
+							Items.createItemListTable(StockTable.retrieveAll());
+							Items.removeAlreadyItems();
+							if(selectedItem != null) Items.setSelectedItem(selectedItem); else Items.setSelectedItem(itemName);
+							if(tfPurchasePrice != null) tfPurchasePrice.setText(cost);
+							setVisible(false);
+							dispose();
+					}
 				}
 			}
 		});
@@ -120,20 +128,20 @@ public class AddAndUpdateItem extends JDialog{
 	public AddAndUpdateItem(Frame parent, JNumberTextField tfPurchasePrice){
 		this(parent);
 		this.tfPurchasePrice = tfPurchasePrice;
-		setSize(360, 360);
+		setSize(450, 450);
 
 		lbQuantity.setVisible(false);
 		tfQuantity.setText("0");
 		tfQuantity.setVisible(false);
-
-		lbLimitQuantity.setBounds(20, 180, 100, 30); tfLimitQuantity.setBounds(130, 180, 200, 30);
-		lbRemark.setBounds(20, 220, 100, 30); tfRemark.setBounds(130, 220, 200, 30);
-		btnAdd.setBounds(20, 270, 150, 50); btnCancel.setBounds(180, 270, 150, 50);
+		
+		lbLimitQuantity.setBounds(20, 220, 100, 40); tfLimitQuantity.setBounds(170, 220, 240, 40);
+		lbRemark.setBounds(20, 270, 140, 40); tfRemark.setBounds(170, 270, 240, 40);
+		btnCancel.setBounds(50, 340, 150, 50); btnAdd.setBounds(230, 340, 150, 50);
 	}
 
 	public AddAndUpdateItem(Frame parent, Object[] input, String toFilter){
 		this(parent);
-		setTitle("Update Item Details");
+		setTitle("ကုန်ပစ္စည်းအချက်အလက်ပြောင်းလဲခြင်း");
 
 		tfItemName.setText((String)input[1]);
 		tfBarcode.setText((String)input[2]);
@@ -144,8 +152,8 @@ public class AddAndUpdateItem extends JDialog{
 		tfRemark.setText((String)input[7]);
 
 		btnAdd.setVisible(false);
-		btnUpdate = new JButton("Update"); add(btnUpdate);
-		btnUpdate.setBounds(20, 310, 150, 50);
+		btnUpdate = new JButton("ပြောင်းလဲမည်"); btnUpdate.setFont(Fonts.pyisuNormal15); add(btnUpdate);
+		btnUpdate.setBounds(230, 390, 150, 50);
 
 		btnUpdate.addActionListener(new ActionListener() {
 			@Override
@@ -161,10 +169,14 @@ public class AddAndUpdateItem extends JDialog{
 				String[] data = {itemName, barcode, cost, salePrice, quantity, quantityLimit, remark};
 
 				if(!tfItemName.getText().equals(input[1]) && StockTable.isItemNameExist(itemName)){
-					JOptionPane.showMessageDialog(null, "ItemName already Exists.", "Error", JOptionPane.INFORMATION_MESSAGE);
+					JLabel label = new JLabel("ကုန်ပစ္စည်းအမည်ရှိပီးသားဖြစ်နေပါသည်");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "ရှိပီးသား", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(!tfBarcode.getText().equals(input[2]) && StockTable.isBarcodeExist(barcode)){
-					JOptionPane.showMessageDialog(null, "Barcode already Exists.", "Error", JOptionPane.INFORMATION_MESSAGE);
+					JLabel label = new JLabel("ဘားကုဒ်ရှိပီးသားဖြစ်နေပါသည်");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "ရှိပီးသား", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(!isEmpty(data)){
 					StockTable.update(data, (int)input[0]);
@@ -179,10 +191,12 @@ public class AddAndUpdateItem extends JDialog{
 	}
 
 	private boolean isEmpty(String[] data){
-		String[] labels = {"Item Name", "Barcode", "Purchase Price", "Sale Price", "Quantity", "Quantity Limit"};
+		String[] labels = {"ကုန်ပစ္စည်းအမည်", "ဘားကုဒ်", "ကုန်ကျစရိတ်", "ရောင်းဈေး", "အရေအတွက်", "သတ်မှတ်အရေအတွက်"};
 		for(int i = 0; i < data.length-1; i++){
 			if(data[i].equals("")){
-				JOptionPane.showMessageDialog(null, labels[i]+" cannot be empty.", "Empty Error", JOptionPane.INFORMATION_MESSAGE);
+				JLabel label = new JLabel(labels[i]+"ထည့်ပါ");
+				label.setFont(Fonts.pyisuNormal15);
+				JOptionPane.showMessageDialog(null, label, "အလွတ်မဖြစ်နိုင်ပါ", JOptionPane.INFORMATION_MESSAGE);
 				return true;
 			}
 		}

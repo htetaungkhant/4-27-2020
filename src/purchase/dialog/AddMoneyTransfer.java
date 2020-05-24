@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
@@ -11,9 +12,15 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.alee.extended.date.WebDateField;
 
+import database.PurchaseTable;
 import external_classes.Fonts;
 import external_classes.JNumberTextField;
 import external_classes.MyTextField;
@@ -26,7 +33,7 @@ public class AddMoneyTransfer extends JDialog{
 			ImageIcon frameIcon = new ImageIcon("picture/money_transfer_icon.png");
 			setIconImage(frameIcon.getImage());
 			setTitle("ငွေလွဲစာရင်းသွင်းခြင်း");
-			setSize(350, 450);
+			setSize(400, 550);
 			setResizable(false);
 			setLocationRelativeTo(null);
 			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -68,9 +75,13 @@ public class AddMoneyTransfer extends JDialog{
 			JNumberTextField tfPaidAmount = new JNumberTextField(10);
 			tfPaidAmount.setFont(Fonts.pyisuNormal15);
 			tfPaidAmount.setHorizontalAlignment(JLabel.RIGHT);
-			JButton btnAdd = new JButton("ထည့်မည်။");
+			JLabel lbRemark = new JLabel("မှတ်ချက်");
+			lbRemark.setFont(Fonts.pyisuNormal15);
+			JTextArea taRemark = new JTextArea();
+			taRemark.setFont(Fonts.pyisuNormal15);
+			JButton btnAdd = new JButton("ထည့်မည်");
 			btnAdd.setFont(Fonts.pyisuNormal16);
-			JButton btnCancel = new JButton("ပယ်ဖျက်မည်။");
+			JButton btnCancel = new JButton("မလုပ်ဆောင်ပါ");
 			btnCancel.setFont(Fonts.pyisuNormal16);
 			
 			add(lbDate);
@@ -84,28 +95,65 @@ public class AddMoneyTransfer extends JDialog{
 			add(tfRemainingAmount);
 			add(lbPaidAmount);
 			add(tfPaidAmount);
-			add(btnAdd);
+			add(lbRemark);
+			JScrollPane jspRemark = new JScrollPane(taRemark);
+			add(jspRemark);
 			add(btnCancel);
+			add(btnAdd);
 			
-			lbDate.setBounds(30, 30, 100, 40); datePicker.setBounds(140, 30, 100, 40);
+			lbDate.setBounds(30, 20, 100, 40); datePicker.setBounds(140, 20, 100, 40);
 			btnChooseInvoice.setBounds(70, 80, 180, 40);
 			lbSupplier.setBounds(30, 130, 100, 40); tfSupplier.setBounds(140, 130, 160, 40);
 			lbInvoiceNo.setBounds(30, 180, 100, 40); tfInvoiceNo.setBounds(140, 180, 160, 40);
 			lbRemainingAmount.setBounds(30, 230, 100, 40); tfRemainingAmount.setBounds(140, 230, 160, 40);
 			lbPaidAmount.setBounds(30, 280, 100, 40); tfPaidAmount.setBounds(140, 280, 160, 40);
-			btnAdd.setBounds(40, 350, 120, 40); btnCancel.setBounds(180, 350, 120, 40);
+			lbRemark.setBounds(30, 330, 100, 40); jspRemark.setBounds(140, 330, 220, 100);
+			btnCancel.setBounds(40, 450, 120, 40); btnAdd.setBounds(180, 450, 120, 40);
+			
+			JLabel selectedInvoiceNo = new JLabel();
 			
 			btnChooseInvoice.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					JDialog d = new JDialog(Main.frame, "ငွေလွဲဘောင်ချာရွေးပါ",true);
-					Purchase invoiceList = new Purchase(d, btnChooseInvoice, tfSupplier, tfInvoiceNo, tfRemainingAmount);
+					Purchase invoiceList = new Purchase(d, btnChooseInvoice, tfSupplier, tfInvoiceNo, tfRemainingAmount, selectedInvoiceNo);
 					d.add(invoiceList);
 					ImageIcon frameIcon = new ImageIcon("picture/purchase_record_icon.png");
 					d.setIconImage(frameIcon.getImage());
 					d.setSize(1000, 600);
 					d.setLocationRelativeTo(null);
 					d.setVisible(true);
+				}
+			});
+			
+			btnAdd.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if(tfSupplier.getText().equals("")) {
+						JLabel label = new JLabel("ငွေလွဲဘောင်ချာရွေးပါ");
+						label.setFont(Fonts.pyisuNormal15);
+						JOptionPane.showMessageDialog(null, label, "မှားယွင်းမှု", JOptionPane.INFORMATION_MESSAGE);
+					}
+					else if(tfPaidAmount.getText().equals("")) {
+						JLabel label = new JLabel("ပေးငွေရေးပါ");
+						label.setFont(Fonts.pyisuNormal15);
+						JOptionPane.showMessageDialog(null, label, "မှားယွင်းမှု", JOptionPane.INFORMATION_MESSAGE);						
+					}
+					else if(Long.parseLong(tfRemainingAmount.getText()) < Long.parseLong(tfPaidAmount.getText())) {
+						JLabel label = new JLabel("ပေးငွေပမာဏသည် ကျန်ငွေထက်များနေပါသည်");
+						label.setFont(Fonts.pyisuNormal15);
+						JOptionPane.showMessageDialog(null, label, "မှားယွင်းမှု", JOptionPane.INFORMATION_MESSAGE);								
+					}
+					else {
+						if(PurchaseTable.updatePaidAmount( Integer.parseInt(selectedInvoiceNo.getText()), Integer.parseInt(tfPaidAmount.getText()))) {
+							
+						}
+						else {
+							JLabel label = new JLabel("တစ်ခုခုမှားယွင်းနေပါသည်");
+							label.setFont(Fonts.pyisuNormal15);
+							JOptionPane.showMessageDialog(null, label, "မှားယွင်းမှု", JOptionPane.INFORMATION_MESSAGE);									
+						}
+					}
 				}
 			});
 			

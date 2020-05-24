@@ -84,7 +84,7 @@ public class Sale extends JPanel{
 		btnChooseCustomer = new JButton("Choose Customer");
 		btnChooseCustomer.setFont(Fonts.pyisuNormal15);
 		btnChooseCustomer.setPreferredSize(new Dimension(230, 40));
-		tfInvoiceNumber = new JNumberTextField("Invoice Number", 10);
+		tfInvoiceNumber = new JNumberTextField("ဘောင်ချာနံပါတ်", 10);
 		tfInvoiceNumber.setFont(Fonts.pyisuNormal15);
 		tfInvoiceNumber.setPreferredSize(new Dimension(110,40));
 		tfInvoiceNumber.setHorizontalAlignment(JLabel.CENTER);

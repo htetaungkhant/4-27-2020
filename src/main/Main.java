@@ -56,31 +56,36 @@ public class Main{
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setLayout(new BoxLayout(menuBar, BoxLayout.X_AXIS));
 
-		JMenu sale = new JMenu("Sale");
-		JMenu purchase = new JMenu("Purchase");
-		JMenu stock = new JMenu("Stock");
-		JMenu cash = new JMenu("Cash");
-		JMenu saving = new JMenu("Saving");
-		JMenu logout = new JMenu("Logout");
-
+		JMenu sale = new JMenu("အရောင်း");
 		sale.setIcon(new ImageIcon("picture/sale_icon.png"));
+		sale.setFont(Fonts.pyisuNormal16);
+		JMenu purchase = new JMenu("အဝယ်");
+		purchase.setIcon(new ImageIcon("picture/purchase_icon.png"));
+		purchase.setFont(Fonts.pyisuNormal16);
+		JMenu stock = new JMenu("ကုန်ပစ္စည်း");
+		stock.setIcon(new ImageIcon("picture/stock_icon.png"));
+		stock.setFont(Fonts.pyisuNormal16);
+		JMenu cash = new JMenu("Cash");
+		cash.setIcon(new ImageIcon("picture/account_icon.png"));
+		JMenu saving = new JMenu("စုကြေး");
+		saving.setIcon(new ImageIcon("picture/saving_icon.png"));
+		saving.setFont(Fonts.pyisuNormal16);
+		JMenu logout = new JMenu("ထွက်ရန်");
+		logout.setIcon(new ImageIcon("picture/logout_icon.png"));
+		logout.setFont(Fonts.pyisuNormal16);
+
 		menuBar.add(sale);
 		menuBar.add(new JSeparator(SwingConstants.VERTICAL));
-		purchase.setIcon(new ImageIcon("picture/purchase_icon.png"));
 		menuBar.add(purchase);
 		menuBar.add(new JSeparator(SwingConstants.VERTICAL));
-		stock.setIcon(new ImageIcon("picture/stock_icon.png"));
 		menuBar.add(stock);
 		menuBar.add(new JSeparator(SwingConstants.VERTICAL));
-		saving.setIcon(new ImageIcon("picture/saving_icon.png"));
 		menuBar.add(saving);
 		menuBar.add(new JSeparator(SwingConstants.VERTICAL));
-		cash.setIcon(new ImageIcon("picture/account_icon.png"));
 //		menuBar.add(cash);
 //		menuBar.add(new JSeparator(SwingConstants.VERTICAL));
 		menuBar.add(Box.createHorizontalGlue());
 		menuBar.add(new JSeparator(SwingConstants.VERTICAL));
-		logout.setIcon(new ImageIcon("picture/logout_icon.png"));
 		menuBar.add(logout);
 
 		//Menu Items for Sale Menu
@@ -100,34 +105,38 @@ public class Main{
 		sale.add(customer);
 		sale.add(reports);
 		sale.add(exit);
-		sale.setMnemonic(KeyEvent.VK_S);
+//		sale.setMnemonic(KeyEvent.VK_S);
 
 		//Menu Items for Purchase Menu
-		JMenuItem purchaseRecord = new JMenuItem("Purchase Records", new ImageIcon("picture/purchase_record_icon.png"));
+		JMenuItem purchaseRecord = new JMenuItem("အဝယ်ဘောင်ချာများ", new ImageIcon("picture/purchase_record_icon.png"));
+		purchaseRecord.setFont(Fonts.pyisuNormal15);
 		KeyStroke keyStrokeToPurchaseRecord = KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_DOWN_MASK);
 		purchaseRecord.setAccelerator(keyStrokeToPurchaseRecord);
-		JMenuItem transferMoney = new JMenuItem("Money Transfer", new ImageIcon("picture/money_transfer_icon.png"));
-		JMenuItem supplier = new JMenuItem("Suppliers", new ImageIcon("picture/supplier_icon.png"));
+		JMenuItem transferMoney = new JMenuItem("ငွေလွဲစာရင်း", new ImageIcon("picture/money_transfer_icon.png"));
+		transferMoney.setFont(Fonts.pyisuNormal15);
+		JMenuItem supplier = new JMenuItem("ကုန်ပေးသူများ", new ImageIcon("picture/supplier_icon.png"));
+		supplier.setFont(Fonts.pyisuNormal15);
 		KeyStroke keyStrokeToSupplier = KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.CTRL_DOWN_MASK);
 		supplier.setAccelerator(keyStrokeToSupplier);
 		purchase.add(purchaseRecord);
 		purchase.add(transferMoney);
 		purchase.add(supplier);
-		purchase.setMnemonic(KeyEvent.VK_P);
+//		purchase.setMnemonic(KeyEvent.VK_P);
 
 		//Menu Items for Stock Menu
-		JMenuItem item = new JMenuItem("Items", new ImageIcon("picture/items_icon.png"));
+		JMenuItem item = new JMenuItem("ကုန်ပစ္စည်းစာရင်း", new ImageIcon("picture/items_icon.png"));
+		item.setFont(Fonts.pyisuNormal15);
 		KeyStroke keyStrokeToItem = KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK);
 		item.setAccelerator(keyStrokeToItem);
 		stock.add(item);
-		stock.setMnemonic(KeyEvent.VK_T);
+//		stock.setMnemonic(KeyEvent.VK_T);
 
 		//Menu Items for Saving Menu
 		JMenuItem dailyRecord = new JMenuItem("Daily Records", new ImageIcon("picture/add_daily_records_icon.png"));
 		JMenuItem savingPeople = new JMenuItem("Saving People", new ImageIcon("picture/saving_people_icon.png"));
 		saving.add(dailyRecord);
 		saving.add(savingPeople);
-		saving.setMnemonic(KeyEvent.VK_V);
+//		saving.setMnemonic(KeyEvent.VK_V);
 
 		//Menu Items for Accounts Menu
 		JMenuItem savingAccount = new JMenuItem("Saving Account");
@@ -136,7 +145,7 @@ public class Main{
 		cash.add(totalAccount);
 		cash.add(savingAccount);
 		cash.add(sellingAccount);
-		cash.setMnemonic(KeyEvent.VK_C);
+//		cash.setMnemonic(KeyEvent.VK_C);
 
 		frame.setJMenuBar(menuBar);
 		//End of creating Menu Bar
@@ -219,7 +228,9 @@ public class Main{
 
 		exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int result = JOptionPane.showConfirmDialog(null, " Are you sure to exit?", "Exit?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				JLabel label = new JLabel("ထွက်မှာသေချာပီလား");
+				label.setFont(Fonts.pyisuNormal15);
+				int result = JOptionPane.showConfirmDialog(null, label, "ထွက်မှာလား?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if(result == JOptionPane.YES_OPTION){
 					System.exit(0);
 				}
@@ -232,7 +243,7 @@ public class Main{
 				pane.removeAll();
 				pane.revalidate();
 				pane.repaint();
-				Purchase purchase = new Purchase();
+				Purchase purchase = new Purchase(false);
 				pane.add(purchase);
 			}
 		});

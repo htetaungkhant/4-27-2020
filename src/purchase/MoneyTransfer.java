@@ -83,7 +83,7 @@ public class MoneyTransfer extends JPanel{
 
 		//creating Top Right Panel
 		JPanel topRightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		JButton btnAddNewRecord = new JButton("ငွေလွဲစာရင်းသွင်းရန်");
+		JButton btnAddNewRecord = new JButton("ငွေလွဲစာရင်းထည့်ရန်");
 		btnAddNewRecord.setFont(Fonts.pyisuNormal15);
 		btnAddNewRecord.setPreferredSize(new Dimension(170, 40));
 		topRightPanel.add(btnAddNewRecord);
@@ -117,7 +117,7 @@ public class MoneyTransfer extends JPanel{
 		btnChooseSupplier.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JDialog d = new JDialog(Main.frame, "Choose Supplier",true);
+				JDialog d = new JDialog(Main.frame, "ကုန်ပေးသူများ",true);
 				SupplierInfo supplierList = new SupplierInfo(d, btnChooseSupplier);
 				d.add(supplierList);
 				ImageIcon frameIcon = new ImageIcon("picture/supplier_icon.png");

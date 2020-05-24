@@ -1,5 +1,7 @@
 package external_classes;
 
+import java.text.DecimalFormat;
+
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;

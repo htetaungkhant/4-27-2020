@@ -29,6 +29,7 @@ import com.alee.extended.button.WebSwitch;
 import com.alee.managers.style.StyleId;
 
 import database.StockTable;
+import external_classes.Fonts;
 import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import main.Main;
@@ -58,10 +59,12 @@ public class Items extends JPanel{
 
 		//creating Top Left Panel
 		JPanel topLeftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JButton btnAddItem = new JButton("Add New Item");
-		btnAddItem.setPreferredSize(new Dimension(150, 40));
-		btnItem2Purchase = new JButton("Display Items to buy");
-		btnItem2Purchase.setPreferredSize(new Dimension(200, 40));
+		JButton btnAddItem = new JButton("ကုန်ပစ္စည်းအသစ်ထည့်ရန်");
+		btnAddItem.setFont(Fonts.pyisuNormal15);
+		btnAddItem.setPreferredSize(new Dimension(200, 40));
+		btnItem2Purchase = new JButton("ဝယ်စာရင်း");
+		btnItem2Purchase.setFont(Fonts.pyisuNormal15);
+		btnItem2Purchase.setPreferredSize(new Dimension(150, 40));
 		topLeftPanel.add(btnAddItem);
 		topLeftPanel.add(btnItem2Purchase);
 		topPanel.add(topLeftPanel);
@@ -69,13 +72,16 @@ public class Items extends JPanel{
 		//creating Top Right Panel
 		JPanel topRightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		WebSwitch searchByBarcode = new WebSwitch(StyleId.wswitch);
-		JLabel byName = new JLabel("Name");
+		JLabel byName = new JLabel("ကုန်အမည်");
+		byName.setFont(Fonts.pyisuNormal14);
 		byName.setHorizontalAlignment(JLabel.CENTER);
-		JLabel byBarcode = new JLabel("Barcode");
+		JLabel byBarcode = new JLabel("ဘားကုဒ်");
+		byBarcode.setFont(Fonts.pyisuNormal14);
 		byBarcode.setHorizontalAlignment(JLabel.CENTER);
 		searchByBarcode.setSwitchComponents(byBarcode, byName);
-		searchByBarcode.setPreferredSize(120, 40);
-		MyTextField tfSearch = new MyTextField(30, "Search your Item");
+		searchByBarcode.setPreferredSize(130, 40);
+		MyTextField tfSearch = new MyTextField(30, "ကုန်ပစ္စည်းရှာရန်");
+		tfSearch.setFont(Fonts.pyisuNormal15);
 		tfSearch.setPreferredSize(new Dimension(250,40));
 		topRightPanel.add(searchByBarcode);
 		topRightPanel.add(tfSearch);
@@ -281,7 +287,7 @@ public class Items extends JPanel{
 
 	public static void createItemListTable(Object[][] input){
 		tableData = input;
-		columnNames = new String[]{"ID", "Item Name", "Barcode", "Cost", "Sale Price", "Quantity","Quantity Limit","Remark"};
+		columnNames = new String[]{"ID", "ကုန်ပစ္စည်းအမည်", "ဘားကုဒ်", "ကုန်ကျစရိတ်", "ရောင်းဈေး", "အရေအတွက်", "သတ်မှတ်အရေအတွက်","မှတ်ချက်"};
 
 		modelForItemList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {
@@ -292,8 +298,10 @@ public class Items extends JPanel{
 	        }
 		};
 		itemList.setModel(modelForItemList);
-		itemList.getTableHeader().setPreferredSize(new Dimension(0, 40));
+		itemList.getTableHeader().setPreferredSize(new Dimension(0, 50));
+		itemList.getTableHeader().setFont(Fonts.pyisuNormal16);
 		itemList.setRowHeight(40);
+		itemList.setFont(Fonts.pyisuNormal15);
 		itemList.removeColumn(itemList.getColumnModel().getColumn(0));
 //		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 //		rightRenderer.setHorizontalAlignment( JLabel.RIGHT );

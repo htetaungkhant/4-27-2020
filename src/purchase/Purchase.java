@@ -56,7 +56,10 @@ public class Purchase extends JPanel{
 
 	private static JButton btnAddNewRecord;
 	
-	public Purchase(){
+	private static Boolean forMoneyTransfer;
+	
+	public Purchase(Boolean forMoneyTransfer){
+		this.forMoneyTransfer = forMoneyTransfer;
 		setLayout(new BorderLayout());
 
 		//creating Top Panel
@@ -64,15 +67,19 @@ public class Purchase extends JPanel{
 
 		//creating Top Left Panel
 		JPanel topLeftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JLabel lbStartDate = new JLabel("Start Date");
+		JLabel lbStartDate = new JLabel("စရက်");
+		lbStartDate.setFont(Fonts.pyisuNormal15);
 		datePicker1=new WebDateField();
+		datePicker1.setFont(Fonts.pyisuNormal15);
 		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.MONTH, -1);
+		calendar.add(Calendar.MONTH, -2);
 		datePicker1.setDate(calendar.getTime());
 		datePicker1.setAllowUserInput(false);
 		datePicker1.setPreferredSize(100, 40);
-		JLabel lbEndDate = new JLabel("End Date");
+		JLabel lbEndDate = new JLabel("ဆုံးရက်");
+		lbEndDate.setFont(Fonts.pyisuNormal15);
 		datePicker2=new WebDateField(new Date());
+		datePicker2.setFont(Fonts.pyisuNormal15);
 		datePicker2.setAllowUserInput(false);
 		datePicker2.setPreferredSize(100, 40);
 //		String supplierList[]=SupplierTable.retrieveSupplierNamesOnly();
@@ -81,8 +88,10 @@ public class Purchase extends JPanel{
 //		jcbSupplierList.setSelectedIndex(0);
 //		jcbSupplierList.setPreferredSize(new Dimension(150, 40));
 		btnChooseSupplier = new JButton("Choose Supplier");
-		btnChooseSupplier.setPreferredSize(new Dimension(150, 40));
+		btnChooseSupplier.setFont(Fonts.pyisuNormal15);
+		btnChooseSupplier.setPreferredSize(new Dimension(230, 40));
 		tfInvoiceNumber = new JNumberTextField("ဘောင်ချာနံပါတ်", 10);
+		tfInvoiceNumber.setFont(Fonts.pyisuNormal15);
 		tfInvoiceNumber.setPreferredSize(new Dimension(110,40));
 		tfInvoiceNumber.setHorizontalAlignment(JLabel.CENTER);
 		topLeftPanel.add(lbStartDate);
@@ -95,7 +104,8 @@ public class Purchase extends JPanel{
 
 		//creating Top Right Panel
 		JPanel topRightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		btnAddNewRecord = new JButton("Add New Record");
+		btnAddNewRecord = new JButton("ဝယ်စာရင်းထည့်ရန်");
+		btnAddNewRecord.setFont(Fonts.pyisuNormal15);
 		btnAddNewRecord.setPreferredSize(new Dimension(150, 40));
 		topRightPanel.add(btnAddNewRecord);
 		topPanel.add(topRightPanel, BorderLayout.EAST);
@@ -128,7 +138,8 @@ public class Purchase extends JPanel{
 		btnChooseSupplier.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JDialog d = new JDialog(Main.frame, "Choose Supplier",true);
+				String beforeSupplier = btnChooseSupplier.getText();
+				JDialog d = new JDialog(Main.frame, "ကုန်ပေးသူများ",true);
 				SupplierInfo supplierList = new SupplierInfo(d, btnChooseSupplier);
 				d.add(supplierList);
 				ImageIcon frameIcon = new ImageIcon("picture/supplier_icon.png");
@@ -136,9 +147,11 @@ public class Purchase extends JPanel{
 				d.setSize(600, 500);
 				d.setLocationRelativeTo(null);
 				d.setVisible(true);
-				int row = getSelectedRow();
-				createPurchaseRecordTable();
-				if(row != -1) setSelectedRow(row);
+				if(!beforeSupplier.equals(btnChooseSupplier.getText())) createPurchaseRecordTable();
+				else {
+					int row = getSelectedRow();
+					if(row != -1) setSelectedRow(row);					
+				}
 			}
 		});
 
@@ -177,8 +190,8 @@ public class Purchase extends JPanel{
 		});
 	}
 	
-	public Purchase(JDialog d, JButton btnInput, MyTextField tfSupplier, JNumberTextField tfInvoiceNo, JNumberTextField tfRemainingAmount) {
-		this();
+	public Purchase(JDialog d, JButton btnInput, MyTextField tfSupplier, JNumberTextField tfInvoiceNo, JNumberTextField tfRemainingAmount, JLabel selectedInvoiceNo) {
+		this(true);
 		btnAddNewRecord.setVisible(false);
 		
 		purchaseRecordList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -188,7 +201,7 @@ public class Purchase extends JPanel{
 		JButton btnSelect = new JButton("ရွေးမည်");
 		btnSelect.setFont(Fonts.pyisuNormal15);
 		btnSelect.setPreferredSize(new Dimension(100, 40));
-		JButton btnCancel = new JButton("ပယ်ဖျက်မည်");
+		JButton btnCancel = new JButton("မလုပ်ဆောင်ပါ");
 		btnCancel.setFont(Fonts.pyisuNormal15);
 		btnCancel.setPreferredSize(new Dimension(100, 40));
 		bottomPanel.add(btnCancel);
@@ -203,6 +216,7 @@ public class Purchase extends JPanel{
 				tfSupplier.setText(""); tfSupplier.setEnabled(false);
 				tfInvoiceNo.setText(""); tfInvoiceNo.setEnabled(false);
 				tfRemainingAmount.setText("0"); tfRemainingAmount.setEnabled(false);
+				selectedInvoiceNo.setText("");
 				d.setVisible(false);
 				d.dispose();
 			}
@@ -222,6 +236,8 @@ public class Purchase extends JPanel{
 					tfSupplier.setText(""); tfSupplier.setText((String) purchaseRecordList.getValueAt(row, 1)); tfSupplier.setEnabled(true);
 					tfInvoiceNo.setText(""); tfInvoiceNo.setText((String) purchaseRecordList.getValueAt(row, 2)); tfInvoiceNo.setEnabled(true);
 					tfRemainingAmount.setText(""); tfRemainingAmount.setText(Integer.toString((int) purchaseRecordList.getValueAt(row, 3) - (int) purchaseRecordList.getValueAt(row, 4))); tfRemainingAmount.setEnabled(true);
+					selectedInvoiceNo.setText("");
+					selectedInvoiceNo.setText(Integer.toString((int)purchaseRecordList.getModel().getValueAt(row, 0)));
 					d.setVisible(false);
 					d.dispose();
 				}
@@ -230,8 +246,13 @@ public class Purchase extends JPanel{
 	}
 
 	public static void createPurchaseRecordTable(){
-		tableData = PurchaseTable.retrieve(datePicker1.getDate(), datePicker2.getDate(), btnChooseSupplier.getText(), tfInvoiceNumber.getText());
-		columnNames = new String[]{"ID", "Date", "Supplier", "Invoice Number", "Amount", "Paid Amount"};
+		if(forMoneyTransfer) {	
+			tableData = PurchaseTable.retrieveForMoneyTransfer(datePicker1.getDate(), datePicker2.getDate(), btnChooseSupplier.getText(), tfInvoiceNumber.getText());	
+		}
+		else {
+			tableData = PurchaseTable.retrieve(datePicker1.getDate(), datePicker2.getDate(), btnChooseSupplier.getText(), tfInvoiceNumber.getText());				
+		}
+		columnNames = new String[]{"ID", "ရက်စွဲ", "ကုန်ပေးသူ", "ဘောင်ချာနံပါတ်", "သင့်ငွေ", "ပေးငွေ"};
 
 		modelForPurchaseRecordList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {
@@ -242,8 +263,10 @@ public class Purchase extends JPanel{
 	        }
 		};
 		purchaseRecordList.setModel(modelForPurchaseRecordList);
-		purchaseRecordList.getTableHeader().setPreferredSize(new Dimension(0, 40));
+		purchaseRecordList.getTableHeader().setPreferredSize(new Dimension(0, 50));
+		purchaseRecordList.getTableHeader().setFont(Fonts.pyisuNormal16);
 		purchaseRecordList.setRowHeight(40);
+		purchaseRecordList.setFont(Fonts.pyisuNormal15);
 		purchaseRecordList.removeColumn(purchaseRecordList.getColumnModel().getColumn(0));
 	}
 
