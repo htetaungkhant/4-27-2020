@@ -15,6 +15,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import external_classes.ButtonTabComponent;
+import external_classes.Fonts;
 
 public class PosManager extends JPanel{
 	public PosManager() {

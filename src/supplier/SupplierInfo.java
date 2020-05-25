@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -171,7 +172,9 @@ public class SupplierInfo extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(supplierList.getSelectionModel().isSelectionEmpty()){
-					JOptionPane.showMessageDialog(null, "Please, select supplier", "Error", JOptionPane.INFORMATION_MESSAGE);
+					JLabel label = new JLabel("ကုန်ပေးသူရွေးပါ");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "ရွေးပါ", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else{
 					btnInput.setText((String) supplierList.getValueAt(supplierList.getSelectedRow(), 0));

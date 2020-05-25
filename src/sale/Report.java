@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import com.alee.extended.date.WebDateField;
 
 import database.DBConnection;
+import external_classes.Fonts;
 import main.Main;
 import net.miginfocom.swing.MigLayout;
 import net.sf.jasperreports.engine.JRException;
@@ -42,18 +43,23 @@ public class Report extends JPanel{
 
 			//creating Top Panel
 			JPanel topPanel = new JPanel(new MigLayout());
-			JLabel lbStartDate = new JLabel("Start Date");
+			JLabel lbStartDate = new JLabel("စရက်");
+			lbStartDate.setFont(Fonts.pyisuNormal15);
 			WebDateField datePicker1=new WebDateField();
+			datePicker1.setFont(Fonts.pyisuNormal15);
 			Calendar calendar = Calendar.getInstance();
 			calendar.add(Calendar.MONTH, -1);
 			datePicker1.setDate(calendar.getTime());
 			datePicker1.setAllowUserInput(false);
 			datePicker1.setPreferredSize(100, 40);
-			JLabel lbEndDate = new JLabel("End Date");
+			JLabel lbEndDate = new JLabel("ဆုံးရက်");
+			lbEndDate.setFont(Fonts.pyisuNormal15);
 			WebDateField datePicker2=new WebDateField(new Date());
+			datePicker2.setFont(Fonts.pyisuNormal15);
 			datePicker2.setAllowUserInput(false);
 			datePicker2.setPreferredSize(100, 40);
-			JButton btnGenerate = new JButton("Generate");
+			JButton btnGenerate = new JButton("စာရင်းချုပ်မည်");
+			btnGenerate.setFont(Fonts.pyisuNormal15);
 			btnGenerate.setPreferredSize(new Dimension(120, 40));
 			topPanel.add(lbStartDate);
 			topPanel.add(datePicker1, "wrap");

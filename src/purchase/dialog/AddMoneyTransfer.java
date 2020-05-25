@@ -20,11 +20,13 @@ import javax.swing.event.DocumentListener;
 
 import com.alee.extended.date.WebDateField;
 
+import database.MoneyTransferTable;
 import database.PurchaseTable;
 import external_classes.Fonts;
 import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import main.Main;
+import purchase.MoneyTransfer;
 import purchase.Purchase;
 
 public class AddMoneyTransfer extends JDialog{
@@ -102,13 +104,13 @@ public class AddMoneyTransfer extends JDialog{
 			add(btnAdd);
 			
 			lbDate.setBounds(30, 20, 100, 40); datePicker.setBounds(140, 20, 100, 40);
-			btnChooseInvoice.setBounds(70, 80, 180, 40);
-			lbSupplier.setBounds(30, 130, 100, 40); tfSupplier.setBounds(140, 130, 160, 40);
-			lbInvoiceNo.setBounds(30, 180, 100, 40); tfInvoiceNo.setBounds(140, 180, 160, 40);
-			lbRemainingAmount.setBounds(30, 230, 100, 40); tfRemainingAmount.setBounds(140, 230, 160, 40);
-			lbPaidAmount.setBounds(30, 280, 100, 40); tfPaidAmount.setBounds(140, 280, 160, 40);
+			btnChooseInvoice.setBounds(70, 80, 230, 40);
+			lbSupplier.setBounds(30, 130, 100, 40); tfSupplier.setBounds(140, 130, 180, 40);
+			lbInvoiceNo.setBounds(30, 180, 100, 40); tfInvoiceNo.setBounds(140, 180, 180, 40);
+			lbRemainingAmount.setBounds(30, 230, 100, 40); tfRemainingAmount.setBounds(140, 230, 180, 40);
+			lbPaidAmount.setBounds(30, 280, 100, 40); tfPaidAmount.setBounds(140, 280, 180, 40);
 			lbRemark.setBounds(30, 330, 100, 40); jspRemark.setBounds(140, 330, 220, 100);
-			btnCancel.setBounds(40, 450, 120, 40); btnAdd.setBounds(180, 450, 120, 40);
+			btnCancel.setBounds(60, 450, 120, 40); btnAdd.setBounds(200, 450, 120, 40);
 			
 			JLabel selectedInvoiceNo = new JLabel();
 			
@@ -129,24 +131,34 @@ public class AddMoneyTransfer extends JDialog{
 			btnAdd.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if(tfSupplier.getText().equals("")) {
+					
+					Date date = datePicker.getDate();
+					String amount = tfPaidAmount.getText();
+					String invoiceNo = selectedInvoiceNo.getText();
+					String supplier = tfSupplier.getText();
+					String remark = taRemark.getText();
+					
+					if(invoiceNo.equals("")) {
 						JLabel label = new JLabel("ငွေလွဲဘောင်ချာရွေးပါ");
 						label.setFont(Fonts.pyisuNormal15);
 						JOptionPane.showMessageDialog(null, label, "မှားယွင်းမှု", JOptionPane.INFORMATION_MESSAGE);
 					}
-					else if(tfPaidAmount.getText().equals("")) {
+					else if(amount.equals("")) {
 						JLabel label = new JLabel("ပေးငွေရေးပါ");
 						label.setFont(Fonts.pyisuNormal15);
 						JOptionPane.showMessageDialog(null, label, "မှားယွင်းမှု", JOptionPane.INFORMATION_MESSAGE);						
 					}
-					else if(Long.parseLong(tfRemainingAmount.getText()) < Long.parseLong(tfPaidAmount.getText())) {
+					else if(Long.parseLong(tfRemainingAmount.getText()) < Long.parseLong(amount)) {
 						JLabel label = new JLabel("ပေးငွေပမာဏသည် ကျန်ငွေထက်များနေပါသည်");
 						label.setFont(Fonts.pyisuNormal15);
-						JOptionPane.showMessageDialog(null, label, "မှားယွင်းမှု", JOptionPane.INFORMATION_MESSAGE);								
+						JOptionPane.showMessageDialog(null, label, "မှားယွင်းမှု", JOptionPane.ERROR_MESSAGE);								
 					}
 					else {
-						if(PurchaseTable.updatePaidAmount( Integer.parseInt(selectedInvoiceNo.getText()), Integer.parseInt(tfPaidAmount.getText()))) {
-							
+						if(PurchaseTable.addPaidAmount( Integer.parseInt(invoiceNo), Integer.parseInt(amount))) {
+							Object[] data = {date, Integer.parseInt(amount), Integer.parseInt(invoiceNo), supplier, remark};
+							MoneyTransferTable.insert(data);
+							setVisible(false);
+							dispose();
 						}
 						else {
 							JLabel label = new JLabel("တစ်ခုခုမှားယွင်းနေပါသည်");

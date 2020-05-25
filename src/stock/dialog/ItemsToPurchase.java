@@ -39,7 +39,7 @@ public class ItemsToPurchase extends JDialog{
 		JTable itemsList2Purchase = new JTable(modelForSupplierList);
 		itemsList2Purchase.getTableHeader().setPreferredSize(new Dimension(0, 50));
 		itemsList2Purchase.getTableHeader().setFont(Fonts.pyisuNormal16);
-		itemsList2Purchase.setRowHeight(50);
+		itemsList2Purchase.setRowHeight(40);
 		itemsList2Purchase.setFont(Fonts.pyisuNormal15);
 		JScrollPane tablePanel = new JScrollPane(itemsList2Purchase);
 		add(tablePanel, BorderLayout.CENTER);

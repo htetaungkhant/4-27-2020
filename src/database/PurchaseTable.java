@@ -134,7 +134,7 @@ public class PurchaseTable {
 		try {
 			PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 //			statement.setString(1, new SimpleDateFormat("yyyy-MM-dd").format(data[0]));
-			Date date = (java.util.Date)data[0];
+			Date date = (Date)data[0];
 			statement.setTimestamp(1, new Timestamp(date.getTime()));
 			statement.setString(2, (String) data[2]);
 			statement.setInt(3, (int) data[3]);
@@ -154,13 +154,29 @@ public class PurchaseTable {
 		return result;
 	}
 	
-	public static Boolean updatePaidAmount(int idpurchase, int amount) {
+	public static Boolean addPaidAmount(int idpurchase, int amount) {
 		Connection connection = DBConnection.createConnection();
 		String query = "UPDATE purchase SET paid_amount = paid_amount + ? WHERE idpurchase = ?";
 		try {
 			PreparedStatement statement = connection.prepareStatement(query);
 			statement.setInt(1, amount);
 			statement.setInt(2, idpurchase);
+			int affectedRows = statement.executeUpdate();
+			if(affectedRows == 0)	return false;
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public static Boolean subtractPaidAmount(int idmoney_transfer, int amount) {
+		Connection connection = DBConnection.createConnection();
+		String query = "UPDATE purchase p INNER JOIN money_transfer mt ON p.idpurchase = mt.invoice_number AND mt.idmoney_transfer = ? SET paid_amount = paid_amount - ?";
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setInt(1, idmoney_transfer);
+			statement.setInt(2, amount);
 			int affectedRows = statement.executeUpdate();
 			if(affectedRows == 0)	return false;
 			return true;

@@ -36,6 +36,7 @@ import database.PurchaseTable;
 import database.SaleDetailTable;
 import database.SaleTable;
 import database.StockTable;
+import external_classes.Fonts;
 import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import main.Main;
@@ -68,26 +69,34 @@ public class POS extends JPanel{
 		//creating Top Left Panel
 		JPanel topLeftPanel = new JPanel(new MigLayout());
 		btnCustomer = new JButton("Choose Customer");
+		btnCustomer.setFont(Fonts.pyisuNormal15);
 		btnCustomer.setPreferredSize(new Dimension(150, 40));
-		JLabel lbBarcode = new JLabel("Barcode");
+		JLabel lbBarcode = new JLabel("ဘားကုဒ်");
+		lbBarcode.setFont(Fonts.pyisuNormal15);
 		tfBarcode = new MyTextField();
+		tfBarcode.setFont(Fonts.pyisuNormal15);
 		tfBarcode.setPreferredSize(new Dimension(150, 40));
 		SwingUtilities.invokeLater(new Runnable() {
 		      public void run() {
 		        tfBarcode.requestFocusInWindow();
 		      }
 		    });
-		JLabel lbPrice = new JLabel("Price");
+		JLabel lbPrice = new JLabel("ဈေးနှုန်း");
+		lbPrice.setFont(Fonts.pyisuNormal15);
 		tfPrice = new JNumberTextField(10);
+		tfPrice.setFont(Fonts.pyisuNormal15);
 		tfPrice.setEditable(false);
 		tfPrice.setFocusable(false);
 		tfPrice.setHorizontalAlignment(JLabel.RIGHT);
 		tfPrice.setPreferredSize(new Dimension(100, 40));
-		JLabel lbQty = new JLabel("Qty");
+		JLabel lbQty = new JLabel("အရေအတွက်");
+		lbQty.setFont(Fonts.pyisuNormal15);
 		tfQty = new JNumberTextField(10);
+		tfQty.setFont(Fonts.pyisuNormal15);
 		tfQty.setHorizontalAlignment(JLabel.RIGHT);
 		tfQty.setPreferredSize(new Dimension(50, 40));
-		JButton btnAddItem = new JButton("ADD");
+		JButton btnAddItem = new JButton("ထည့်မည်");
+		btnAddItem.setFont(Fonts.pyisuNormal15);
 		btnAddItem.setPreferredSize(new Dimension(60, 40));
 		topLeftPanel.add(btnCustomer, "wrap");
 		topLeftPanel.add(lbBarcode, "split 2");
@@ -101,8 +110,10 @@ public class POS extends JPanel{
 
 		//creating Top Right Panel
 		JPanel topRightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		JLabel lbDate = new JLabel("Date");
+		JLabel lbDate = new JLabel("ရက်စွဲ");
+		lbDate.setFont(Fonts.pyisuNormal15);
 		datePicker = new WebDateField(new Date());
+		datePicker.setFont(Fonts.pyisuNormal15);
 		datePicker.setPreferredSize(120, 40);
 		datePicker.setAllowUserInput(false);
 		topRightPanel.add(lbDate);
@@ -114,7 +125,7 @@ public class POS extends JPanel{
 
 		//creating Table Panel
 		tableData = null;
-		columnNames = new String[]{"idstock", "Item Name", "Quantity", "cost", "Unit Price", "Amount", "Del"};
+		columnNames = new String[]{"idstock", "ကုန်ပစ္စည်းအမည်", "အရေအတွက်", "cost", "ဈေးနှုန်း", "သင့်ငွေ", "ဖျက်ရန်"};
 
 		modelForItemList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {
@@ -125,13 +136,16 @@ public class POS extends JPanel{
 			}
 		};
 		itemList = new JTable(modelForItemList);
+		itemList.getTableHeader().setPreferredSize(new Dimension(0, 50));
+		itemList.getTableHeader().setFont(Fonts.pyisuNormal16);
 		itemList.setRowHeight(40);
+		itemList.setFont(Fonts.pyisuNormal15);
 		itemList.removeColumn(itemList.getColumnModel().getColumn(0));
 		itemList.removeColumn(itemList.getColumnModel().getColumn(2));
 		TableColumn column5 = itemList.getColumnModel().getColumn(4);
 		column5.setMinWidth(40);
 		column5.setMaxWidth(100);
-		column5.setPreferredWidth(50);
+		column5.setPreferredWidth(60);
 
 		JScrollPane tablePanel = new JScrollPane(itemList);
 		add(tablePanel, BorderLayout.CENTER);
@@ -142,47 +156,58 @@ public class POS extends JPanel{
 
 		//creating Bottom Left Panel
 		JPanel bottomLeftPanel = new JPanel(new MigLayout());
-		JLabel lbRemark = new JLabel("Remark");
+		JLabel lbRemark = new JLabel("မှတ်ချက်");
+		lbRemark.setFont(Fonts.pyisuNormal15);
 //		lbRemark.setVerticalAlignment(JLabel.TOP);
-		taRemark = new JTextArea(7, 30);
+		taRemark = new JTextArea(5, 30);
+		taRemark.setFont(Fonts.pyisuNormal15);
 		bottomLeftPanel.add(lbRemark);
 		bottomLeftPanel.add(new JScrollPane(taRemark));
 		bottomPanel.add(bottomLeftPanel, BorderLayout.WEST);
 
 		//creating Bottom Right Panel
 		JPanel bottomRightPanel = new JPanel(new MigLayout());
-		JLabel lbTotalAmount = new JLabel("Total Amount");
+		JLabel lbTotalAmount = new JLabel("စုစုပေါင်းကျသင့်ငွေ");
+		lbTotalAmount.setFont(Fonts.pyisuNormal15);
 		tfTotalAmount = new JNumberTextField(10);
+		tfTotalAmount.setFont(Fonts.pyisuNormal15);
 		tfTotalAmount.setText("0");
 		tfTotalAmount.setEditable(false);
 		tfTotalAmount.setFocusable(false);
 		tfTotalAmount.setHorizontalAlignment(JLabel.RIGHT);
 		tfTotalAmount.setPreferredSize(new Dimension(120, 40));
-		JLabel lbNetAmount = new JLabel("Net Amount");
+		JLabel lbNetAmount = new JLabel("ရငွေ");
+		lbNetAmount.setFont(Fonts.pyisuNormal15);
 		tfNetAmount = new JNumberTextField(10);
+		tfNetAmount.setFont(Fonts.pyisuNormal15);
 		tfNetAmount.setHorizontalAlignment(JLabel.RIGHT);
 		tfNetAmount.setPreferredSize(new Dimension(120, 40));
-		JLabel lbDiscount = new JLabel("Discount");
+		JLabel lbDiscount = new JLabel("လျော့ငွေ");
+		lbDiscount.setFont(Fonts.pyisuNormal15);
 		tfDiscount = new JNumberTextField(10);
+		tfDiscount.setFont(Fonts.pyisuNormal15);
 		tfDiscount.setText("0");
 		tfDiscount.setEditable(false);
 		tfDiscount.setFocusable(false);
 		tfDiscount.setHorizontalAlignment(JLabel.RIGHT);
 		tfDiscount.setPreferredSize(new Dimension(120, 40));
-		JButton btnReset = new JButton("Reset");
-		btnReset.setPreferredSize(new Dimension(80, 40));
-		JButton btnSave = new JButton("Save");
-		btnSave.setPreferredSize(new Dimension(80, 40));
-		JButton btnPrint = new JButton("Print");
-		btnPrint.setPreferredSize(new Dimension(80, 40));
-		bottomRightPanel.add(lbTotalAmount);
-		bottomRightPanel.add(tfTotalAmount, "gapleft 20, wrap");
-		bottomRightPanel.add(lbNetAmount);
-		bottomRightPanel.add(tfNetAmount, "gapleft 20, wrap");
-		bottomRightPanel.add(lbDiscount);
-		bottomRightPanel.add(tfDiscount, "gapleft 20, wrap");
+		JButton btnReset = new JButton("အသစ်ပြန်စမည်");
+		btnReset.setFont(Fonts.pyisuNormal15);
+		btnReset.setPreferredSize(new Dimension(100, 40));
+		JButton btnSave = new JButton("သိမ်းဆည်းမည်");
+		btnSave.setFont(Fonts.pyisuNormal15);
+		btnSave.setPreferredSize(new Dimension(100, 40));
+		JButton btnPrint = new JButton("ဘောင်ချာထုတ်မည်");
+		btnPrint.setFont(Fonts.pyisuNormal15);
+		btnPrint.setPreferredSize(new Dimension(100, 40));
+		bottomRightPanel.add(lbTotalAmount, "span 2, align right");
+		bottomRightPanel.add(tfTotalAmount, "wrap");
+		bottomRightPanel.add(lbNetAmount, "span 2, align right");
+		bottomRightPanel.add(tfNetAmount, "wrap");
+		bottomRightPanel.add(lbDiscount, "span 2, align right");
+		bottomRightPanel.add(tfDiscount, "wrap");
 		bottomRightPanel.add(btnReset);
-		bottomRightPanel.add(btnSave, "split 2");
+		bottomRightPanel.add(btnSave);
 		bottomRightPanel.add(btnPrint);
 		bottomPanel.add(bottomRightPanel, BorderLayout.EAST);
 
@@ -192,7 +217,7 @@ public class POS extends JPanel{
 		btnCustomer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JDialog d = new JDialog(Main.frame, "Choose Customer",true);
+				JDialog d = new JDialog(Main.frame, "ဈေးဝယ်သူရွေးချယ်ခြင်း",true);
 				CustomerInfo customerList = new CustomerInfo(d, btnCustomer, existedCustomers);
 				d.add(customerList);
 				ImageIcon frameIcon = new ImageIcon("picture/customer_icon.png");
@@ -207,14 +232,20 @@ public class POS extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				Object[] itemDetail = StockTable.getItemDetail(tfBarcode.getText());
 				if(tfBarcode.getText().equals("")){
-					JOptionPane.showMessageDialog(null, "Please, fill barcode", "Error", JOptionPane.INFORMATION_MESSAGE);
+					JLabel label = new JLabel("ကျေးဇူးပြုု၍ ဘားကုဒ်ထည့်ပါ");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "ဘားကုဒ်မရှိမှု", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(itemDetail == null){
-					JOptionPane.showMessageDialog(null, "Invalid barcode", "Invalid", JOptionPane.ERROR_MESSAGE);
+					JLabel label = new JLabel("မဖြစ်နိုင်သော ဘားကုဒ်ထည့်ထားပါသည်");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "ဘားကုဒ်မှားယွင်းမှု", JOptionPane.ERROR_MESSAGE);
 					tfBarcode.setText("");
 				}
 				else if((int)itemDetail[4] == 0){
-					JOptionPane.showMessageDialog(null, "This item is Out of Stock", "Can't get", JOptionPane.INFORMATION_MESSAGE);
+					JLabel label = new JLabel("ကုန်ပစ္စည်းကုန်နေပါသည်");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "မရနိုင်ပါ", JOptionPane.ERROR_MESSAGE);
 					tfBarcode.setText("");
 				}
 				else{
@@ -323,17 +354,23 @@ public class POS extends JPanel{
 	public void addItemAction(){
 		Object[] itemDetail = StockTable.getItemDetail(tfBarcode.getText());
 		if(tfBarcode.getText().equals("")){
-			JOptionPane.showMessageDialog(null, "Please, fill barcode", "Error", JOptionPane.INFORMATION_MESSAGE);
+			JLabel label = new JLabel("ကျေးဇူးပြုု၍ ဘားကုဒ်ထည့်ပါ");
+			label.setFont(Fonts.pyisuNormal15);
+			JOptionPane.showMessageDialog(null, label, "ဘားကုဒ်မရှိမှု", JOptionPane.INFORMATION_MESSAGE);
 			tfQty.setText("");
 			tfPrice.setText("");
 			tfBarcode.requestFocus();
 		}
 		else if(itemDetail == null){
-			JOptionPane.showMessageDialog(null, "Invalid barcode", "Invalid", JOptionPane.ERROR_MESSAGE);
+			JLabel label = new JLabel("မဖြစ်နိုင်သော ဘားကုဒ်ထည့်ထားပါသည်");
+			label.setFont(Fonts.pyisuNormal15);
+			JOptionPane.showMessageDialog(null, label, "ဘားကုဒ်မှားယွင်းမှု", JOptionPane.ERROR_MESSAGE);
 			tfBarcode.setText("");
 		}
 		else if(tfQty.getText().equals("")){
-			JOptionPane.showMessageDialog(null, "Please, fill qty", "Error", JOptionPane.INFORMATION_MESSAGE);
+			JLabel label = new JLabel("ကျေးဇူးပြု၍ အရေအတွက်ထည့်ပါ");
+			label.setFont(Fonts.pyisuNormal15);
+			JOptionPane.showMessageDialog(null, label, "အရေအတွက်မရှိမှု", JOptionPane.INFORMATION_MESSAGE);
 		}
 		else if(Integer.parseInt(tfQty.getText()) == 0){
 			tfQty.setText("");
@@ -342,7 +379,9 @@ public class POS extends JPanel{
 			tfBarcode.requestFocus();
 		}
 		else if((int)itemDetail[4] < (Integer.parseInt(tfQty.getText())+getAlreadyItemQuantity((String) itemDetail[1], itemList))){
-			JOptionPane.showMessageDialog(null, "Can't get this quantity.", "Can't get", JOptionPane.ERROR_MESSAGE);
+			JLabel label = new JLabel("ကုန်ပစ္စည်းကုန်နေပါသည်");
+			label.setFont(Fonts.pyisuNormal15);
+			JOptionPane.showMessageDialog(null, label, "မရနိုင်ပါ", JOptionPane.ERROR_MESSAGE);
 		}
 		else{
 			int qty = Integer.parseInt(tfQty.getText());
@@ -356,11 +395,15 @@ public class POS extends JPanel{
 
 	public void saveAction(){
 		if(itemList.getRowCount() == 0){
-			JOptionPane.showMessageDialog(null, "Please, add some items for sale.", "Error", JOptionPane.INFORMATION_MESSAGE);
+			JLabel label = new JLabel("ကျေးဇူးပြု၍ ရောင်းရန်ကုန်ပစ္စည်းထည့်ပါ");
+			label.setFont(Fonts.pyisuNormal15);
+			JOptionPane.showMessageDialog(null, label, "ကုန်ပစ္စည်းမထည့်မှု", JOptionPane.INFORMATION_MESSAGE);
 			tfBarcode.requestFocus();
 		}
 		else if(tfNetAmount.getText().equals("")){
-			JOptionPane.showMessageDialog(null, "Please, fill suitable net amount.", "Error", JOptionPane.INFORMATION_MESSAGE);
+			JLabel label = new JLabel("ကျေးဇူးပြု၍ သင့်လျော်သောရငွေထည့်ပါ");
+			label.setFont(Fonts.pyisuNormal15);
+			JOptionPane.showMessageDialog(null, label, "ရငွေမထည့်မှု", JOptionPane.INFORMATION_MESSAGE);
 		}
 		else{
 			Date date = datePicker.getDate();
@@ -379,11 +422,15 @@ public class POS extends JPanel{
 				}
 				else{
 					SaleTable.delete(idsale);
-					JOptionPane.showMessageDialog(null, "Somethings worng!!!", "Error", JOptionPane.INFORMATION_MESSAGE);
+					JLabel label = new JLabel("တစ်စုံတစ်ခုမှားယွင်းနေပါသည်");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "မှားယွင်းမှု", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 			else{
-				JOptionPane.showMessageDialog(null, "Somethings worng!!!", "Error", JOptionPane.INFORMATION_MESSAGE);
+				JLabel label = new JLabel("တစ်စုံတစ်ခုမှားယွင်းနေပါသည်");
+				label.setFont(Fonts.pyisuNormal15);
+				JOptionPane.showMessageDialog(null, label, "မှားယွင်းမှု", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 	}

@@ -207,21 +207,27 @@ public class Items extends JPanel{
 
 		//creating Bottom Right Panel
 		JPanel bottomRightPanel = new JPanel();
-		JLabel lbPurchasePrice = new JLabel("Purchase Price");
+		JLabel lbPurchasePrice = new JLabel("ဝယ်ဈေး");
+		lbPurchasePrice.setFont(Fonts.pyisuNormal15);
 		lbPurchasePrice.setHorizontalAlignment(JLabel.RIGHT);
 		lbPurchasePrice.setPreferredSize(new Dimension(100, 40));
 		tfPurchasePrice = new JNumberTextField(10);
+		tfPurchasePrice.setFont(Fonts.pyisuNormal15);
 		tfPurchasePrice.setHorizontalAlignment(JLabel.RIGHT);
 		tfPurchasePrice.setPreferredSize(new Dimension(100, 40));
-		JLabel lbQuantity = new JLabel("Quantity");
+		JLabel lbQuantity = new JLabel("အရေအတွက်");
+		lbQuantity.setFont(Fonts.pyisuNormal15);
 		lbQuantity.setHorizontalAlignment(JLabel.RIGHT);
 		lbQuantity.setPreferredSize(new Dimension(100, 40));
 		JNumberTextField tfQuantity = new JNumberTextField(10);
+		tfQuantity.setFont(Fonts.pyisuNormal15);
 		tfQuantity.setHorizontalAlignment(JLabel.RIGHT);
 		tfQuantity.setPreferredSize(new Dimension(100, 40));
-		JButton btnCancel = new JButton("Cancel");
+		JButton btnCancel = new JButton("မလုပ်ဆောင်ပါ");
+		btnCancel.setFont(Fonts.pyisuNormal15);
 		btnCancel.setPreferredSize(new Dimension(100, 40));
-		JButton btnAdd = new JButton("Add");
+		JButton btnAdd = new JButton("ထည့်မည်");
+		btnAdd.setFont(Fonts.pyisuNormal15);
 		btnAdd.setPreferredSize(new Dimension(100, 40));
 
 		GroupLayout groupLayout = new GroupLayout(bottomRightPanel);
@@ -261,13 +267,19 @@ public class Items extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(itemList.getSelectionModel().isSelectionEmpty()){
-					JOptionPane.showMessageDialog(null, "Please, select item", "Error", JOptionPane.INFORMATION_MESSAGE);
+					JLabel label = new JLabel("ဝယ်ခဲ့သောကုန်ပစ္စည်းရွေးပါ");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "ကုန်ပစ္စည်းရွေးပါ", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(tfPurchasePrice.getText().equals("") || Integer.parseInt(tfPurchasePrice.getText())==0){
-					JOptionPane.showMessageDialog(null, "Please, enter suitable purchase price", "Error", JOptionPane.INFORMATION_MESSAGE);
+					JLabel label = new JLabel("သင့်လျှော်သောဝယ်ဈေးရေးပါ");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "ဝယ်ဈေးမှားယွင်းမှု", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(tfQuantity.getText().equals("") || Integer.parseInt(tfQuantity.getText())==0){
-					JOptionPane.showMessageDialog(null, "Please, enter suitable quantity", "Error", JOptionPane.INFORMATION_MESSAGE);
+					JLabel label = new JLabel("သင့်လျှော်သောအရေအတွက်ရေးပါ");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "အရေအတွက်မှားယွင်းမှု", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else{
 					d.setVisible(false);

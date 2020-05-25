@@ -1,40 +1,32 @@
 package tester;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
+import javax.swing.*;
 
-import database.DBConnection;
+import com.alee.laf.WebLookAndFeel;
 
+import external_classes.Fonts;
+
+import java.awt.*;
 public class Test2 {
-
-	public static void main(String[] args){
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.MONTH, -1);
-		Date date = calendar.getTime();
-		System.out.println(isExist(date, 1));
-	}
-
-	public static boolean isExist(Date date, int id){
-		Connection connection = DBConnection.createConnection();
-		String query = "SELECT sd.idsale_detail FROM sale_detail sd INNER JOIN sale s ON sd.invoice_number=s.idsale WHERE s.date>=? AND sd.item IN (SELECT item FROM purchase_detail pd WHERE pd.invoice_number=?)";
-		try {
-			PreparedStatement statement = connection.prepareStatement(query);
-			statement.setTimestamp(1, new Timestamp(date.getTime()));
-			statement.setInt(2, id);
-			ResultSet rs = statement.executeQuery();
-			if(rs.next()){
-				return true;
-			}
-			statement.close();
-			connection.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
+   public static void main(String args[]) {
+//	   WebLookAndFeel.install();
+      JFrame frame = new JFrame("Technologies");
+      JTabbedPane tabbedPane = new JTabbedPane();
+      JPanel panel1, panel2, panel3, panel4, panel5;
+      panel1 = new JPanel();
+      panel2 = new JPanel();
+      panel3 = new JPanel();
+      panel4 = new JPanel();
+      panel5 = new JPanel();
+      tabbedPane.addTab("Blockchain", panel1);
+      tabbedPane.addTab("Salesforce", panel2);
+      tabbedPane.addTab("SAS", panel3);
+      tabbedPane.addTab("Matlab ", panel4);
+      tabbedPane.addTab("Servlet", panel5);
+      tabbedPane.setFont(Fonts.pyisuNormal16);
+      frame.add(tabbedPane);
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      frame.setSize(660,350);
+      frame.setVisible(true);
+   }
 }

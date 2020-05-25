@@ -3,6 +3,7 @@ package purchase;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -16,14 +17,18 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import com.alee.extended.date.DateListener;
 import com.alee.extended.date.WebDateField;
 
+import database.MoneyTransferTable;
+import database.PurchaseTable;
 import external_classes.Fonts;
 import external_classes.JNumberTextField;
 import main.Main;
@@ -71,7 +76,7 @@ public class MoneyTransfer extends JPanel{
 		btnChooseSupplier.setPreferredSize(new Dimension(230, 40));
 		tfInvoiceNumber = new JNumberTextField("ဘောင်ချာနံပါတ်", 10);
 		tfInvoiceNumber.setFont(Fonts.pyisuNormal15);
-		tfInvoiceNumber.setPreferredSize(new Dimension(110,38));
+		tfInvoiceNumber.setPreferredSize(new Dimension(110, 40));
 		tfInvoiceNumber.setHorizontalAlignment(JLabel.CENTER);
 		topLeftPanel.add(lbStartDate);
 		topLeftPanel.add(datePicker1);
@@ -117,6 +122,7 @@ public class MoneyTransfer extends JPanel{
 		btnChooseSupplier.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String beforeSupplier = btnChooseSupplier.getText();
 				JDialog d = new JDialog(Main.frame, "ကုန်ပေးသူများ",true);
 				SupplierInfo supplierList = new SupplierInfo(d, btnChooseSupplier);
 				d.add(supplierList);
@@ -125,9 +131,11 @@ public class MoneyTransfer extends JPanel{
 				d.setSize(600, 500);
 				d.setLocationRelativeTo(null);
 				d.setVisible(true);
-				int row = getSelectedRow();
-				createMoneyTransferTable();
-				if(row != -1) setSelectedRow(row);
+				if(!beforeSupplier.equals(btnChooseSupplier.getText())) createMoneyTransferTable();
+				else {
+					int row = getSelectedID();
+					if(row != -1) setSelectedID(row);					
+				}
 			}
 		});
 
@@ -151,6 +159,27 @@ public class MoneyTransfer extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				AddMoneyTransfer addMoneyTransfer = new AddMoneyTransfer(Main.frame);
 				addMoneyTransfer.setVisible(true);
+				int row = getSelectedID();
+				createMoneyTransferTable();
+				if(row != -1) setSelectedID(row);		
+			}
+		});
+		
+		moneyTransferList.addMouseListener(new MouseAdapter(){
+			@Override
+			public void mouseClicked(MouseEvent e){
+				int row = moneyTransferList.getSelectedRow();
+					if(moneyTransferList.getSelectedColumn()==moneyTransferList.getColumnCount()-1){
+						JLabel label = new JLabel("ဖျက်မှာသေချာပီလား");
+						label.setFont(Fonts.pyisuNormal15);
+						int result = JOptionPane.showConfirmDialog(null, label, "ဖျက်မှာလား", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+						int idmoney_transfer = (int)moneyTransferList.getModel().getValueAt(row, 0);
+						int amount = (int)moneyTransferList.getValueAt(row, 3);
+						if(result == JOptionPane.YES_OPTION  && PurchaseTable.subtractPaidAmount( idmoney_transfer, amount)){
+							MoneyTransferTable.delete(idmoney_transfer);
+							createMoneyTransferTable();
+						}
+					}
 			}
 		});
 
@@ -167,8 +196,8 @@ public class MoneyTransfer extends JPanel{
 	}
 
 	public static void createMoneyTransferTable(){
-		tableData = null;		//PurchaseTable.retrieve(datePicker1.getDate(), datePicker2.getDate(), btnChooseSupplier.getText(), tfInvoiceNumber.getText());
-		columnNames = new String[]{"ID", "ရက်စွဲ", "ငွေလွဲလက်ခံသူ","ဘောင်ချာနံပါတ်", "ပေးငွေ", "မှတ်ချက်"};
+		tableData = MoneyTransferTable.retrieve(datePicker1.getDate(), datePicker2.getDate(), btnChooseSupplier.getText(), tfInvoiceNumber.getText());		//PurchaseTable.retrieve(datePicker1.getDate(), datePicker2.getDate(), btnChooseSupplier.getText(), tfInvoiceNumber.getText());
+		columnNames = new String[]{"ID", "ရက်စွဲ", "ငွေလွဲလက်ခံသူ","ဘောင်ချာနံပါတ်", "ပေးငွေ", "မှတ်ချက်", "ဖျက်ရန်"};
 
 		modelFormoneyTransferList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {
@@ -184,13 +213,26 @@ public class MoneyTransfer extends JPanel{
 		moneyTransferList.setRowHeight(40);
 		moneyTransferList.setFont(Fonts.pyisuNormal15);
 		moneyTransferList.removeColumn(moneyTransferList.getColumnModel().getColumn(0));
+		TableColumn column7 = moneyTransferList.getColumnModel().getColumn(5);
+//		column7.setMinWidth(40);
+		column7.setMaxWidth(100);
+		column7.setPreferredWidth(60);
 	}
 
-	public static int getSelectedRow(){
-		return moneyTransferList.getSelectedRow();
+	public static int getSelectedID(){
+		int row = moneyTransferList.getSelectedRow();
+		if(row == -1) return row;															// -1 if no select
+		return (int)moneyTransferList.getModel().getValueAt(row, 0);
 	}
 
-	public static void setSelectedRow(int row){
-		moneyTransferList.setRowSelectionInterval(row, row);
+	public static void setSelectedID(int row){
+		for(int i = 0; i < moneyTransferList.getRowCount(); i++) {
+			if((int)moneyTransferList.getModel().getValueAt(i, 0) == row) {
+				moneyTransferList.setRowSelectionInterval(i, i);
+				moneyTransferList.scrollRectToVisible(new Rectangle(moneyTransferList.getCellRect(i, 0, true)));
+				break;
+			}
+		}
+		
 	}
 }

@@ -104,9 +104,9 @@ public class Purchase extends JPanel{
 
 		//creating Top Right Panel
 		JPanel topRightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		btnAddNewRecord = new JButton("ဝယ်စာရင်းထည့်ရန်");
+		btnAddNewRecord = new JButton("အဝယ်ဘောင်ချာထည့်ရန်");
 		btnAddNewRecord.setFont(Fonts.pyisuNormal15);
-		btnAddNewRecord.setPreferredSize(new Dimension(150, 40));
+		btnAddNewRecord.setPreferredSize(new Dimension(160, 40));
 		topRightPanel.add(btnAddNewRecord);
 		topPanel.add(topRightPanel, BorderLayout.EAST);
 
@@ -185,6 +185,7 @@ public class Purchase extends JPanel{
 					int idpurchase = (int) purchaseRecordList.getModel().getValueAt(row, 0);
 					UpdatePurchaseRecord updatePurchaseRecord = new UpdatePurchaseRecord(Main.frame, idpurchase);
 					updatePurchaseRecord.setVisible(true);
+					if(updatePurchaseRecord.isClickDelete()) createPurchaseRecordTable();
 				}
 			}
 		});

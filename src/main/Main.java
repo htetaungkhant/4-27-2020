@@ -89,15 +89,20 @@ public class Main{
 		menuBar.add(logout);
 
 		//Menu Items for Sale Menu
-		JMenuItem pos = new JMenuItem("Point of Sale", new ImageIcon("picture/pos_icon.png"));
+		JMenuItem pos = new JMenuItem("နေ့စဉ်အရောင်း", new ImageIcon("picture/pos_icon.png"));
+		pos.setFont(Fonts.pyisuNormal15);
 		KeyStroke keyStrokePos = KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK);
 		pos.setAccelerator(keyStrokePos);
-		JMenuItem saleRecord = new JMenuItem("Sale Records", new ImageIcon("picture/sale_record_icon.png"));
+		JMenuItem saleRecord = new JMenuItem("အရောင်းဘောင်ချာများ", new ImageIcon("picture/sale_record_icon.png"));
+		saleRecord.setFont(Fonts.pyisuNormal15);
 		KeyStroke keyStrokeForSaleRecord = KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK);
 		saleRecord.setAccelerator(keyStrokeForSaleRecord);
-		JMenuItem customer = new JMenuItem("Customers", new ImageIcon("picture/customer_icon.png"));
-		JMenuItem reports = new JMenuItem("Reports", new ImageIcon("picture/reports_icon.png"));
-		JMenuItem exit = new JMenuItem("Exit", new ImageIcon("picture/exit_icon.png"));
+		JMenuItem customer = new JMenuItem("ဈေးဝယ်သူများ", new ImageIcon("picture/customer_icon.png"));
+		customer.setFont(Fonts.pyisuNormal15);
+		JMenuItem reports = new JMenuItem("စာရင်းချုပ်များ", new ImageIcon("picture/reports_icon.png"));
+		reports.setFont(Fonts.pyisuNormal15);
+		JMenuItem exit = new JMenuItem("ပိတ်ရန်", new ImageIcon("picture/exit_icon.png"));
+		exit.setFont(Fonts.pyisuNormal15);
 		KeyStroke keyStrokeForExit = KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_DOWN_MASK);
 		exit.setAccelerator(keyStrokeForExit);
 		sale.add(pos);
@@ -228,9 +233,9 @@ public class Main{
 
 		exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JLabel label = new JLabel("ထွက်မှာသေချာပီလား");
+				JLabel label = new JLabel("ပိတ်မှာသေချာပီလား");
 				label.setFont(Fonts.pyisuNormal15);
-				int result = JOptionPane.showConfirmDialog(null, label, "ထွက်မှာလား?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				int result = JOptionPane.showConfirmDialog(null, label, "ပိတ်မှာလား?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if(result == JOptionPane.YES_OPTION){
 					System.exit(0);
 				}

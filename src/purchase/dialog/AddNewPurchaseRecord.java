@@ -33,6 +33,7 @@ import database.PurchaseDetailTable;
 import database.PurchaseTable;
 import database.StockTable;
 import database.SupplierTable;
+import external_classes.Fonts;
 import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import main.Main;
@@ -53,7 +54,7 @@ public class AddNewPurchaseRecord extends JDialog{
 		super(parent, true);
 		ImageIcon frameIcon = new ImageIcon("picture/purchase_record_icon.png");
 		setIconImage(frameIcon.getImage());
-		setTitle("Add New Record");
+		setTitle("အဝယ်ဘောင်ချာထည့်ခြင်း");
 		setSize(1400, 700);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -66,12 +67,15 @@ public class AddNewPurchaseRecord extends JDialog{
 		//creating Top Left Panel
 		JPanel topLeftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		WebDateField datePicker=new WebDateField(new Date());
+		datePicker.setFont(Fonts.pyisuNormal15);
 		datePicker.setAllowUserInput(false);
 		datePicker.setPreferredSize(100, 40);
 		JButton btnChooseSupplier = new JButton("Choose Supplier");
-		btnChooseSupplier.setPreferredSize(new Dimension(150, 40));
-		JNumberTextField tfInvoiceNumber = new JNumberTextField("Enter Invoice No", 10);
-		tfInvoiceNumber.setPreferredSize(new Dimension(120,40));
+		btnChooseSupplier.setFont(Fonts.pyisuNormal15);
+		btnChooseSupplier.setPreferredSize(new Dimension(230, 40));
+		JNumberTextField tfInvoiceNumber = new JNumberTextField("ဘောင်ချာနံပါတ်ရေးပါ", 10);
+		tfInvoiceNumber.setFont(Fonts.pyisuNormal15);
+		tfInvoiceNumber.setPreferredSize(new Dimension(130,40));
 		tfInvoiceNumber.setHorizontalAlignment(JLabel.CENTER);
 		topLeftPanel.add(datePicker);
 		topLeftPanel.add(btnChooseSupplier);
@@ -80,8 +84,9 @@ public class AddNewPurchaseRecord extends JDialog{
 
 		//creating Top Right Panel
 		JPanel topRightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		JButton btnAddItem = new JButton("Add Item");
-		btnAddItem.setPreferredSize(new Dimension(100, 40));
+		JButton btnAddItem = new JButton("ကုန်ပစ္စည်းထည့်ရန်");
+		btnAddItem.setFont(Fonts.pyisuNormal15);
+		btnAddItem.setPreferredSize(new Dimension(130, 40));
 		topRightPanel.add(btnAddItem);
 		topPanel.add(topRightPanel, BorderLayout.EAST);
 
@@ -102,24 +107,30 @@ public class AddNewPurchaseRecord extends JDialog{
 
 		//creating Bottom Right Panel
 		JPanel bottomRightPanel = new JPanel();
-		JLabel lbTotalAmount = new JLabel("Total Amount");
+		JLabel lbTotalAmount = new JLabel("စုစုပေါင်းကျသင့်ငွေ");
+		lbTotalAmount.setFont(Fonts.pyisuNormal15);
 		lbTotalAmount.setHorizontalAlignment(JLabel.RIGHT);
-		lbTotalAmount.setPreferredSize(new Dimension(100, 40));
+		lbTotalAmount.setPreferredSize(new Dimension(120, 40));
 		tfTotalAmount = new JNumberTextField(10);
+		tfTotalAmount.setFont(Fonts.pyisuNormal15);
 		tfTotalAmount.setText("0");
 		tfTotalAmount.setHorizontalAlignment(JLabel.RIGHT);
 		tfTotalAmount.setPreferredSize(new Dimension(120, 40));
 		tfTotalAmount.setEditable(false);
-		JLabel lbPaidAmount = new JLabel("Paid Amount");
+		JLabel lbPaidAmount = new JLabel("ပေးငွေ");
+		lbPaidAmount.setFont(Fonts.pyisuNormal15);
 		lbPaidAmount.setHorizontalAlignment(JLabel.RIGHT);
 		lbPaidAmount.setPreferredSize(new Dimension(100, 40));
 		JNumberTextField tfPaidAmount = new JNumberTextField(10);
+		tfPaidAmount.setFont(Fonts.pyisuNormal15);
 		tfPaidAmount.setHorizontalAlignment(JLabel.RIGHT);
 		tfPaidAmount.setPreferredSize(new Dimension(120, 40));
-		JButton btnCancel = new JButton("Cancel");
+		JButton btnCancel = new JButton("မလုပ်ဆောင်ပါ");
+		btnCancel.setFont(Fonts.pyisuNormal15);
 		btnCancel.setPreferredSize(new Dimension(100, 40));
-		JButton btnSave = new JButton("Confirm and Save");
-		btnSave.setPreferredSize(new Dimension(120, 40));
+		JButton btnSave = new JButton("အတည်ပြုသိမ်းဆည်းပါ");
+		btnSave.setFont(Fonts.pyisuNormal15);
+		btnSave.setPreferredSize(new Dimension(150, 40));
 
 		GroupLayout groupLayout = new GroupLayout(bottomRightPanel);
 		groupLayout.setAutoCreateGaps(true);
@@ -148,7 +159,7 @@ public class AddNewPurchaseRecord extends JDialog{
 		btnChooseSupplier.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JDialog d = new JDialog(Main.frame, "Choose Supplier",true);
+				JDialog d = new JDialog(Main.frame, "ကုန်ပေးသူများ",true);
 				SupplierInfo supplierList = new SupplierInfo(d, btnChooseSupplier);
 				d.add(supplierList);
 				ImageIcon frameIcon = new ImageIcon("picture/supplier_icon.png");
@@ -177,16 +188,24 @@ public class AddNewPurchaseRecord extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(btnChooseSupplier.getText().equals("Choose Supplier")){
-					JOptionPane.showMessageDialog(null, "Please, choose supplier", "No Supplier", JOptionPane.INFORMATION_MESSAGE);
+					JLabel label = new JLabel("ကျေးဇူးပြု၍ ကုန်ပေးသူရွေးပါ");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "ကုန်ပေးသူရွေးပါ", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(itemList.getRowCount() == 0){
-					JOptionPane.showMessageDialog(null, "Please, add some items", "No Item", JOptionPane.INFORMATION_MESSAGE);
+					JLabel label = new JLabel("ကျေးဇူးပြု၍ ကုန်ပစ္စည်းထည့်ပါ");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "ကုန်ပစ္စည်းထည့်ပါ", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(tfPaidAmount.getText().equals("")){
-					JOptionPane.showMessageDialog(null, "Please, fill suitable paid amount", "Need Paid Amount", JOptionPane.INFORMATION_MESSAGE);
+					JLabel label = new JLabel("ကျေးဇူးပြု၍ ပေးငွေရေးပါ");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "ပေးငွေမှားယွင်းမှု", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(Integer.parseInt(tfPaidAmount.getText()) > Integer.parseInt(tfTotalAmount.getText())){
-					JOptionPane.showMessageDialog(null, "Your paid amount is invalid!!!", "Invalid Paid Amount", JOptionPane.ERROR_MESSAGE);
+					JLabel label = new JLabel("ပေးငွေသည် ကျသင့်ငွေထက်များနေပါသည်။ ဖြစ်နိုင်သောပေးငွေပြန်ရေးပေးပါ။");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "မဖြစ်နိုင်သောငွေပေးချေမှု", JOptionPane.ERROR_MESSAGE);
 				}
 				else{
 					Date date = datePicker.getDate();
@@ -206,11 +225,15 @@ public class AddNewPurchaseRecord extends JDialog{
 						}
 						else{
 							PurchaseTable.delete(idpurchase);
-							JOptionPane.showMessageDialog(null, "Somethings worng!!!", "Error", JOptionPane.INFORMATION_MESSAGE);
+							JLabel label = new JLabel("တစ်စုံတစ်ခုမှားယွင်းနေပါသည်");
+							label.setFont(Fonts.pyisuNormal15);
+							JOptionPane.showMessageDialog(null, label, "မှားယွင်းမှု", JOptionPane.INFORMATION_MESSAGE);
 						}
 					}
 					else{
-						JOptionPane.showMessageDialog(null, "Somethings worng!!!", "Error", JOptionPane.INFORMATION_MESSAGE);
+						JLabel label = new JLabel("တစ်စုံတစ်ခုမှားယွင်းနေပါသည်");
+						label.setFont(Fonts.pyisuNormal15);
+						JOptionPane.showMessageDialog(null, label, "မှားယွင်းမှု", JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 			}
@@ -241,7 +264,7 @@ public class AddNewPurchaseRecord extends JDialog{
 
 	public static void createItemListTable(Object[][] input){
 		tableData = input;
-		columnNames = new String[]{"Item Name", "Quantity", "Unit Price", "Amount", "Del"};
+		columnNames = new String[]{"ကုန်အမည်", "အရေအတွက်", "ဈေးနှုန်း", "သင့်ငွေ", "ဖျက်ရန်"};
 
 		modelForItemList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {
@@ -252,12 +275,14 @@ public class AddNewPurchaseRecord extends JDialog{
 			}
 		};
 		itemList.setModel(modelForItemList);
-		itemList.getTableHeader().setPreferredSize(new Dimension(0, 40));
+		itemList.getTableHeader().setPreferredSize(new Dimension(0, 50));
+		itemList.getTableHeader().setFont(Fonts.pyisuNormal16);
 		itemList.setRowHeight(40);
+		itemList.setFont(Fonts.pyisuNormal15);
 		TableColumn column5 = itemList.getColumnModel().getColumn(4);
 		column5.setMinWidth(40);
 		column5.setMaxWidth(100);
-		column5.setPreferredWidth(50);
+		column5.setPreferredWidth(60);
 	}
 
 	public static void setTotalAmount(int amount){

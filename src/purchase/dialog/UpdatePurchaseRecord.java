@@ -45,12 +45,16 @@ public class UpdatePurchaseRecord extends JDialog{
 	private static Object[][] tableData;
 	private static DefaultTableModel modelForItemList;
 	private static JTable itemList;
+	
+	private static Boolean isDelete;
 
 	public UpdatePurchaseRecord(Frame frame, int idpurchase) {
 		super(frame, true);
+		this.isDelete = false;
+		
 		ImageIcon frameIcon = new ImageIcon("picture/purchase_record_icon.png");
 		setIconImage(frameIcon.getImage());
-		setTitle("Update Purchase Record");
+		setTitle("အဝယ်ဘောင်ချာအသေးစိတ်အချက်အလက်");
 		setSize(1400, 700);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -64,30 +68,36 @@ public class UpdatePurchaseRecord extends JDialog{
 		JPanel topLeftPanel = new JPanel();
 		MigLayout layout = new MigLayout();
 		topLeftPanel.setLayout(layout);
-		JLabel lbDate = new JLabel("Date");
+		JLabel lbDate = new JLabel("ရက်စွဲ");
+		lbDate.setFont(Fonts.pyisuNormal15);
 		MyTextField date = new MyTextField();
+		date.setFont(Fonts.pyisuNormal15);
 		date.setHorizontalAlignment(JLabel.CENTER);
 		date.setText(new SimpleDateFormat("MMM d, yyyy").format(data[0]));
 		date.setPreferredSize(new Dimension(150, 40));
 		date.setEditable(false);
-		JLabel lbSupplier = new JLabel("Supplier");
-		MyTextField supplier = new MyTextField();
-		supplier.setHorizontalAlignment(JLabel.CENTER);
-		supplier.setText((String) data[1]);
-		supplier.setPreferredSize(new Dimension(150, 40));
-		supplier.setEditable(false);
-		JLabel lbInvoice = new JLabel("Invoice No ");
+		JLabel lbInvoice = new JLabel("ဘောင်ချာနံပါတ်");
+		lbInvoice.setFont(Fonts.pyisuNormal15);
 		MyTextField invoiceNo = new MyTextField();
+		invoiceNo.setFont(Fonts.pyisuNormal15);
 		invoiceNo.setHorizontalAlignment(JLabel.CENTER);
 		invoiceNo.setText((String) data[2]);
 		invoiceNo.setPreferredSize(new Dimension(150, 40));
 		invoiceNo.setEditable(false);
+		JLabel lbSupplier = new JLabel("ကုန်ပေးသူ");
+		lbSupplier.setFont(Fonts.pyisuNormal15);
+		MyTextField supplier = new MyTextField();
+		supplier.setFont(Fonts.pyisuNormal15);
+		supplier.setHorizontalAlignment(JLabel.CENTER);
+		supplier.setText((String) data[1]);
+		supplier.setPreferredSize(new Dimension(230, 40));
+		supplier.setEditable(false);
 		topLeftPanel.add(lbDate);
 		topLeftPanel.add(date, "wrap");
-		topLeftPanel.add(lbSupplier);
-		topLeftPanel.add(supplier, "wrap");
 		topLeftPanel.add(lbInvoice);
-		topLeftPanel.add(invoiceNo);
+		topLeftPanel.add(invoiceNo, "wrap");
+		topLeftPanel.add(lbSupplier);
+		topLeftPanel.add(supplier);
 		topPanel.add(topLeftPanel);
 
 		add(topPanel, BorderLayout.NORTH);
@@ -107,30 +117,36 @@ public class UpdatePurchaseRecord extends JDialog{
 		//creating Bottom Right Panel
 		JPanel bottomRightPanel = new JPanel(new MigLayout());
 
-		JLabel lbTotalAmount = new JLabel("Total Amount");
+		JLabel lbTotalAmount = new JLabel("စုစုပေါင်းကျသင့်ငွေ");
+		lbTotalAmount.setFont(Fonts.pyisuNormal15);
 		lbTotalAmount.setHorizontalAlignment(JLabel.RIGHT);
 		lbTotalAmount.setPreferredSize(new Dimension(100, 40));
 		JNumberTextField tfTotalAmount = new JNumberTextField(10);
+		tfTotalAmount.setFont(Fonts.pyisuNormal15);
 		tfTotalAmount.setText(Integer.toString((int)data[3]));
 		tfTotalAmount.setHorizontalAlignment(JLabel.RIGHT);
 		tfTotalAmount.setPreferredSize(new Dimension(120, 40));
 		tfTotalAmount.setEditable(false);
-		JLabel lbPaidAmount = new JLabel("Paid Amount");
+		JLabel lbPaidAmount = new JLabel("ပေးငွေ");
+		lbPaidAmount.setFont(Fonts.pyisuNormal15);
 		lbPaidAmount.setHorizontalAlignment(JLabel.RIGHT);
 		lbPaidAmount.setPreferredSize(new Dimension(100, 40));
 		JNumberTextField tfPaidAmount = new JNumberTextField(10);
+		tfPaidAmount.setFont(Fonts.pyisuNormal15);
 		tfPaidAmount.setText(Integer.toString((int)data[4]));
 		tfPaidAmount.setHorizontalAlignment(JLabel.RIGHT);
 		tfPaidAmount.setPreferredSize(new Dimension(120, 40));
 		tfPaidAmount.setEditable(false);
-		JButton btnDelete = new JButton("Delete Invoice");
+		JButton btnDelete = new JButton("ဘောင်ချာဖျက်မည်");
+		btnDelete.setFont(Fonts.pyisuNormal15);
 		btnDelete.setVisible(false);
 		if(!SaleDetailTable.isAlreadySale(idpurchase)){
 			btnDelete.setVisible(true);
 		}
 		btnDelete.setForeground(Color.red);
 		btnDelete.setPreferredSize(new Dimension(100, 40));
-		JButton btnClose = new JButton("Close");
+		JButton btnClose = new JButton("ပိတ်မည်");
+		btnClose.setFont(Fonts.pyisuNormal15);
 		btnClose.setPreferredSize(new Dimension(120, 40));
 		bottomRightPanel.add(lbTotalAmount);
 		bottomRightPanel.add(tfTotalAmount, "wrap");
@@ -154,21 +170,27 @@ public class UpdatePurchaseRecord extends JDialog{
 		btnDelete.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int result = JOptionPane.showConfirmDialog(null, "This action cannot undo. Are you sure to delete?", "Sure?", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				JLabel label = new JLabel("ဖျက်မှာသေချာပီလား။ ပြန်ပြင်လို့မရဘူးနော်");
+				label.setFont(Fonts.pyisuNormal15);
+				int result = JOptionPane.showConfirmDialog(null, label, "သေချာပီလား", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 				if(result == JOptionPane.YES_OPTION){
 					StockTable.subtractQuantityAndUpdateCOGS(itemList);
 					PurchaseTable.delete(idpurchase);
-					Purchase.createPurchaseRecordTable();
+					isDelete = true;
 					setVisible(false);
 					dispose();
 				}
 			}
 		});
 	}
+	
+	public static Boolean isClickDelete() {
+		return isDelete;
+	}
 
 	public static void createItemListTable(Object[][] input){
 		tableData = input;
-		columnNames = new String[]{"ID","Item Name", "Quantity", "Unit Price", "Amount"};
+		columnNames = new String[]{"ID","ကုန်ပစ္စည်းအမည်", "အရေအတွက်", "ဈေးနှုန်း", "သင့်ငွေ"};
 
 		modelForItemList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {
@@ -179,8 +201,10 @@ public class UpdatePurchaseRecord extends JDialog{
 			}
 		};
 		itemList.setModel(modelForItemList);
-		itemList.getTableHeader().setPreferredSize(new Dimension(0, 40));
+		itemList.getTableHeader().setPreferredSize(new Dimension(0, 50));
+		itemList.getTableHeader().setFont(Fonts.pyisuNormal16);
 		itemList.setRowHeight(40);
+		itemList.setFont(Fonts.pyisuNormal15);
 		itemList.removeColumn(itemList.getColumnModel().getColumn(0));
 	}
 }
