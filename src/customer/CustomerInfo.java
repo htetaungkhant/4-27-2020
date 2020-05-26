@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -24,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import database.CustomerTable;
+import external_classes.Fonts;
 import external_classes.MyTextField;
 import main.Main;
 import purchase.Purchase;
@@ -48,14 +50,16 @@ public class CustomerInfo extends JPanel{
 
 		//creating Top Left Panel
 		JPanel topLeftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JButton btnAddNewCustomer = new JButton("Add New Customer");
+		JButton btnAddNewCustomer = new JButton("ဈေးဝယ်သူအသစ်ထည့်ရန်");
+		btnAddNewCustomer.setFont(Fonts.pyisuNormal15);
 		btnAddNewCustomer.setPreferredSize(new Dimension(170, 40));
 		topLeftPanel.add(btnAddNewCustomer);
 		topPanel.add(topLeftPanel);
 
 		//creating Top Right Panel
 		JPanel topRightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		MyTextField tfSearch = new MyTextField(30, "Search customer");
+		MyTextField tfSearch = new MyTextField(30, "ဈေးဝယ်သူရှာရန်");
+		tfSearch.setFont(Fonts.pyisuNormal15);
 		tfSearch.setPreferredSize(new Dimension(250,40));
 		topRightPanel.add(tfSearch);
 		topPanel.add(topRightPanel);
@@ -154,9 +158,11 @@ public class CustomerInfo extends JPanel{
 
 		//creating Bottom Panel
 		JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		JButton btnSelect = new JButton("Select");
+		JButton btnSelect = new JButton("ရွေးရန်");
+		btnSelect.setFont(Fonts.pyisuNormal15);
 		btnSelect.setPreferredSize(new Dimension(100, 40));
-		JButton btnCancel = new JButton("Cancel");
+		JButton btnCancel = new JButton("မလုပ်ဆောင်ပါ");
+		btnCancel.setFont(Fonts.pyisuNormal15);
 		btnCancel.setPreferredSize(new Dimension(100, 40));
 		bottomPanel.add(btnCancel);
 		bottomPanel.add(btnSelect);
@@ -182,7 +188,9 @@ public class CustomerInfo extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(customerList.getSelectionModel().isSelectionEmpty()){
-					JOptionPane.showMessageDialog(null, "Please, select customer", "Error", JOptionPane.INFORMATION_MESSAGE);
+					JLabel label = new JLabel("ကျေးဇူးပြု၍ ဈေးဝယ်သူရွေးပါ");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "ဈေးဝယ်သူမရွေးမှု", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else{
 					int row = customerList.getSelectedRow();
@@ -198,7 +206,7 @@ public class CustomerInfo extends JPanel{
 
 	public static void createCustomerTable(Object[][] input) {
 		tableData = input;
-		columnNames = new String[]{"ID", "Customer Name", "Phone", "Address"};
+		columnNames = new String[]{"ID", "ဈေးဝယ်သူအမည်", "ဖုန်းနံပါတ်", "လိပ်စာ"};
 
 		modelForCustomerList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {
@@ -209,8 +217,10 @@ public class CustomerInfo extends JPanel{
 	        }
 		};
 		customerList.setModel(modelForCustomerList);
-		customerList.getTableHeader().setPreferredSize(new Dimension(0, 40));
+		customerList.getTableHeader().setPreferredSize(new Dimension(0, 50));
+		customerList.getTableHeader().setFont(Fonts.pyisuNormal16);
 		customerList.setRowHeight(40);
+		customerList.setFont(Fonts.pyisuNormal15);
 		customerList.removeColumn(customerList.getColumnModel().getColumn(0));
 	}
 

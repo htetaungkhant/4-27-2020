@@ -52,6 +52,7 @@ import database.PurchaseDetailTable;
 import database.SaleDetailTable;
 import database.SaleTable;
 import database.StockTable;
+import external_classes.Fonts;
 import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import net.miginfocom.swing.MigLayout;
@@ -74,7 +75,7 @@ public class UpdateSaleRecord extends JDialog{
 		super(parent, true);
 		ImageIcon frameIcon = new ImageIcon("picture/sale_record_icon.png");
 		setIconImage(frameIcon.getImage());
-		setTitle("Update Sale Record");
+		setTitle("အရောင်းဘောင်ချာအချက်အလက်ပြောင်းလဲခြင်း");
 		setSize(1400, 700);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -86,37 +87,43 @@ public class UpdateSaleRecord extends JDialog{
 		JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
 		JPanel topLeftPanel = new JPanel(new MigLayout());
-		JLabel lbDate = new JLabel("Date");
+		JLabel lbDate = new JLabel("ရက်စွဲ");
+		lbDate.setFont(Fonts.pyisuNormal15);
 		MyTextField date = new MyTextField();
+		date.setFont(Fonts.pyisuNormal15);
 		date.setHorizontalAlignment(JLabel.CENTER);
 		date.setText((String) data[1]);
 		date.setPreferredSize(new Dimension(150, 40));
 		date.setEditable(false);
-		JLabel lbCustomer = new JLabel("Customer");
-		MyTextField customer = new MyTextField();
-		customer.setHorizontalAlignment(JLabel.CENTER);
-		customer.setText((String) data[2]);
-		customer.setPreferredSize(new Dimension(150, 40));
-		customer.setEditable(false);
-		JLabel lbInvoice = new JLabel("Invoice No");
+		JLabel lbInvoice = new JLabel("ဘောင်ချာနံပါတ်");
+		lbInvoice.setFont(Fonts.pyisuNormal15);
 		MyTextField invoiceNo = new MyTextField();
+		invoiceNo.setFont(Fonts.pyisuNormal15);
 		invoiceNo.setHorizontalAlignment(JLabel.CENTER);
 		invoiceNo.setText((String) data[0]);
 		invoiceNo.setPreferredSize(new Dimension(150, 40));
 		invoiceNo.setEditable(false);
+		JLabel lbCustomer = new JLabel("ဈေးဝယ်သူ");
+		lbCustomer.setFont(Fonts.pyisuNormal15);
+		MyTextField customer = new MyTextField();
+		customer.setFont(Fonts.pyisuNormal15);
+		customer.setHorizontalAlignment(JLabel.CENTER);
+		customer.setText((String) data[2]);
+		customer.setPreferredSize(new Dimension(230, 40));
+		customer.setEditable(false);
 		topLeftPanel.add(lbDate);
 		topLeftPanel.add(date, "wrap");
-		topLeftPanel.add(lbCustomer);
-		topLeftPanel.add(customer, "wrap");
 		topLeftPanel.add(lbInvoice);
-		topLeftPanel.add(invoiceNo);
+		topLeftPanel.add(invoiceNo, "wrap");
+		topLeftPanel.add(lbCustomer);
+		topLeftPanel.add(customer);
 		topPanel.add(topLeftPanel);
 
 		add(topPanel, BorderLayout.NORTH);
 		//End of Top Panel
 
 		//creating Table Panel
-		columnNames = new String[]{"ID","Item Name", "Quantity", "Sale Price", "Amount", "Del"};
+		columnNames = new String[]{"ID","ကုန်ပစ္စည်းအမည်", "အရေအတွက်", "ဈေးနှုန်း", "ကျသင့်", "ဖျက်ရန်"};
 		tableData = SaleDetailTable.retrieve(idsale);
 		modelForItemList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {
@@ -128,16 +135,18 @@ public class UpdateSaleRecord extends JDialog{
 			}
 		};
 		itemList = new JTable(modelForItemList);
-		itemList.getTableHeader().setPreferredSize(new Dimension(0, 40));
+		itemList.getTableHeader().setPreferredSize(new Dimension(0, 50));
+		itemList.getTableHeader().setFont(Fonts.pyisuNormal16);
 		itemList.setRowHeight(40);
+		itemList.setFont(Fonts.pyisuNormal15);
 		itemList.removeColumn(itemList.getColumnModel().getColumn(0));
 		TableColumn column3 = itemList.getColumnModel().getColumn(1);
 		SpinnerEditor spinnerEditor = new SpinnerEditor(itemList);
 		column3.setCellEditor(spinnerEditor);
 		TableColumn column6 = itemList.getColumnModel().getColumn(4);
-		column6.setMinWidth(40);
+//		column6.setMinWidth(40);
 		column6.setMaxWidth(100);
-		column6.setPreferredWidth(50);
+		column6.setPreferredWidth(60);
 
 		JScrollPane tablePanel = new JScrollPane(itemList);
 		add(tablePanel, BorderLayout.CENTER);
@@ -148,8 +157,10 @@ public class UpdateSaleRecord extends JDialog{
 
 		//creating Bottom Left Panel
 		JPanel bottomLeftPanel = new JPanel(new MigLayout());
-		JLabel lbRemark = new JLabel("Remark");
-		taRemark = new JTextArea(7, 30);
+		JLabel lbRemark = new JLabel("မှတ်ချက်");
+		lbRemark.setFont(Fonts.pyisuNormal15);
+		taRemark = new JTextArea(5, 30);
+		taRemark.setFont(Fonts.pyisuNormal15);
 		taRemark.setText((String)data[6]);
 		bottomLeftPanel.add(lbRemark);
 		bottomLeftPanel.add(new JScrollPane(taRemark));
@@ -158,34 +169,44 @@ public class UpdateSaleRecord extends JDialog{
 		//creating Bottom Right Panel
 		JPanel bottomRightPanel = new JPanel(new MigLayout());
 
-		JLabel lbTotalAmount = new JLabel("Total Amount");
+		JLabel lbTotalAmount = new JLabel("စုစုပေါင်းကျသင့်ငွေ");
+		lbTotalAmount.setFont(Fonts.pyisuNormal15);
 		tfTotalAmount = new JNumberTextField(10);
+		tfTotalAmount.setFont(Fonts.pyisuNormal15);
 		tfTotalAmount.setText(Integer.toString((int)data[3]));
 		tfTotalAmount.setHorizontalAlignment(JLabel.RIGHT);
 		tfTotalAmount.setPreferredSize(new Dimension(120, 40));
 		tfTotalAmount.setEditable(false);
 
-		JLabel lbNetAmount = new JLabel("Net Amount");
+		JLabel lbNetAmount = new JLabel("ရငွေ");
+		lbNetAmount.setFont(Fonts.pyisuNormal15);
 		tfNetAmount = new JNumberTextField(10);
+		tfNetAmount.setFont(Fonts.pyisuNormal15);
 		tfNetAmount.setText(Integer.toString((int)data[4]));
 		tfNetAmount.setHorizontalAlignment(JLabel.RIGHT);
 		tfNetAmount.setPreferredSize(new Dimension(120, 40));
 
-		JLabel lbDiscount = new JLabel("Discount");
+		JLabel lbDiscount = new JLabel("လျော့ငွေ");
+		lbDiscount.setFont(Fonts.pyisuNormal15);
 		tfDiscount = new JNumberTextField(10);
+		tfDiscount.setFont(Fonts.pyisuNormal15);
 		tfDiscount.setText(Integer.toString((int)data[5]));
 		tfDiscount.setHorizontalAlignment(JLabel.RIGHT);
 		tfDiscount.setPreferredSize(new Dimension(120, 40));
 		tfDiscount.setEditable(false);
 
-		JButton btnDelete = new JButton("Delete");
+		JButton btnDelete = new JButton("ဘောင်ချာဖျက်မည်");
+		btnDelete.setFont(Fonts.pyisuNormal15);
 		btnDelete.setForeground(Color.red);
 		btnDelete.setPreferredSize(new Dimension(80, 40));
-		JButton btnSave = new JButton("Save");
+		JButton btnSave = new JButton("သိမ်းဆည်းမည်");
+		btnSave.setFont(Fonts.pyisuNormal15);
 		btnSave.setPreferredSize(new Dimension(80, 40));
-		JButton btnPrint = new JButton("Save and Print");
+		JButton btnPrint = new JButton("ဘောင်ချာထုတ်မည်");
+		btnPrint.setFont(Fonts.pyisuNormal15);
 		btnPrint.setPreferredSize(new Dimension(100, 40));
-		JButton btnCancel = new JButton("Cancel");
+		JButton btnCancel = new JButton("ပိတ်မည်");
+		btnCancel.setFont(Fonts.pyisuNormal15);
 		btnCancel.setPreferredSize(new Dimension(80, 40));
 		bottomRightPanel.add(lbTotalAmount, "span 4, split 2, align right");
 		bottomRightPanel.add(tfTotalAmount, "wrap");
@@ -219,7 +240,9 @@ public class UpdateSaleRecord extends JDialog{
 			public void mouseClicked(MouseEvent e){
 				int row = itemList.getSelectedRow();
 					if(itemList.getSelectedColumn()==itemList.getColumnCount()-1){
-						int result = JOptionPane.showConfirmDialog(null, " Are you sure to delete?", "delete?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+						JLabel label = new JLabel("ဖျက်မှာသေချာပါပီလား။ ပြန်ပြင်လို့မရဘူးနော်");
+						label.setFont(Fonts.pyisuNormal15);
+						int result = JOptionPane.showConfirmDialog(null, label, "ဖျက်မှာလား", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 						if(result == JOptionPane.YES_OPTION){
 							itemList2Delete.add((int)itemList.getModel().getValueAt(row, 0));
 							spinnerEditor.removeQuantity(row);
@@ -266,7 +289,9 @@ public class UpdateSaleRecord extends JDialog{
 		btnDelete.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int result = JOptionPane.showConfirmDialog(null, " Are you sure to delete?", "Delete?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				JLabel label = new JLabel("ဖျက်မှာသေချာပါပီလား။ ပြန်ပြင်လို့မရဘူးနော်");
+				label.setFont(Fonts.pyisuNormal15);
+				int result = JOptionPane.showConfirmDialog(null, label, "ဖျက်မှာလား", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if(result == JOptionPane.YES_OPTION){
 					for(int row = 0; row < itemList.getRowCount(); row++){
 						itemList2Delete.add((int)itemList.getModel().getValueAt(row, 0));
@@ -284,7 +309,9 @@ public class UpdateSaleRecord extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(itemList.getRowCount() <= 0){
-					int result = JOptionPane.showConfirmDialog(null, " We will delete this invoice because no item exist. Are you sure to delete?", "delete?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					JLabel label = new JLabel("ရောင်းထားသောကုန်ပစ္စည်းမရှိသောကြောင့် ဘောင်ချာအားဖျက်သိမ်းမည်");
+					label.setFont(Fonts.pyisuNormal15);
+					int result = JOptionPane.showConfirmDialog(null, label, "ဖျက်မှာသေချာပီလား", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if(result == JOptionPane.YES_OPTION){
 						StockTable.addQuantity(itemList2Delete);
 						SaleTable.delete(idsale);
@@ -294,7 +321,14 @@ public class UpdateSaleRecord extends JDialog{
 					}
 				}
 				else if(tfNetAmount.getText().equals("")){
-					JOptionPane.showMessageDialog(null, "Please, fill suitable net amount.", "Error", JOptionPane.INFORMATION_MESSAGE);
+					JLabel label = new JLabel("ကျေးဇူးပြု၍ ရငွေထည့်ပါ");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "ရငွေထည့်ပါ", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else if(Integer.parseInt(tfTotalAmount.getText()) < Integer.parseInt(tfNetAmount.getText())) {
+					JLabel label = new JLabel("ရငွေသည် ကျသင့်ငွေထက်များနေပါသည်။ ကျေးဇူးပြု၍ ဖြစ်နိုင်သောရငွေထည့်ပါ");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "ရငွေမှားယွင်းမှု", JOptionPane.INFORMATION_MESSAGE);					
 				}
 				else{
 					if(itemList2Delete.size() > 0){

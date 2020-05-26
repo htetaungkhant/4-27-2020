@@ -222,7 +222,7 @@ public class POS extends JPanel{
 				d.add(customerList);
 				ImageIcon frameIcon = new ImageIcon("picture/customer_icon.png");
 				d.setIconImage(frameIcon.getImage());
-				d.setSize(600, 500);
+				d.setSize(700, 500);
 				d.setLocationRelativeTo(null);
 				d.setVisible(true);
 			}
@@ -404,6 +404,11 @@ public class POS extends JPanel{
 			JLabel label = new JLabel("ကျေးဇူးပြု၍ သင့်လျော်သောရငွေထည့်ပါ");
 			label.setFont(Fonts.pyisuNormal15);
 			JOptionPane.showMessageDialog(null, label, "ရငွေမထည့်မှု", JOptionPane.INFORMATION_MESSAGE);
+		}
+		else if(Integer.parseInt(tfTotalAmount.getText()) < Integer.parseInt(tfNetAmount.getText())) {
+			JLabel label = new JLabel("ရငွေသည် ကျသင့်ငွေထက်များနေပါသည်။ ကျေးဇူးပြု၍ ဖြစ်နိုင်သောရငွေထည့်ပါ");
+			label.setFont(Fonts.pyisuNormal15);
+			JOptionPane.showMessageDialog(null, label, "ရငွေမှားယွင်းမှု", JOptionPane.INFORMATION_MESSAGE);					
 		}
 		else{
 			Date date = datePicker.getDate();

@@ -42,6 +42,7 @@ import sale.POS;
 import sale.PosManager;
 import sale.Report;
 import sale.Sale;
+import saving.SavingPeople;
 import stock.Items;
 import supplier.SupplierInfo;
 import tester.ProgressBar;
@@ -93,7 +94,7 @@ public class Main{
 		pos.setFont(Fonts.pyisuNormal15);
 		KeyStroke keyStrokePos = KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK);
 		pos.setAccelerator(keyStrokePos);
-		JMenuItem saleRecord = new JMenuItem("အရောင်းဘောင်ချာများ", new ImageIcon("picture/sale_record_icon.png"));
+		JMenuItem saleRecord = new JMenuItem("အရောင်းမှတ်တမ်းများ", new ImageIcon("picture/sale_record_icon.png"));
 		saleRecord.setFont(Fonts.pyisuNormal15);
 		KeyStroke keyStrokeForSaleRecord = KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK);
 		saleRecord.setAccelerator(keyStrokeForSaleRecord);
@@ -113,7 +114,7 @@ public class Main{
 //		sale.setMnemonic(KeyEvent.VK_S);
 
 		//Menu Items for Purchase Menu
-		JMenuItem purchaseRecord = new JMenuItem("အဝယ်ဘောင်ချာများ", new ImageIcon("picture/purchase_record_icon.png"));
+		JMenuItem purchaseRecord = new JMenuItem("အဝယ်မှတ်တမ်းများ", new ImageIcon("picture/purchase_record_icon.png"));
 		purchaseRecord.setFont(Fonts.pyisuNormal15);
 		KeyStroke keyStrokeToPurchaseRecord = KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_DOWN_MASK);
 		purchaseRecord.setAccelerator(keyStrokeToPurchaseRecord);
@@ -137,10 +138,12 @@ public class Main{
 //		stock.setMnemonic(KeyEvent.VK_T);
 
 		//Menu Items for Saving Menu
-		JMenuItem dailyRecord = new JMenuItem("Daily Records", new ImageIcon("picture/add_daily_records_icon.png"));
-		JMenuItem savingPeople = new JMenuItem("Saving People", new ImageIcon("picture/saving_people_icon.png"));
-		saving.add(dailyRecord);
-		saving.add(savingPeople);
+		JMenuItem jmIDailySavingRecord = new JMenuItem("နေ့စဉ်စုကြေးမှတ်တမ်း", new ImageIcon("picture/add_daily_records_icon.png"));
+		jmIDailySavingRecord.setFont(Fonts.pyisuNormal15);
+		JMenuItem jmiSavingPeople = new JMenuItem("စုကြေးပါဝင်သူများ", new ImageIcon("picture/saving_people_icon.png"));
+		jmiSavingPeople.setFont(Fonts.pyisuNormal15);
+		saving.add(jmIDailySavingRecord);
+		saving.add(jmiSavingPeople);
 //		saving.setMnemonic(KeyEvent.VK_V);
 
 		//Menu Items for Accounts Menu
@@ -282,6 +285,17 @@ public class Main{
 				pane.repaint();
 				Items items = new Items();
 				pane.add(items);
+			}
+		});
+		
+		jmiSavingPeople.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				pane.removeAll();
+				pane.revalidate();
+				pane.repaint();
+				SavingPeople savingPeople = new SavingPeople();
+				pane.add(savingPeople);
 			}
 		});
 	}

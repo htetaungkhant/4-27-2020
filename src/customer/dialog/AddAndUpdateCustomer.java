@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import database.StockTable;
 import database.CustomerTable;
+import external_classes.Fonts;
 import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import stock.Items;
@@ -32,29 +33,29 @@ public class AddAndUpdateCustomer extends JDialog{
 		super(frame, true);
 		ImageIcon frameIcon = new ImageIcon("picture/customer_icon.png");
 		setIconImage(frameIcon.getImage());
-		setTitle("Add New Customer");
-		setSize(360, 260);
+		setTitle("ဈေးဝယ်သူအသစ်ထည့်ခြင်း");
+		setSize(360, 280);
 		setResizable(false);
 		setLayout(null);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		JLabel lbCustomerName = new JLabel("Customer Name"); add(lbCustomerName);
-		JLabel lbPhone = new JLabel("Phone Number"); add(lbPhone);
-		JLabel lbAddress = new JLabel("Address"); add(lbAddress);
+		JLabel lbCustomerName = new JLabel("ဈေးဝယ်သူအမည်"); lbCustomerName.setFont(Fonts.pyisuNormal15); add(lbCustomerName);
+		JLabel lbPhone = new JLabel("ဖုန်းနံပါတ်"); lbPhone.setFont(Fonts.pyisuNormal15); add(lbPhone);
+		JLabel lbAddress = new JLabel("လိပ်စာ"); lbAddress.setFont(Fonts.pyisuNormal15); add(lbAddress);
 
-		tfCustomerName = new MyTextField(); add(tfCustomerName);
-		tfPhone = new JNumberTextField(15); add(tfPhone);
-		tfAddress = new MyTextField(); add(tfAddress);
+		tfCustomerName = new MyTextField(); tfCustomerName.setFont(Fonts.pyisuNormal15); add(tfCustomerName);
+		tfPhone = new JNumberTextField(15); tfPhone.setFont(Fonts.pyisuNormal15); add(tfPhone);
+		tfAddress = new MyTextField(); tfAddress.setFont(Fonts.pyisuNormal15); add(tfAddress);
 		resetTextFields();
 
-		btnAdd = new JButton("Add"); add(btnAdd);
-		btnCancel = new JButton("Cancel"); add(btnCancel);
+		btnAdd = new JButton("ထည့်မည်"); btnAdd.setFont(Fonts.pyisuNormal15); add(btnAdd);
+		btnCancel = new JButton("မလုပ်ဆောင်ပါ"); btnCancel.setFont(Fonts.pyisuNormal15); add(btnCancel);
 
-		lbCustomerName.setBounds(20, 20, 100, 40); tfCustomerName.setBounds(130, 20, 200, 40);
-		lbPhone.setBounds(20, 70, 100, 40); tfPhone.setBounds(130, 70, 200, 40);
-		lbAddress.setBounds(20, 120, 100, 40); tfAddress.setBounds(130, 120, 200, 40);
-		btnAdd.setBounds(20, 170, 150, 50);btnCancel.setBounds(180, 170, 150, 50);
+		lbCustomerName.setBounds(20, 20, 110, 40); tfCustomerName.setBounds(130, 20, 200, 40);
+		lbPhone.setBounds(20, 70, 110, 40); tfPhone.setBounds(130, 70, 200, 40);
+		lbAddress.setBounds(20, 120, 110, 40); tfAddress.setBounds(130, 120, 200, 40);
+		btnCancel.setBounds(20, 180, 150, 50); btnAdd.setBounds(180, 180, 150, 50);
 
 		btnAdd.addActionListener(new ActionListener() {
 			@Override
@@ -64,7 +65,9 @@ public class AddAndUpdateCustomer extends JDialog{
 				String address = tfAddress.getText();
 				String[] data = {customerName, phone, address};
 				if(CustomerTable.isCustomerExist(customerName)){
-					JOptionPane.showMessageDialog(null, "Customer already Exists.", "Error", JOptionPane.INFORMATION_MESSAGE);
+					JLabel label= new JLabel("ဈေးဝယ်သူရှိပီးသားဖြစ်ပါသည်");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "ရှိပီးသား", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(!isEmpty(data)){
 					CustomerTable.insert(data);
@@ -90,15 +93,15 @@ public class AddAndUpdateCustomer extends JDialog{
 
 	public AddAndUpdateCustomer(Frame frame, Object[] input, String toFilter){
 		this(frame);
-		setTitle("Update Customer Details");
+		setTitle("ဈေးဝယ်သူအချက်အလက်ပြောင်းလဲခြင်း");
 
 		tfCustomerName.setText((String)input[1]);
 		tfPhone.setText((String)input[2]);
 		tfAddress.setText((String)input[3]);
 
 		btnAdd.setVisible(false);
-		btnUpdate = new JButton("Update"); add(btnUpdate);
-		btnUpdate.setBounds(20, 170, 150, 50);
+		btnUpdate = new JButton("ပြောင်းလဲမည်"); btnUpdate.setFont(Fonts.pyisuNormal15); add(btnUpdate);
+		btnUpdate.setBounds(180, 180, 150, 50);
 
 		btnUpdate.addActionListener(new ActionListener() {
 			@Override
@@ -110,7 +113,9 @@ public class AddAndUpdateCustomer extends JDialog{
 				String[] data = {customerName, phone, address};
 
 				if(!tfCustomerName.getText().equals(input[1]) && CustomerTable.isCustomerNameExist(customerName)){
-					JOptionPane.showMessageDialog(null, "Customer Name already Exists.", "Error", JOptionPane.INFORMATION_MESSAGE);
+					JLabel label = new JLabel("ဈေးဝယ်သူရှိပီးသားဖြစ်ပါသည်");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "ရှိပီးသား", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else if(!isEmpty(data)){
 					CustomerTable.update(data, (int)input[0]);
@@ -126,10 +131,12 @@ public class AddAndUpdateCustomer extends JDialog{
 	}
 
 	private boolean isEmpty(String[] data){
-		String[] labels = {"Customer Name", "Phone", "Address"};
+		String[] labels = {"ဈေးဝယ်သူအမည်", "ဖုန်းနံပါတ်", "လိပ်စာ"};
 		for(int i = 0; i < data.length; i++){
 			if(data[i].equals("")){
-				JOptionPane.showMessageDialog(null, labels[i]+" cannot be empty.", "Empty Error", JOptionPane.INFORMATION_MESSAGE);
+				JLabel label = new JLabel(labels[i]+"ထည့်ပါ");
+				label.setFont(Fonts.pyisuNormal15);
+				JOptionPane.showMessageDialog(null, label, "အလွတ်ဖြစ်နေမှု", JOptionPane.INFORMATION_MESSAGE);
 				return true;
 			}
 		}

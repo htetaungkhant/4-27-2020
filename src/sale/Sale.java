@@ -66,7 +66,7 @@ public class Sale extends JPanel{
 
 		//creating Top Panel
 		JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JLabel lbStartDate = new JLabel("Start Date");
+		JLabel lbStartDate = new JLabel("စရက်");
 		lbStartDate.setFont(Fonts.pyisuNormal15);
 		datePicker1=new WebDateField(new Date());
 		datePicker1.setFont(Fonts.pyisuNormal15);
@@ -75,7 +75,7 @@ public class Sale extends JPanel{
 //		datePicker1.setDate(calendar.getTime());
 		datePicker1.setAllowUserInput(false);
 		datePicker1.setPreferredSize(100, 40);
-		JLabel lbEndDate = new JLabel("End Date");
+		JLabel lbEndDate = new JLabel("ဆုံးရက်");
 		lbEndDate.setFont(Fonts.pyisuNormal15);
 		datePicker2=new WebDateField(new Date());
 		datePicker2.setFont(Fonts.pyisuNormal15);
