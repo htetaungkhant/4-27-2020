@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -26,6 +27,7 @@ import com.alee.laf.WebLookAndFeel;
 
 import database.LoginChecker;
 import external_classes.Fonts;
+import sale.Report;
 
 public class Login {
 
@@ -60,11 +62,14 @@ public class Login {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(database.LoginChecker.Check(tfUsername.getText(), new String(tfPassword.getPassword()))){
+//					new Main();
 					Main.createAndShowGUI();
 					frame.dispose();
 				}
 				else{
-					JOptionPane.showMessageDialog(null, "Incorrect Username or Password", "Incorrect", JOptionPane.ERROR_MESSAGE);
+					JLabel label = new JLabel("အချက်အလက်မှားယွင်းနေပါသည်။ ပြန်လည်ဖြည့်သွင်းပါ");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "မှားယွင်းမှု", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -73,11 +78,14 @@ public class Login {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(database.LoginChecker.Check(tfUsername.getText(), new String(tfPassword.getPassword()))){
+//					new Main();
 					Main.createAndShowGUI();
 					frame.dispose();
 				}
 				else{
-					JOptionPane.showMessageDialog(null, "Incorrect Username or Password", "Incorrect", JOptionPane.ERROR_MESSAGE);
+					JLabel label = new JLabel("အချက်အလက်မှားယွင်းနေပါသည်။ ပြန်လည်ဖြည့်သွင်းပါ");
+					label.setFont(Fonts.pyisuNormal15);
+					JOptionPane.showMessageDialog(null, label, "မှားယွင်းမှု", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -92,11 +100,14 @@ public class Login {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					if(database.LoginChecker.Check(tfUsername.getText(), new String(tfPassword.getPassword()))){
+//						new Main();
 						Main.createAndShowGUI();
 						frame.dispose();
 					}
 					else{
-						JOptionPane.showMessageDialog(null, "Incorrect Username or Password", "Incorrect", JOptionPane.ERROR_MESSAGE);
+						JLabel label = new JLabel("အချက်အလက်မှားယွင်းနေပါသည်။ ပြန်လည်ဖြည့်သွင်းပါ");
+						label.setFont(Fonts.pyisuNormal15);
+						JOptionPane.showMessageDialog(null, label, "မှားယွင်းမှု", JOptionPane.ERROR_MESSAGE);
 					}
 			}
 		});
@@ -104,14 +115,15 @@ public class Login {
 
 	public static void createAndShowGUI() {
         JFrame frame = new JFrame("\"လင်းလင်း\" စတိုးဆိုင်");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ImageIcon frameIcon = new ImageIcon("picture/frame_icon.png");
+        frame.setIconImage(frameIcon.getImage());
+        frame.getContentPane().setBackground(new Color(234, 237, 237));
         addComponentsToPane(frame);
         frame.setSize(350, 240);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
-        ImageIcon frameIcon = new ImageIcon("picture/frame_icon.png");
-        frame.setIconImage(frameIcon.getImage());
         frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
 	public static void main(String[] args) {
@@ -121,14 +133,19 @@ public class Login {
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
-		 SwingUtilities.invokeLater ( new Runnable ()
-	        {
-	            public void run ()
-	            {
+//		 SwingUtilities.invokeLater ( new Runnable ()
+//	        {
+//	            public void run ()
+//	            {
 	                WebLookAndFeel.install ();
+//	                ProgressBar pb = new ProgressBar();
+//	                pb.setVisible(true);
+//	        		new Report();
 	        		createAndShowGUI();
-	            }
-	        } );
+//	        		pb.setVisible(false);
+//	        		pb.dispose();
+//	            }
+//	        } );
 	}
 
 }

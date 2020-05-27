@@ -45,7 +45,6 @@ import sale.Sale;
 import saving.SavingPeople;
 import stock.Items;
 import supplier.SupplierInfo;
-import tester.ProgressBar;
 
 public class Main{
 
@@ -111,7 +110,6 @@ public class Main{
 		sale.add(customer);
 		sale.add(reports);
 		sale.add(exit);
-//		sale.setMnemonic(KeyEvent.VK_S);
 
 		//Menu Items for Purchase Menu
 		JMenuItem purchaseRecord = new JMenuItem("အဝယ်မှတ်တမ်းများ", new ImageIcon("picture/purchase_record_icon.png"));
@@ -127,7 +125,6 @@ public class Main{
 		purchase.add(purchaseRecord);
 		purchase.add(transferMoney);
 		purchase.add(supplier);
-//		purchase.setMnemonic(KeyEvent.VK_P);
 
 		//Menu Items for Stock Menu
 		JMenuItem item = new JMenuItem("ကုန်ပစ္စည်းစာရင်း", new ImageIcon("picture/items_icon.png"));
@@ -135,7 +132,6 @@ public class Main{
 		KeyStroke keyStrokeToItem = KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_DOWN_MASK);
 		item.setAccelerator(keyStrokeToItem);
 		stock.add(item);
-//		stock.setMnemonic(KeyEvent.VK_T);
 
 		//Menu Items for Saving Menu
 		JMenuItem jmIDailySavingRecord = new JMenuItem("နေ့စဉ်စုကြေးမှတ်တမ်း", new ImageIcon("picture/add_daily_records_icon.png"));
@@ -144,7 +140,6 @@ public class Main{
 		jmiSavingPeople.setFont(Fonts.pyisuNormal15);
 		saving.add(jmIDailySavingRecord);
 		saving.add(jmiSavingPeople);
-//		saving.setMnemonic(KeyEvent.VK_V);
 
 		//Menu Items for Accounts Menu
 		JMenuItem savingAccount = new JMenuItem("Saving Account");
@@ -153,7 +148,6 @@ public class Main{
 		cash.add(totalAccount);
 		cash.add(savingAccount);
 		cash.add(sellingAccount);
-//		cash.setMnemonic(KeyEvent.VK_C);
 
 		frame.setJMenuBar(menuBar);
 		//End of creating Menu Bar
@@ -217,20 +211,17 @@ public class Main{
 		reports.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				ProgressBar pb = new ProgressBar();
-//				pb.setVisible(true);
-				SwingUtilities.invokeLater ( new Runnable ()
-		        {
-		            public void run ()
-		            {
+//				SwingUtilities.invokeLater ( new Runnable ()
+//		        {
+//		            public void run ()
+//		            {
 						pane.removeAll();
 						pane.revalidate();
 						pane.repaint();
 						Report report = new Report();
 						pane.add(report);
-//						pb.dispose();
-		            }
-		        } );
+//		            }
+//		        } );
 			}
 		});
 
@@ -302,16 +293,16 @@ public class Main{
 
 	public static void createAndShowGUI() {
         frame = new JFrame("\"လင်းလင်း\" စတိုးဆိုင်");
-        addComponentsToPane(frame);
+        ImageIcon frameIcon = new ImageIcon("picture/frame_icon.png");
+        frame.setIconImage(frameIcon.getImage());
 		Toolkit tk=Toolkit.getDefaultToolkit();
 		int x=(int)tk.getScreenSize().getWidth();
 		int y=(int)tk.getScreenSize().getHeight();
 		frame.setSize(x-100,y-100);
-        frame.setLocationRelativeTo(null);
 		frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-        ImageIcon frameIcon = new ImageIcon("picture/frame_icon.png");
-        frame.setIconImage(frameIcon.getImage());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        addComponentsToPane(frame);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

@@ -34,7 +34,6 @@ import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.swing.JRViewer;
-import tester.ProgressBar;
 
 public class Report extends JPanel{
 
@@ -89,9 +88,9 @@ public class Report extends JPanel{
 	public JRViewer createReport(HashMap parameter){
 		try {
 			Connection connection = DBConnection.createConnection();
-			JasperDesign reportDesign = JRXmlLoader.load(new File("").getAbsolutePath()+"/report/GPReportBySale.jrxml");
-			JasperReport report = JasperCompileManager.compileReport(reportDesign);
-			JasperPrint printReport = JasperFillManager.fillReport(report, parameter, connection);
+//			JasperDesign reportDesign = JRXmlLoader.load(new File("").getAbsolutePath()+"/report/GPReportBySale.jrxml");
+//			JasperReport report = JasperCompileManager.compileReport(reportDesign);
+			JasperPrint printReport = JasperFillManager.fillReport(new File("").getAbsolutePath()+"/report/GPReportBySale.jasper", parameter, connection);
 			connection.close();
 			return new JRViewer(printReport);
 		} catch (JRException | SQLException ex) {
