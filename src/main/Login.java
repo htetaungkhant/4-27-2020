@@ -41,8 +41,10 @@ public class Login {
 		lbPassword.setFont(Fonts.pyisuNormal15);
 		JTextField tfUsername = new JTextField(20);
 		tfUsername.setFont(Fonts.pyisuNormal15);
+		tfUsername.setHorizontalAlignment(JLabel.CENTER);
 		JPasswordField tfPassword = new JPasswordField(20);
 		tfPassword.setFont(Fonts.pyisuNormal15);
+		tfPassword.setHorizontalAlignment(JLabel.CENTER);
         JButton btnLogin = new JButton("ဝင်မည်");
         btnLogin.setFont(Fonts.pyisuNormal18);
 		JButton btnCancel = new JButton("မလုပ်ဆောင်ပါ");
@@ -117,7 +119,6 @@ public class Login {
         JFrame frame = new JFrame("\"လင်းလင်း\" စတိုးဆိုင်");
         ImageIcon frameIcon = new ImageIcon("picture/frame_icon.png");
         frame.setIconImage(frameIcon.getImage());
-        frame.getContentPane().setBackground(new Color(234, 237, 237));
         addComponentsToPane(frame);
         frame.setSize(350, 240);
         frame.setResizable(false);
@@ -126,26 +127,20 @@ public class Login {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-	public static void main(String[] args) {
-//		String slafcn = UIManager.getSystemLookAndFeelClassName ();
-//		try {
-//			UIManager.setLookAndFeel (slafcn);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+//	public static void main(String[] args) {
 //		 SwingUtilities.invokeLater ( new Runnable ()
 //	        {
 //	            public void run ()
 //	            {
-	                WebLookAndFeel.install ();
+//	                WebLookAndFeel.install ();
 //	                ProgressBar pb = new ProgressBar();
 //	                pb.setVisible(true);
 //	        		new Report();
-	        		createAndShowGUI();
+//	        		createAndShowGUI();
 //	        		pb.setVisible(false);
 //	        		pb.dispose();
 //	            }
 //	        } );
-	}
+//	}
 
 }

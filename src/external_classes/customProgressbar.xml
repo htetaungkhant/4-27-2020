@@ -1,0 +1,25 @@
+<skin xmlns="http://weblookandfeel.com/XmlSkin">
+    <!-- com.alee.laf.progressbar.WebProgressBar -->
+    <id>progressbar.skin</id>
+    <class>external_classes.ProgressBarSkin</class>
+    <supportedSystems>all</supportedSystems>
+
+	 <include nearClass="com.alee.skin.light.WebLightSkin">resources/web-light-skin.xml</include>
+	    <!-- Progress bar -->
+	    <style type="progressbar">
+	        <painter>	
+	            <!-- Progress line -->
+	            <progressPainter>
+	                <decorations>
+	                    <decoration states="progress">
+	                        <GradientBackground>
+	                            <color>16,194,20</color>
+	                            <color>16,194,20</color>
+	                        </GradientBackground>
+	                    </decoration>
+	                </decorations>
+	            </progressPainter>	
+	        </painter>
+	    </style>
+
+</skin>

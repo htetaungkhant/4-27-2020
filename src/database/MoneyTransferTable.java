@@ -18,14 +18,14 @@ public class MoneyTransferTable {
 			Connection connection = DBConnection.createConnection();
 	
 			try {
-				String query="SELECT idmoney_transfer, mt.date, mt.amount, p.original_invoice_number, s.supplier_name, mt.remark FROM money_transfer mt INNER JOIN purchase p ON mt.invoice_number = p.idpurchase INNER JOIN supplier s ON mt.supplier = s.idsupplier WHERE DATE(mt.date) BETWEEN ? AND ? AND p.original_invoice_number LIKE ? ORDER BY mt.date";
+				String query="SELECT idmoney_transfer, mt.date, mt.amount, mt.invoice_number, p.original_invoice_number, s.supplier_name, mt.remark FROM money_transfer mt INNER JOIN purchase p ON mt.invoice_number = p.idpurchase INNER JOIN supplier s ON mt.supplier = s.idsupplier WHERE DATE(mt.date) BETWEEN ? AND ? AND p.original_invoice_number LIKE ? ORDER BY mt.date";
 				PreparedStatement statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 				statement.setDate(1, new java.sql.Date(date1.getTime()));
 				statement.setDate(2, new java.sql.Date(date2.getTime()));
 				statement.setString(3, "%" +invoiceNumber+ "%" );
 	
 				if(!supplierName.equals("Choose Supplier")){
-					query="SELECT idmoney_transfer, mt.date, mt.amount, p.original_invoice_number, s.supplier_name, mt.remark FROM money_transfer mt INNER JOIN purchase p ON mt.invoice_number = p.idpurchase INNER JOIN supplier s ON mt.supplier = s.idsupplier AND s.supplier_name=? WHERE DATE(mt.date) BETWEEN ? AND ? AND p.original_invoice_number LIKE ? ORDER BY mt.date";
+					query="SELECT idmoney_transfer, mt.date, mt.amount, mt.invoice_number,p.original_invoice_number, s.supplier_name, mt.remark FROM money_transfer mt INNER JOIN purchase p ON mt.invoice_number = p.idpurchase INNER JOIN supplier s ON mt.supplier = s.idsupplier AND s.supplier_name=? WHERE DATE(mt.date) BETWEEN ? AND ? AND p.original_invoice_number LIKE ? ORDER BY mt.date";
 					statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 					statement.setString(1, supplierName);
 					statement.setDate(2, new java.sql.Date(date1.getTime()));
@@ -35,7 +35,7 @@ public class MoneyTransferTable {
 	
 				ResultSet resultSet=statement.executeQuery();
 				resultSet.last();
-				result=new Object[resultSet.getRow()][7];
+				result=new Object[resultSet.getRow()][8];
 				resultSet.beforeFirst();
 				int row=-1;
 				while(resultSet.next()){
@@ -43,10 +43,11 @@ public class MoneyTransferTable {
 						result[row][0]=resultSet.getInt("idmoney_transfer");
 						result[row][1]=new SimpleDateFormat("yyyy-MM-dd").parse(resultSet.getString("date"));
 						result[row][2]=(String)resultSet.getString("supplier_name");
-						result[row][3]=(String)resultSet.getString("original_invoice_number");
-						result[row][4]=resultSet.getInt("amount");
-						result[row][5]=(String)resultSet.getString("remark");
-						result[row][6]=new ImageIcon("picture/delete_icon.png");
+						result[row][3]=(int)resultSet.getInt("invoice_number");
+						result[row][4]=(String)resultSet.getString("original_invoice_number");
+						result[row][5]=resultSet.getInt("amount");
+						result[row][6]=(String)resultSet.getString("remark");
+						result[row][7]=new ImageIcon("picture/delete_icon.png");
 				}
 				statement.close();
 				connection.close();

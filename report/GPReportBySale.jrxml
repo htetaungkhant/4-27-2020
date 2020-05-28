@@ -38,6 +38,9 @@
 	<variable name="profit1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
 		<variableExpression><![CDATA[$F{profit}]]></variableExpression>
 	</variable>
+	<variable name="sale1" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{sale}]]></variableExpression>
+	</variable>
 	<group name="date">
 		<groupExpression><![CDATA[$F{date}]]></groupExpression>
 	</group>
@@ -61,7 +64,7 @@
 			<staticText>
 				<reportElement x="200" y="0" width="160" height="71" uuid="7fcf8094-a849-420c-891a-16827e6b68e2"/>
 				<textElement textAlignment="Center">
-					<font fontName="Pyidaungsu" size="40"/>
+					<font fontName="Pyidaungsu" size="40" isBold="true"/>
 				</textElement>
 				<text><![CDATA[လင်းလင်း]]></text>
 			</staticText>
@@ -73,46 +76,46 @@
 				<reportElement x="20" y="20" width="60" height="30" uuid="2696f315-0741-4b12-894a-8f9edd179083">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a72dc887-c023-4e70-8daa-504c7f1ec641"/>
 				</reportElement>
-				<textElement textAlignment="Center">
-					<font size="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="16"/>
 				</textElement>
-				<text><![CDATA[Date]]></text>
+				<text><![CDATA[ရက်စွဲ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="110" y="20" width="100" height="30" uuid="57c42680-8b63-4eb3-a7b6-54136f401d96">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="00aac926-d3c5-4a2f-9054-51b37d434643"/>
 				</reportElement>
-				<textElement textAlignment="Center">
-					<font size="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="16"/>
 				</textElement>
-				<text><![CDATA[Customer]]></text>
+				<text><![CDATA[ဈေးဝယ်သူ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="220" y="20" width="100" height="30" uuid="eaf7b7d4-e00e-4921-9b1e-aac8cbf01e58">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="47539aeb-50dd-471e-967c-e919659903aa"/>
 				</reportElement>
-				<textElement textAlignment="Center">
-					<font size="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="16"/>
 				</textElement>
-				<text><![CDATA[Sale]]></text>
+				<text><![CDATA[ကျငွေ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="330" y="20" width="100" height="30" uuid="bc6859c9-dbf7-4c57-9524-34fbed3e3746">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="008a1760-6eae-469b-82b3-dfcff49ea477"/>
 				</reportElement>
-				<textElement textAlignment="Center">
-					<font size="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="16"/>
 				</textElement>
-				<text><![CDATA[Cost]]></text>
+				<text><![CDATA[အရင်း]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="445" y="20" width="100" height="30" uuid="9898176f-6f8c-4c50-adac-e58f5c8c5d21">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7698a9a5-2f76-4a5d-a486-2c214e7ab5c2"/>
 				</reportElement>
-				<textElement textAlignment="Center">
-					<font size="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="16"/>
 				</textElement>
-				<text><![CDATA[Profit]]></text>
+				<text><![CDATA[အမြတ်]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -122,56 +125,82 @@
 				<reportElement x="0" y="10" width="100" height="30" uuid="a196dfd7-c1e5-4d12-8039-297748d8ab97">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a72dc887-c023-4e70-8daa-504c7f1ec641"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[new SimpleDateFormat("d MMMM y").format($F{date})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="110" y="10" width="100" height="30" uuid="0d89d30e-13f6-484a-8767-9f5fef43e927">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="00aac926-d3c5-4a2f-9054-51b37d434643"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{customer_name}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.###;#,##0.">
 				<reportElement x="220" y="10" width="100" height="30" uuid="40f01399-dde2-477b-aaee-9c39626a282a">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="47539aeb-50dd-471e-967c-e919659903aa"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{sale}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.###;#,##0.">
 				<reportElement x="330" y="10" width="100" height="30" uuid="ea287a75-1648-4619-a16f-390c70588f3e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="008a1760-6eae-469b-82b3-dfcff49ea477"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{cost}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.###;#,##0.">
 				<reportElement x="445" y="10" width="100" height="30" uuid="bd75c63b-2b1d-4574-afac-280bd2709932">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7698a9a5-2f76-4a5d-a486-2c214e7ab5c2"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{profit}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<summary>
-		<band height="50">
+		<band height="115">
 			<staticText>
-				<reportElement x="270" y="10" width="160" height="30" uuid="5f5066c1-8552-4e1c-9c07-3f8b08483dab"/>
-				<textElement textAlignment="Center">
-					<font size="20"/>
+				<reportElement x="250" y="1" width="180" height="49" uuid="5f5066c1-8552-4e1c-9c07-3f8b08483dab"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="18"/>
 				</textElement>
-				<text><![CDATA[Total Gross Profit]]></text>
+				<text><![CDATA[စုစုပေါင်းအကြမ်းအမြတ်]]></text>
 			</staticText>
 			<textField pattern="#,##0.###;#,##0.">
-				<reportElement x="445" y="10" width="100" height="30" uuid="aec9ab55-9b93-479a-81ae-febbcf091c4d"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<reportElement x="445" y="0" width="100" height="50" uuid="aec9ab55-9b93-479a-81ae-febbcf091c4d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="18"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{profit1}]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="0" y="0" width="560" height="1" uuid="478c6aaf-c46f-4299-b0eb-235298fe35df"/>
 			</line>
+			<staticText>
+				<reportElement x="250" y="66" width="180" height="49" uuid="dc70a104-c817-4d50-b17e-581540ca9c30"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="18"/>
+				</textElement>
+				<text><![CDATA[စုစုပေါင်းရောင်းကြေး]]></text>
+			</staticText>
+			<textField pattern="#,##0.###;#,##0.">
+				<reportElement x="445" y="66" width="100" height="49" uuid="ed5438cf-45b4-47d8-a068-887a170d29d4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sale1}]]></textFieldExpression>
+			</textField>
 		</band>
 	</summary>
 </jasperReport>

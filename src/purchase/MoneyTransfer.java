@@ -33,6 +33,7 @@ import external_classes.Fonts;
 import external_classes.JNumberTextField;
 import main.Main;
 import purchase.dialog.AddMoneyTransfer;
+import purchase.dialog.UpdatePurchaseRecord;
 import supplier.SupplierInfo;
 
 public class MoneyTransfer extends JPanel{
@@ -187,9 +188,11 @@ public class MoneyTransfer extends JPanel{
 			public void mouseClicked(MouseEvent e){
 				if(e.getClickCount() == 2){
 					int row=((JTable)e.getSource()).getSelectedRow();
-					int idpurchase = (int) moneyTransferList.getModel().getValueAt(row, 0);
-//					UpdatePurchaseRecord updatePurchaseRecord = new UpdatePurchaseRecord(Main.frame, idpurchase);
-//					updatePurchaseRecord.setVisible(true);
+					int idmoney_transfer = (int) moneyTransferList.getModel().getValueAt(row, 0);
+					int idpurchase = (int) moneyTransferList.getModel().getValueAt(row, 3);
+					UpdatePurchaseRecord updatePurchaseRecord = new UpdatePurchaseRecord(Main.frame, idpurchase);
+					updatePurchaseRecord.setVisible(true);
+					if(updatePurchaseRecord.isClickDelete()) createMoneyTransferTable();
 				}
 			}
 		});
@@ -197,7 +200,7 @@ public class MoneyTransfer extends JPanel{
 
 	public static void createMoneyTransferTable(){
 		tableData = MoneyTransferTable.retrieve(datePicker1.getDate(), datePicker2.getDate(), btnChooseSupplier.getText(), tfInvoiceNumber.getText());		//PurchaseTable.retrieve(datePicker1.getDate(), datePicker2.getDate(), btnChooseSupplier.getText(), tfInvoiceNumber.getText());
-		columnNames = new String[]{"ID", "ရက်စွဲ", "ငွေလွဲလက်ခံသူ","ဘောင်ချာနံပါတ်", "ပေးငွေ", "မှတ်ချက်", "ဖျက်ရန်"};
+		columnNames = new String[]{"ID", "ရက်စွဲ", "ငွေလွဲလက်ခံသူ", "idpurchase","ဘောင်ချာနံပါတ်", "ပေးငွေ", "မှတ်ချက်", "ဖျက်ရန်"};
 
 		modelFormoneyTransferList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {
@@ -213,6 +216,7 @@ public class MoneyTransfer extends JPanel{
 		moneyTransferList.setRowHeight(40);
 		moneyTransferList.setFont(Fonts.pyisuNormal15);
 		moneyTransferList.removeColumn(moneyTransferList.getColumnModel().getColumn(0));
+		moneyTransferList.removeColumn(moneyTransferList.getColumnModel().getColumn(2));
 		TableColumn column7 = moneyTransferList.getColumnModel().getColumn(5);
 //		column7.setMinWidth(40);
 		column7.setMaxWidth(100);

@@ -10,9 +10,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import com.alee.laf.WebLookAndFeel;
+import com.alee.laf.progressbar.WebProgressBar;
+import com.alee.managers.style.StyleId;
 
 import customer.CustomerInfo;
 import external_classes.Fonts;
+import external_classes.ProgressBarSkin;
 import purchase.MoneyTransfer;
 import purchase.Purchase;
 import sale.PosManager;
@@ -30,20 +33,19 @@ public class SplashScreen extends JFrame
 	public SplashScreen() {
         ImageIcon frameIcon = new ImageIcon("picture/frame_icon.png");
         setIconImage(frameIcon.getImage());
-		setSize(400, 350);
-//		getContentPane().setBackground(Color.black);
+		setSize(400, 300);
+		getContentPane().setBackground(new Color(52, 73, 94));
 		setUndecorated(true);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(null);
-		JLabel background = new JLabel(new ImageIcon("picture/splash_background.png"));
 		JLabel icon = new JLabel(new ImageIcon("picture/805.gif"));
 		JLabel lbWelcome = new JLabel("ကြိုဆိုပါ၏");
-		lbWelcome.setForeground(new Color(248, 249, 249));
+		lbWelcome.setForeground(new Color(247, 220, 111));
 		lbWelcome.setHorizontalAlignment(JLabel.CENTER);
 		lbWelcome.setFont(Fonts.pyisuBold65);
 		percent = new JLabel();
-		percent.setFont(Fonts.pyisuBold20);
+		percent.setFont(Fonts.pyisuBold17);
 		percent.setHorizontalAlignment(JLabel.CENTER);
 		progressBar = new JProgressBar();
 
@@ -51,26 +53,20 @@ public class SplashScreen extends JFrame
 		add(lbWelcome);
 		add(percent);
 		add(progressBar);
-		add(background);
 
-		icon.setBounds(0, 0, 400, 250);
-		lbWelcome.setBounds(0, 200, 400, 100);
-		percent.setBounds(0, 320, 400, 30);
-		progressBar.setBounds(0, 320, 400, 30);
-		background.setBounds(0, 0, 400, 350);
+		icon.setBounds(0, 0, 400, 150);
+		lbWelcome.setBounds(0, 150, 400, 100);
+		percent.setBounds(0, 282, 400, 20);
+		progressBar.setBounds(0, 280, 400, 20);
 	}
 	public static void main(String[] args){
-			WebLookAndFeel.install ();
+			WebLookAndFeel.install(ProgressBarSkin.class);
 	     	SplashScreen ss = new SplashScreen();
 			ss.setVisible(true);
 			new PosManager();
 			new Sale();
 			new CustomerInfo();
     		new Report();
-    		new Purchase(false);
-    		new MoneyTransfer();
-    		new SupplierInfo();
-    		new Items();
 			try {
 				for(int i = 0; i <= 100; i++){
 					Thread.sleep(50);
@@ -78,6 +74,10 @@ public class SplashScreen extends JFrame
 					ss.percent.setText(text);
 					ss.progressBar.setValue(i);
 					if(i == 100){
+			    		new Purchase(false);
+			    		new MoneyTransfer();
+			    		new SupplierInfo();
+			    		new Items();
 						ss.dispose();
 						Login.createAndShowGUI();
 					}

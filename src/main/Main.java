@@ -1,9 +1,9 @@
 package main;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.Color;
 import java.awt.Container;
-import java.awt.FlowLayout;
+import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +15,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -23,22 +22,15 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRootPane;
 import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
-import javax.swing.MenuElement;
-import javax.swing.MenuSelectionManager;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.plaf.basic.DefaultMenuLayout;
 
 import customer.CustomerInfo;
 import external_classes.Fonts;
+import net.miginfocom.swing.MigLayout;
 import purchase.MoneyTransfer;
 import purchase.Purchase;
-import sale.POS;
 import sale.PosManager;
 import sale.Report;
 import sale.Sale;
@@ -80,8 +72,8 @@ public class Main{
 		menuBar.add(new JSeparator(SwingConstants.VERTICAL));
 		menuBar.add(stock);
 		menuBar.add(new JSeparator(SwingConstants.VERTICAL));
-		menuBar.add(saving);
-		menuBar.add(new JSeparator(SwingConstants.VERTICAL));
+//		menuBar.add(saving);
+//		menuBar.add(new JSeparator(SwingConstants.VERTICAL));
 //		menuBar.add(cash);
 //		menuBar.add(new JSeparator(SwingConstants.VERTICAL));
 		menuBar.add(Box.createHorizontalGlue());
@@ -152,9 +144,32 @@ public class Main{
 		frame.setJMenuBar(menuBar);
 		//End of creating Menu Bar
 
-		JPanel centerPanel = new JPanel();
-		centerPanel.add(new JButton("Center"));
+		//creating Center Panel
+		JPanel centerPanel = new JPanel(new MigLayout("fill"));
+		centerPanel.setBackground(new Color(191, 201, 202));
+		JLabel lbFistWord = new JLabel("ဗုဒ္ဓံ");
+		lbFistWord.setFont(Fonts.pyisuBold100);
+		JLabel lbSecondWord = new JLabel("ဓမ္မံ");
+		lbSecondWord.setFont(Fonts.pyisuBold100);
+		JLabel lbThirdWord = new JLabel("သံဃံ");
+		lbThirdWord.setFont(Fonts.pyisuBold100);
+		JLabel lbTitle = new JLabel("\"လင်းလင်း\"");
+		lbTitle.setFont(Fonts.pyisuBold100);
+		JLabel lbWelcome = new JLabel("စတိုးဆိုင်မှ ကြိုဆိုပါ၏");
+		lbWelcome.setFont(Fonts.pyisuBold65);
+		JButton btnStart = new JButton("လုပ်ငန်းစလုပ်မယ်");
+		btnStart.setFont(Fonts.pyisuBold20);
+		btnStart.setOpaque(true);
+		btnStart.setBackground(Color.orange);
+		btnStart.setPreferredSize(new Dimension(200, 50));
+		centerPanel.add(lbFistWord);
+		centerPanel.add(lbSecondWord, "align center");
+		centerPanel.add(lbThirdWord, "align right, wrap");
+		centerPanel.add(lbTitle, "split 2, span 2, align right");
+		centerPanel.add(lbWelcome, "wrap");
+		centerPanel.add(btnStart, "align center, span 3");
 		//centerPanel.setBorder(BorderFactory.createEmptyBorder(-5,-5,-5,-5));
+		//End of Center Panel
 
 		Container pane = frame.getContentPane();
 		pane.setLayout(new BorderLayout());
@@ -176,6 +191,17 @@ public class Main{
 		});
 
 		pos.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				pane.removeAll();
+				pane.revalidate();
+				pane.repaint();
+				PosManager posManager = new PosManager();
+				pane.add(posManager);
+			}
+		});
+		
+		btnStart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				pane.removeAll();
