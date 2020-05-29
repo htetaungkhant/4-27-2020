@@ -1,6 +1,6 @@
 <skin xmlns="http://weblookandfeel.com/XmlSkin">
     <!-- com.alee.laf.progressbar.WebProgressBar -->
-    <id>progressbar.skin</id>
+    <id>custom.progressbar.skin</id>
     <class>external_classes.ProgressBarSkin</class>
     <supportedSystems>all</supportedSystems>
 

@@ -81,7 +81,7 @@ public class Sale extends JPanel{
 		datePicker2.setFont(Fonts.pyisuNormal15);
 		datePicker2.setAllowUserInput(false);
 		datePicker2.setPreferredSize(100, 40);
-		btnChooseCustomer = new JButton("Choose Customer");
+		btnChooseCustomer = new JButton("ဝယ်သူအမည်");
 		btnChooseCustomer.setFont(Fonts.pyisuNormal15);
 		btnChooseCustomer.setPreferredSize(new Dimension(230, 40));
 		tfInvoiceNumber = new JNumberTextField("ဘောင်ချာနံပါတ်", 10);
@@ -150,7 +150,7 @@ public class Sale extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String beforeCustomer = btnChooseCustomer.getText();
-				JDialog d = new JDialog(Main.frame, "Choose Supplier",true);
+				JDialog d = new JDialog(Main.frame, "ဝယ်သူများ",true);
 				CustomerInfo customerList = new CustomerInfo(d, btnChooseCustomer, new ArrayList<String>(Arrays.asList(btnChooseCustomer.getText())));
 				d.add(customerList);
 				ImageIcon frameIcon = new ImageIcon("picture/customer_icon.png");
@@ -191,7 +191,7 @@ public class Sale extends JPanel{
 
 	public static void createSaleRecordTable(){
 		tableData = SaleTable.retrieve(datePicker1.getDate(), datePicker2.getDate(), btnChooseCustomer.getText(), tfInvoiceNumber.getText());
-		columnNames = new String[]{"ရက်စွဲ", "ဝယ်ယူသူအမည်", "ဘောင်ချာနံပါတ်", "သင့်ငွေ", "ရငွေ", "လျော့ငွေ", "မှတ်ချက်"};
+		columnNames = new String[]{"ရက်စွဲ", "ဝယ်သူအမည်", "ဘောင်ချာနံပါတ်", "သင့်ငွေ", "ရငွေ", "လျော့ငွေ", "မှတ်ချက်"};
 
 		modelForSaleRecordList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {

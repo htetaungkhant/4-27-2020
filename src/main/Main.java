@@ -85,13 +85,13 @@ public class Main{
 		pos.setFont(Fonts.pyisuNormal15);
 		KeyStroke keyStrokePos = KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK);
 		pos.setAccelerator(keyStrokePos);
-		JMenuItem saleRecord = new JMenuItem("အရောင်းမှတ်တမ်းများ", new ImageIcon("picture/sale_record_icon.png"));
+		JMenuItem saleRecord = new JMenuItem("အရောင်းမှတ်တမ်း", new ImageIcon("picture/sale_record_icon.png"));
 		saleRecord.setFont(Fonts.pyisuNormal15);
 		KeyStroke keyStrokeForSaleRecord = KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK);
 		saleRecord.setAccelerator(keyStrokeForSaleRecord);
-		JMenuItem customer = new JMenuItem("ဈေးဝယ်သူများ", new ImageIcon("picture/customer_icon.png"));
+		JMenuItem customer = new JMenuItem("ဝယ်သူများ", new ImageIcon("picture/customer_icon.png"));
 		customer.setFont(Fonts.pyisuNormal15);
-		JMenuItem reports = new JMenuItem("စာရင်းချုပ်များ", new ImageIcon("picture/reports_icon.png"));
+		JMenuItem reports = new JMenuItem("စာရင်းချုပ်", new ImageIcon("picture/reports_icon.png"));
 		reports.setFont(Fonts.pyisuNormal15);
 		JMenuItem exit = new JMenuItem("ပိတ်ရန်", new ImageIcon("picture/exit_icon.png"));
 		exit.setFont(Fonts.pyisuNormal15);
@@ -104,13 +104,13 @@ public class Main{
 		sale.add(exit);
 
 		//Menu Items for Purchase Menu
-		JMenuItem purchaseRecord = new JMenuItem("အဝယ်မှတ်တမ်းများ", new ImageIcon("picture/purchase_record_icon.png"));
+		JMenuItem purchaseRecord = new JMenuItem("အဝယ်မှတ်တမ်း", new ImageIcon("picture/purchase_record_icon.png"));
 		purchaseRecord.setFont(Fonts.pyisuNormal15);
 		KeyStroke keyStrokeToPurchaseRecord = KeyStroke.getKeyStroke(KeyEvent.VK_H, KeyEvent.CTRL_DOWN_MASK);
 		purchaseRecord.setAccelerator(keyStrokeToPurchaseRecord);
 		JMenuItem transferMoney = new JMenuItem("ငွေလွဲစာရင်း", new ImageIcon("picture/money_transfer_icon.png"));
 		transferMoney.setFont(Fonts.pyisuNormal15);
-		JMenuItem supplier = new JMenuItem("ကုန်ပေးသူများ", new ImageIcon("picture/supplier_icon.png"));
+		JMenuItem supplier = new JMenuItem("ကုန်ပေးသူ / ဆိုင်များ", new ImageIcon("picture/supplier_icon.png"));
 		supplier.setFont(Fonts.pyisuNormal15);
 		KeyStroke keyStrokeToSupplier = KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.CTRL_DOWN_MASK);
 		supplier.setAccelerator(keyStrokeToSupplier);

@@ -23,7 +23,7 @@ public class PurchaseTable {
 			statement.setDate(2, new java.sql.Date(date2.getTime()));
 			statement.setString(3, "%" +invoiceNumber+ "%" );
 
-			if(!supplierName.equals("Choose Supplier")){
+			if(!supplierName.equals("ကုန်ပေးသူ / ဆိုင်နာမည် ရွေးရန်")){
 				query="SELECT idpurchase,date, supplier_name, original_invoice_number, amount, paid_amount FROM purchase p INNER JOIN supplier s ON p.supplier = s.idsupplier AND s.supplier_name=? WHERE DATE(p.date) BETWEEN ? AND ? AND p.original_invoice_number LIKE ? ORDER BY p.idpurchase";
 				statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 				statement.setString(1, supplierName);
@@ -70,7 +70,7 @@ public class PurchaseTable {
 			statement.setDate(2, new java.sql.Date(date2.getTime()));
 			statement.setString(3, "%" +invoiceNumber+ "%" );
 
-			if(!supplierName.equals("Choose Supplier")){
+			if(!supplierName.equals("ကုန်ပေးသူ / ဆိုင်နာမည် ရွေးရန်")){
 				query="SELECT idpurchase,date, supplier_name, original_invoice_number, amount, paid_amount FROM purchase p INNER JOIN supplier s ON p.supplier = s.idsupplier AND s.supplier_name=? WHERE DATE(p.date) BETWEEN ? AND ? AND p.original_invoice_number LIKE ? AND p.amount > p.paid_amount ORDER BY p.idpurchase";
 				statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 				statement.setString(1, supplierName);

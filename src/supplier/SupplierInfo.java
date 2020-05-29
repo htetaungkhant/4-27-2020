@@ -46,15 +46,15 @@ public class SupplierInfo extends JPanel{
 
 		//creating Top Left Panel
 		JPanel topLeftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JButton btnAddNewSupplier = new JButton("ကုန်ပေးသူအသစ်ထည့်ရန်");
+		JButton btnAddNewSupplier = new JButton("ကုန်ပေးသူ / ဆိုင်အသစ်ထည့်ရန်");
 		btnAddNewSupplier.setFont(Fonts.pyisuNormal15);
-		btnAddNewSupplier.setPreferredSize(new Dimension(170, 40));
+		btnAddNewSupplier.setPreferredSize(new Dimension(200, 40));
 		topLeftPanel.add(btnAddNewSupplier);
 		topPanel.add(topLeftPanel);
 
 		//creating Top Right Panel
 		JPanel topRightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		MyTextField tfSearch = new MyTextField(30, "ကုန်ပေးသူရှာရန်");
+		MyTextField tfSearch = new MyTextField(30, "ကုန်ပေးသူ / ဆိုင်နာမည်ရှာရန်");
 		tfSearch.setFont(Fonts.pyisuNormal15);
 		tfSearch.setPreferredSize(new Dimension(250,40));
 		topRightPanel.add(tfSearch);
@@ -162,7 +162,7 @@ public class SupplierInfo extends JPanel{
 		btnCancel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				btnInput.setText("Choose Supplier");
+				btnInput.setText("ကုန်ပေးသူ / ဆိုင်နာမည် ရွေးရန်");
 				d.setVisible(false);
 				d.dispose();
 			}
@@ -187,7 +187,7 @@ public class SupplierInfo extends JPanel{
 
 	public static void createSupplierTable(Object[][] input) {
 		tableData = input;
-		columnNames = new String[]{"ID", "ကုန်ပေးသူအမည်", "ဖုန်းနံပါတ်", "လိပ်စာ"};
+		columnNames = new String[]{"ID", "ကုန်ပေးသူ( ဆိုင်နာမည် )", "ဖုန်းနံပါတ်", "လိပ်စာ"};
 
 		modelForSupplierList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {

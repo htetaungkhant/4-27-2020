@@ -40,7 +40,7 @@ public class AddAndUpdateSupplier extends JDialog{
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		JLabel lbSupplierName = new JLabel("ကုန်ပေးသူအမည်"); lbSupplierName.setFont(Fonts.pyisuNormal15); add(lbSupplierName);
+		JLabel lbSupplierName = new JLabel("ဆိုင်နာမည်"); lbSupplierName.setFont(Fonts.pyisuNormal15); add(lbSupplierName);
 		JLabel lbPhone = new JLabel("ဖုန်းနံပါတ်"); lbPhone.setFont(Fonts.pyisuNormal15); add(lbPhone);
 		JLabel lbAddress = new JLabel("လိပ်စာ"); lbAddress.setFont(Fonts.pyisuNormal15); add(lbAddress);
 

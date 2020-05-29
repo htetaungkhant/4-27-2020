@@ -70,7 +70,7 @@ public class AddNewPurchaseRecord extends JDialog{
 		datePicker.setFont(Fonts.pyisuNormal15);
 		datePicker.setAllowUserInput(false);
 		datePicker.setPreferredSize(100, 40);
-		JButton btnChooseSupplier = new JButton("Choose Supplier");
+		JButton btnChooseSupplier = new JButton("ကုန်ပေးသူ / ဆိုင်နာမည် ရွေးရန်");
 		btnChooseSupplier.setFont(Fonts.pyisuNormal15);
 		btnChooseSupplier.setPreferredSize(new Dimension(230, 40));
 		JNumberTextField tfInvoiceNumber = new JNumberTextField("ဘောင်ချာနံပါတ်ရေးပါ", 10);
@@ -187,8 +187,8 @@ public class AddNewPurchaseRecord extends JDialog{
 		btnSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(btnChooseSupplier.getText().equals("Choose Supplier")){
-					JLabel label = new JLabel("ကျေးဇူးပြု၍ ကုန်ပေးသူရွေးပါ");
+				if(btnChooseSupplier.getText().equals("ကုန်ပေးသူ / ဆိုင်နာမည် ရွေးရန်")){
+					JLabel label = new JLabel("ကျေးဇူးပြု၍ ကုန်ပေးသူ( ဆိုင်နာမည် )ရွေးပါ");
 					label.setFont(Fonts.pyisuNormal15);
 					JOptionPane.showMessageDialog(null, label, "ကုန်ပေးသူရွေးပါ", JOptionPane.INFORMATION_MESSAGE);
 				}

@@ -103,7 +103,7 @@ public class UpdateSaleRecord extends JDialog{
 		invoiceNo.setText((String) data[0]);
 		invoiceNo.setPreferredSize(new Dimension(150, 40));
 		invoiceNo.setEditable(false);
-		JLabel lbCustomer = new JLabel("ဈေးဝယ်သူ");
+		JLabel lbCustomer = new JLabel("ဝယ်သူအမည်");
 		lbCustomer.setFont(Fonts.pyisuNormal15);
 		MyTextField customer = new MyTextField();
 		customer.setFont(Fonts.pyisuNormal15);

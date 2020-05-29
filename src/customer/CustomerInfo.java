@@ -50,7 +50,7 @@ public class CustomerInfo extends JPanel{
 
 		//creating Top Left Panel
 		JPanel topLeftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JButton btnAddNewCustomer = new JButton("ဈေးဝယ်သူအသစ်ထည့်ရန်");
+		JButton btnAddNewCustomer = new JButton("ဝယ်သူအသစ်ထည့်ရန်");
 		btnAddNewCustomer.setFont(Fonts.pyisuNormal15);
 		btnAddNewCustomer.setPreferredSize(new Dimension(170, 40));
 		topLeftPanel.add(btnAddNewCustomer);
@@ -58,7 +58,7 @@ public class CustomerInfo extends JPanel{
 
 		//creating Top Right Panel
 		JPanel topRightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		MyTextField tfSearch = new MyTextField(30, "ဈေးဝယ်သူရှာရန်");
+		MyTextField tfSearch = new MyTextField(30, "ရှာရန်");
 		tfSearch.setFont(Fonts.pyisuNormal15);
 		tfSearch.setPreferredSize(new Dimension(250,40));
 		topRightPanel.add(tfSearch);
@@ -178,7 +178,7 @@ public class CustomerInfo extends JPanel{
 						break;
 					}
 				}
-				btnInput.setText("Choose Customer");
+				btnInput.setText("ဝယ်သူအမည်");
 				d.setVisible(false);
 				d.dispose();
 			}
@@ -188,13 +188,13 @@ public class CustomerInfo extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(customerList.getSelectionModel().isSelectionEmpty()){
-					JLabel label = new JLabel("ကျေးဇူးပြု၍ ဈေးဝယ်သူရွေးပါ");
+					JLabel label = new JLabel("ကျေးဇူးပြု၍ ဝယ်သူရွေးပါ");
 					label.setFont(Fonts.pyisuNormal15);
-					JOptionPane.showMessageDialog(null, label, "ဈေးဝယ်သူမရွေးမှု", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, label, "ဝယ်သူမရွေးမှု", JOptionPane.INFORMATION_MESSAGE);
 				}
 				else{
 					int row = customerList.getSelectedRow();
-					if(btnInput.getText().equals("Choose Customer")) existedCustomer.add((String) customerList.getValueAt(row, 0));
+					if(btnInput.getText().equals("ဝယ်သူအမည်")) existedCustomer.add((String) customerList.getValueAt(row, 0));
 					else existedCustomer.set(existedCustomer.indexOf(btnInput.getText()), (String) customerList.getValueAt(row, 0));
 					btnInput.setText((String) customerList.getValueAt(row, 0));
 					d.setVisible(false);
@@ -206,7 +206,7 @@ public class CustomerInfo extends JPanel{
 
 	public static void createCustomerTable(Object[][] input) {
 		tableData = input;
-		columnNames = new String[]{"ID", "ဈေးဝယ်သူအမည်", "ဖုန်းနံပါတ်", "လိပ်စာ"};
+		columnNames = new String[]{"ID", "ဝယ်သူအမည်", "ဖုန်းနံပါတ်", "လိပ်စာ"};
 
 		modelForCustomerList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {

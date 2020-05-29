@@ -24,7 +24,7 @@ public class MoneyTransferTable {
 				statement.setDate(2, new java.sql.Date(date2.getTime()));
 				statement.setString(3, "%" +invoiceNumber+ "%" );
 	
-				if(!supplierName.equals("Choose Supplier")){
+				if(!supplierName.equals("ကုန်ပေးသူ / ဆိုင်နာမည် ရွေးရန်")){
 					query="SELECT idmoney_transfer, mt.date, mt.amount, mt.invoice_number,p.original_invoice_number, s.supplier_name, mt.remark FROM money_transfer mt INNER JOIN purchase p ON mt.invoice_number = p.idpurchase INNER JOIN supplier s ON mt.supplier = s.idsupplier AND s.supplier_name=? WHERE DATE(mt.date) BETWEEN ? AND ? AND p.original_invoice_number LIKE ? ORDER BY mt.date";
 					statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 					statement.setString(1, supplierName);

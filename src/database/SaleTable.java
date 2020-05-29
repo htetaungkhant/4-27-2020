@@ -23,7 +23,7 @@ public class SaleTable {
 			statement.setDate(2, new java.sql.Date(date2.getTime()));
 			statement.setString(3, "%" +invoiceNumber+ "%" );
 
-			if(!customerName.equals("Choose Customer")){
+			if(!customerName.equals("ဝယ်သူအမည်")){
 				query="SELECT LPAD(s.idsale, 10, '0'),date, customer_name, amount, net_amount, discount, remark FROM sale s INNER JOIN customer c ON s.customer = c.idcustomer AND c.customer_name=? WHERE s.date BETWEEN ? AND ? AND LPAD(s.idsale, 10, '0') LIKE ? ORDER BY s.idsale";
 				statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 				statement.setString(1, customerName);

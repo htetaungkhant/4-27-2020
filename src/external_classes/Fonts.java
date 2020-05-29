@@ -18,6 +18,7 @@ public class Fonts {
 	public static Font pyisuBold17 = new Font("Pyidaungsu", Font.BOLD, 17);
 	public static Font pyisuBold18 = new Font("Pyidaungsu", Font.BOLD, 18);
 	public static Font pyisuBold20 = new Font("Pyidaungsu", Font.BOLD, 20);
+	public static Font pyisuBold22 = new Font("Pyidaungsu", Font.BOLD, 22);
 	public static Font pyisuBold65 = new Font("Pyidaungsu", Font.BOLD, 65);
 	public static Font pyisuBold100 = new Font("Pyidaungsu", Font.BOLD, 100);
 

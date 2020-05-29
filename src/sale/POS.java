@@ -1,8 +1,10 @@
 package sale;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
@@ -11,6 +13,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -32,6 +37,7 @@ import com.alee.extended.date.WebDateField;
 
 import customer.CustomerInfo;
 import database.CustomerTable;
+import database.DBConnection;
 import database.PurchaseTable;
 import database.SaleDetailTable;
 import database.SaleTable;
@@ -41,6 +47,10 @@ import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import main.Main;
 import net.miginfocom.swing.MigLayout;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.swing.JRViewer;
 
 public class POS extends JPanel{
 
@@ -68,7 +78,7 @@ public class POS extends JPanel{
 
 		//creating Top Left Panel
 		JPanel topLeftPanel = new JPanel(new MigLayout());
-		btnCustomer = new JButton("Choose Customer");
+		btnCustomer = new JButton("ဝယ်သူအမည်");
 		btnCustomer.setFont(Fonts.pyisuNormal15);
 		btnCustomer.setPreferredSize(new Dimension(150, 40));
 		JLabel lbBarcode = new JLabel("ဘားကုဒ်");
@@ -150,6 +160,22 @@ public class POS extends JPanel{
 		JScrollPane tablePanel = new JScrollPane(itemList);
 		add(tablePanel, BorderLayout.CENTER);
 		//End of Table Panel
+		
+		//creating Invoice Panel
+		JPanel invoicePanel = new JPanel(new GridLayout(1, 1));
+		Connection connection = DBConnection.createConnection();
+		JasperPrint printReport;
+		JRViewer gg = null;
+		try {
+			printReport = JasperFillManager.fillReport(new File("").getAbsolutePath()+"/report/GPReportBySale.jasper", null, connection);
+			connection.close();
+			gg = new JRViewer(printReport);
+		} catch (JRException | SQLException e1) {
+			e1.printStackTrace();
+		}
+		invoicePanel.add(gg);
+		add(invoicePanel, BorderLayout.EAST);
+		//End of Invoice Panel
 
 		//creating Bottom Panel
 		JPanel bottomPanel = new JPanel(new BorderLayout());
@@ -217,7 +243,7 @@ public class POS extends JPanel{
 		btnCustomer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JDialog d = new JDialog(Main.frame, "ဈေးဝယ်သူရွေးချယ်ခြင်း",true);
+				JDialog d = new JDialog(Main.frame, "ဝယ်သူများ",true);
 				CustomerInfo customerList = new CustomerInfo(d, btnCustomer, existedCustomers);
 				d.add(customerList);
 				ImageIcon frameIcon = new ImageIcon("picture/customer_icon.png");
@@ -413,7 +439,7 @@ public class POS extends JPanel{
 		else{
 			Date date = datePicker.getDate();
 			String customerName = btnCustomer.getText();
-			if(customerName.equals("Choose Customer")) customerName = "Default Customer";
+			if(customerName.equals("ဝယ်သူအမည်")) customerName = "Default Customer";
 			int totalAmount = Integer.parseInt(tfTotalAmount.getText());
 			int netAmount = Integer.parseInt(tfNetAmount.getText());
 			int discount = totalAmount - netAmount;
@@ -442,7 +468,7 @@ public class POS extends JPanel{
 
 	public void reset(){
 		existedCustomers.remove(btnCustomer.getText());
-		btnCustomer.setText("Choose Customer");
+		btnCustomer.setText("ဝယ်သူအမည်");
 		datePicker.setDate(new Date());
 		tfBarcode.setText("");
 		tfPrice.setText("");

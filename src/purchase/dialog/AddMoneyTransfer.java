@@ -122,7 +122,7 @@ public class AddMoneyTransfer extends JDialog{
 					d.add(invoiceList);
 					ImageIcon frameIcon = new ImageIcon("picture/purchase_record_icon.png");
 					d.setIconImage(frameIcon.getImage());
-					d.setSize(1000, 600);
+					d.setSize(1000, 500);
 					d.setLocationRelativeTo(null);
 					d.setVisible(true);
 				}

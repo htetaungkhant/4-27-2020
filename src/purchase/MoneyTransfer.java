@@ -72,7 +72,7 @@ public class MoneyTransfer extends JPanel{
 		datePicker2.setFont(Fonts.pyisuNormal15);
 		datePicker2.setAllowUserInput(false);
 		datePicker2.setPreferredSize(100, 40);
-		btnChooseSupplier = new JButton("Choose Supplier");
+		btnChooseSupplier = new JButton("ကုန်ပေးသူ / ဆိုင်နာမည် ရွေးရန်");
 		btnChooseSupplier.setFont(Fonts.pyisuNormal15);
 		btnChooseSupplier.setPreferredSize(new Dimension(230, 40));
 		tfInvoiceNumber = new JNumberTextField("ဘောင်ချာနံပါတ်", 10);
@@ -200,7 +200,7 @@ public class MoneyTransfer extends JPanel{
 
 	public static void createMoneyTransferTable(){
 		tableData = MoneyTransferTable.retrieve(datePicker1.getDate(), datePicker2.getDate(), btnChooseSupplier.getText(), tfInvoiceNumber.getText());		//PurchaseTable.retrieve(datePicker1.getDate(), datePicker2.getDate(), btnChooseSupplier.getText(), tfInvoiceNumber.getText());
-		columnNames = new String[]{"ID", "ရက်စွဲ", "ငွေလွဲလက်ခံသူ", "idpurchase","ဘောင်ချာနံပါတ်", "ပေးငွေ", "မှတ်ချက်", "ဖျက်ရန်"};
+		columnNames = new String[]{"ID", "ရက်စွဲ", "ငွေလွဲလက်ခံသူ( ဆိုင်နာမည် )", "idpurchase","ဘောင်ချာနံပါတ်", "ပေးငွေ", "မှတ်ချက်", "ဖျက်ရန်"};
 
 		modelFormoneyTransferList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {

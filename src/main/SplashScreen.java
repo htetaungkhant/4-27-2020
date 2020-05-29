@@ -39,7 +39,7 @@ public class SplashScreen extends JFrame
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(null);
-		JLabel icon = new JLabel(new ImageIcon("picture/805.gif"));
+		JLabel loadingIcon = new JLabel(new ImageIcon("picture/loading.gif"));
 		JLabel lbWelcome = new JLabel("ကြိုဆိုပါ၏");
 		lbWelcome.setForeground(new Color(247, 220, 111));
 		lbWelcome.setHorizontalAlignment(JLabel.CENTER);
@@ -49,13 +49,13 @@ public class SplashScreen extends JFrame
 		percent.setHorizontalAlignment(JLabel.CENTER);
 		progressBar = new JProgressBar();
 
-		add(icon);
+		add(loadingIcon);
 		add(lbWelcome);
 		add(percent);
 		add(progressBar);
 
-		icon.setBounds(0, 0, 400, 150);
-		lbWelcome.setBounds(0, 150, 400, 100);
+		loadingIcon.setBounds(0, 0, 400, 150);
+		lbWelcome.setBounds(0, 160, 400, 100);
 		percent.setBounds(0, 282, 400, 20);
 		progressBar.setBounds(0, 280, 400, 20);
 	}
@@ -69,7 +69,7 @@ public class SplashScreen extends JFrame
     		new Report();
 			try {
 				for(int i = 0; i <= 100; i++){
-					Thread.sleep(50);
+					Thread.sleep(40);
 					String text = Integer.toString(i) + " %";
 					ss.percent.setText(text);
 					ss.progressBar.setValue(i);

@@ -88,7 +88,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Pyidaungsu" size="16"/>
 				</textElement>
-				<text><![CDATA[ဈေးဝယ်သူ]]></text>
+				<text><![CDATA[ဝယ်သူအမည်]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="220" y="20" width="100" height="30" uuid="eaf7b7d4-e00e-4921-9b1e-aac8cbf01e58">

@@ -33,14 +33,14 @@ public class AddAndUpdateCustomer extends JDialog{
 		super(frame, true);
 		ImageIcon frameIcon = new ImageIcon("picture/customer_icon.png");
 		setIconImage(frameIcon.getImage());
-		setTitle("ဈေးဝယ်သူအသစ်ထည့်ခြင်း");
+		setTitle("ဝယ်သူအသစ်ထည့်ခြင်း");
 		setSize(360, 280);
 		setResizable(false);
 		setLayout(null);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		JLabel lbCustomerName = new JLabel("ဈေးဝယ်သူအမည်"); lbCustomerName.setFont(Fonts.pyisuNormal15); add(lbCustomerName);
+		JLabel lbCustomerName = new JLabel("ဝယ်သူအမည်"); lbCustomerName.setFont(Fonts.pyisuNormal15); add(lbCustomerName);
 		JLabel lbPhone = new JLabel("ဖုန်းနံပါတ်"); lbPhone.setFont(Fonts.pyisuNormal15); add(lbPhone);
 		JLabel lbAddress = new JLabel("လိပ်စာ"); lbAddress.setFont(Fonts.pyisuNormal15); add(lbAddress);
 
@@ -65,7 +65,7 @@ public class AddAndUpdateCustomer extends JDialog{
 				String address = tfAddress.getText();
 				String[] data = {customerName, phone, address};
 				if(CustomerTable.isCustomerExist(customerName)){
-					JLabel label= new JLabel("ဈေးဝယ်သူရှိပီးသားဖြစ်ပါသည်");
+					JLabel label= new JLabel("ဝယ်သူရှိပီးသားဖြစ်ပါသည်");
 					label.setFont(Fonts.pyisuNormal15);
 					JOptionPane.showMessageDialog(null, label, "ရှိပီးသား", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -93,7 +93,7 @@ public class AddAndUpdateCustomer extends JDialog{
 
 	public AddAndUpdateCustomer(Frame frame, Object[] input, String toFilter){
 		this(frame);
-		setTitle("ဈေးဝယ်သူအချက်အလက်ပြောင်းလဲခြင်း");
+		setTitle("ဝယ်သူအချက်အလက်ပြောင်းလဲခြင်း");
 
 		tfCustomerName.setText((String)input[1]);
 		tfPhone.setText((String)input[2]);
@@ -113,7 +113,7 @@ public class AddAndUpdateCustomer extends JDialog{
 				String[] data = {customerName, phone, address};
 
 				if(!tfCustomerName.getText().equals(input[1]) && CustomerTable.isCustomerNameExist(customerName)){
-					JLabel label = new JLabel("ဈေးဝယ်သူရှိပီးသားဖြစ်ပါသည်");
+					JLabel label = new JLabel("ဝယ်သူရှိပီးသားဖြစ်ပါသည်");
 					label.setFont(Fonts.pyisuNormal15);
 					JOptionPane.showMessageDialog(null, label, "ရှိပီးသား", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -131,7 +131,7 @@ public class AddAndUpdateCustomer extends JDialog{
 	}
 
 	private boolean isEmpty(String[] data){
-		String[] labels = {"ဈေးဝယ်သူအမည်", "ဖုန်းနံပါတ်", "လိပ်စာ"};
+		String[] labels = {"ဝယ်သူအမည်", "ဖုန်းနံပါတ်", "လိပ်စာ"};
 		for(int i = 0; i < data.length; i++){
 			if(data[i].equals("")){
 				JLabel label = new JLabel(labels[i]+"ထည့်ပါ");

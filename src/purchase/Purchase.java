@@ -87,7 +87,7 @@ public class Purchase extends JPanel{
 //		jcbSupplierList.insertItemAt("All Supplier", 0);
 //		jcbSupplierList.setSelectedIndex(0);
 //		jcbSupplierList.setPreferredSize(new Dimension(150, 40));
-		btnChooseSupplier = new JButton("Choose Supplier");
+		btnChooseSupplier = new JButton("ကုန်ပေးသူ / ဆိုင်နာမည် ရွေးရန်");
 		btnChooseSupplier.setFont(Fonts.pyisuNormal15);
 		btnChooseSupplier.setPreferredSize(new Dimension(230, 40));
 		tfInvoiceNumber = new JNumberTextField("ဘောင်ချာနံပါတ်", 10);
@@ -253,7 +253,7 @@ public class Purchase extends JPanel{
 		else {
 			tableData = PurchaseTable.retrieve(datePicker1.getDate(), datePicker2.getDate(), btnChooseSupplier.getText(), tfInvoiceNumber.getText());				
 		}
-		columnNames = new String[]{"ID", "ရက်စွဲ", "ကုန်ပေးသူ", "ဘောင်ချာနံပါတ်", "သင့်ငွေ", "ပေးငွေ"};
+		columnNames = new String[]{"ID", "ရက်စွဲ", "ကုန်ပေးသူ( ဆိုင်နာမည် )", "ဘောင်ချာနံပါတ်", "သင့်ငွေ", "ပေးငွေ"};
 
 		modelForPurchaseRecordList = new DefaultTableModel(tableData, columnNames){
 			public boolean isCellEditable(int row, int column) {
