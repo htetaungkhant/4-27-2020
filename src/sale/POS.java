@@ -1,21 +1,15 @@
 package sale;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -28,7 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.KeyStroke;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -36,9 +30,6 @@ import javax.swing.table.TableColumn;
 import com.alee.extended.date.WebDateField;
 
 import customer.CustomerInfo;
-import database.CustomerTable;
-import database.DBConnection;
-import database.PurchaseTable;
 import database.SaleDetailTable;
 import database.SaleTable;
 import database.StockTable;
@@ -47,10 +38,6 @@ import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import main.Main;
 import net.miginfocom.swing.MigLayout;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.swing.JRViewer;
 
 public class POS extends JPanel{
 
@@ -133,7 +120,8 @@ public class POS extends JPanel{
 		add(topPanel, BorderLayout.NORTH);
 		//End of Top Panel
 
-		//creating Table Panel
+		//creating Center Panel
+		JPanel centerPanel = new JPanel(new MigLayout("fill"));
 		tableData = null;
 		columnNames = new String[]{"idstock", "ကုန်ပစ္စည်းအမည်", "အရေအတွက်", "cost", "ဈေးနှုန်း", "သင့်ငွေ", "ဖျက်ရန်"};
 
@@ -158,24 +146,27 @@ public class POS extends JPanel{
 		column5.setPreferredWidth(60);
 
 		JScrollPane tablePanel = new JScrollPane(itemList);
-		add(tablePanel, BorderLayout.CENTER);
-		//End of Table Panel
+//		tablePanel.setPreferredSize(new Dimension(1350, 610));
+		centerPanel.add(tablePanel, "grow, pushx, pushy");
 		
-		//creating Invoice Panel
-		JPanel invoicePanel = new JPanel(new GridLayout(1, 1));
-		Connection connection = DBConnection.createConnection();
-		JasperPrint printReport;
-		JRViewer gg = null;
-		try {
-			printReport = JasperFillManager.fillReport(new File("").getAbsolutePath()+"/report/GPReportBySale.jasper", null, connection);
-			connection.close();
-			gg = new JRViewer(printReport);
-		} catch (JRException | SQLException e1) {
-			e1.printStackTrace();
-		}
-		invoicePanel.add(gg);
-		add(invoicePanel, BorderLayout.EAST);
-		//End of Invoice Panel
+		JTextArea jtaInvoice = new JTextArea();
+		jtaInvoice.setFont(Fonts.pyisuNormal18);
+		jtaInvoice.setFocusable(false);
+		String invoicePrefix = "\t\t\"လင်းလင်း\" စတိုးဆိုင်\n"+
+		"\tဖုန်း - 09777703980, 09421144558, 09789238100\n"+
+		"=====================================================\n"+
+		"အမည် - \n"+
+		"ဘောင်ချာနံပါတ် - \n"+
+		"ရက်စွဲ - \n"+
+		"=====================================================\n"+
+		"ကုန်အမည်\t\t\t\t  ဈေးနှုန်း\n"+
+		"--------------------------------------------------------------------------------\n"+
+		"\t\t\tစုစုပေါင်းကျသင့်ငွေ - ";
+		jtaInvoice.append(invoicePrefix);
+		JScrollPane jspInvoice = new JScrollPane(jtaInvoice);
+		centerPanel.add(jspInvoice, "grow, pushy");
+		add(centerPanel, BorderLayout.CENTER);
+		//End of Center Panel
 
 		//creating Bottom Panel
 		JPanel bottomPanel = new JPanel(new BorderLayout());
