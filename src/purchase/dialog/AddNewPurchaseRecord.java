@@ -277,6 +277,7 @@ public class AddNewPurchaseRecord extends JDialog{
 		itemList.setModel(modelForItemList);
 		itemList.getTableHeader().setPreferredSize(new Dimension(0, 50));
 		itemList.getTableHeader().setFont(Fonts.pyisuNormal16);
+		itemList.getTableHeader().setReorderingAllowed(false);
 		itemList.setRowHeight(40);
 		itemList.setFont(Fonts.pyisuNormal15);
 		TableColumn column5 = itemList.getColumnModel().getColumn(4);

@@ -1,6 +1,7 @@
 package sale;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -10,9 +11,13 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -30,6 +35,7 @@ import javax.swing.table.TableColumn;
 import com.alee.extended.date.WebDateField;
 
 import customer.CustomerInfo;
+import database.DBConnection;
 import database.SaleDetailTable;
 import database.SaleTable;
 import database.StockTable;
@@ -38,6 +44,10 @@ import external_classes.JNumberTextField;
 import external_classes.MyTextField;
 import main.Main;
 import net.miginfocom.swing.MigLayout;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.swing.JRViewer;
 
 public class POS extends JPanel{
 
@@ -136,6 +146,7 @@ public class POS extends JPanel{
 		itemList = new JTable(modelForItemList);
 		itemList.getTableHeader().setPreferredSize(new Dimension(0, 50));
 		itemList.getTableHeader().setFont(Fonts.pyisuNormal16);
+		itemList.getTableHeader().setReorderingAllowed(false);
 		itemList.setRowHeight(40);
 		itemList.setFont(Fonts.pyisuNormal15);
 		itemList.removeColumn(itemList.getColumnModel().getColumn(0));
@@ -146,26 +157,32 @@ public class POS extends JPanel{
 		column5.setPreferredWidth(60);
 
 		JScrollPane tablePanel = new JScrollPane(itemList);
-//		tablePanel.setPreferredSize(new Dimension(1350, 610));
 		centerPanel.add(tablePanel, "grow, pushx, pushy");
 		
-		JTextArea jtaInvoice = new JTextArea();
-		jtaInvoice.setFont(Fonts.pyisuNormal18);
-		jtaInvoice.setFocusable(false);
-		String invoicePrefix = "\t\t\"လင်းလင်း\" စတိုးဆိုင်\n"+
-		"\tဖုန်း - 09777703980, 09421144558, 09789238100\n"+
-		"=====================================================\n"+
-		"အမည် - \n"+
-		"ဘောင်ချာနံပါတ် - \n"+
-		"ရက်စွဲ - \n"+
-		"=====================================================\n"+
-		"ကုန်အမည်\t\t\t\t  ဈေးနှုန်း\n"+
-		"--------------------------------------------------------------------------------\n"+
-		"\t\t\tစုစုပေါင်းကျသင့်ငွေ - ";
-		jtaInvoice.append(invoicePrefix);
-		JScrollPane jspInvoice = new JScrollPane(jtaInvoice);
+//		String invoicePrefix = "\t\t\"လင်းလင်း\" စတိုးဆိုင်\n"+
+//		"ဖုန်း - 09260305759, 09777703980, 09421144558, 09789238100\n"+
+//		"=====================================================\n"+
+//		"အမည် - \n"+
+//		"ဘောင်ချာနံပါတ် - \n"+
+//		"ရက်စွဲ - \n"+
+//		"=====================================================\n"+
+//		"ကုန်အမည်\t\t\t\t  ဈေးနှုန်း\n"+
+//		"--------------------------------------------------------------------------------\n"+
+//		"\t\t\tစုစုပေါင်းကျသင့်ငွေ - ";
+		Connection connection = DBConnection.createConnection();
+		JasperPrint printReport = null;
+		try {
+			printReport = JasperFillManager.fillReport(new File("").getAbsolutePath()+"/report/PosInvoice.jasper", null, connection);
+			connection.close();
+		} catch (JRException | SQLException e1) {
+			e1.printStackTrace();
+		}
+		JRViewer invoicePanel = new JRViewer(printReport);
+		invoicePanel.setZoomRatio((float) 1.6635);
+		JScrollPane jspInvoice = new JScrollPane(invoicePanel);
 		centerPanel.add(jspInvoice, "grow, pushy");
-		add(centerPanel, BorderLayout.CENTER);
+		JScrollPane jspCenterPanel = new JScrollPane(centerPanel);
+		add(jspCenterPanel, BorderLayout.CENTER);
 		//End of Center Panel
 
 		//creating Bottom Panel

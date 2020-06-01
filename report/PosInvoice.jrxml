@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PosInvoice" pageWidth="184" pageHeight="240" whenNoDataType="AllSectionsNoDetail" columnWidth="144" leftMargin="20" rightMargin="20" topMargin="2" bottomMargin="2" uuid="b5f539ea-0d18-4799-bdbc-c23d46dca452">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="NO_DATA_ADAPTER"/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<property name="net.sf.jasperreports.print.create.bookmarks" value="false"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<title>
+		<band height="58" splitType="Stretch">
+			<staticText>
+				<reportElement x="28" y="0" width="90" height="35" uuid="775260fc-a298-4e51-bc24-5f88562608ae">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[လင်းလင်း]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-20" y="35" width="186" height="20" uuid="b41caac8-1fd2-41da-9780-c6c9caa67b0b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ဖုန်း - 09789238100, 09421144558, 09777703980, 09260305759]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-17" y="56" width="178" height="1" uuid="64d79bf8-c7aa-4e1d-9504-15c6c10a1b14">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="19">
+			<staticText>
+				<reportElement x="-19" y="2" width="68" height="15" uuid="58d0bc6d-6818-44ec-acf5-37364fe8caba">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="6"/>
+				</textElement>
+				<text><![CDATA[ကုန်အမည်]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="2" width="25" height="15" uuid="9df6e822-dbad-4430-b25d-7d12db9c5dc8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="6"/>
+				</textElement>
+				<text><![CDATA[ဦးရေ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="76" y="2" width="42" height="15" uuid="347809ed-585d-44c1-a077-3e5f85320863">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="6"/>
+				</textElement>
+				<text><![CDATA[ဈေးနှုန်း]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="119" y="2" width="45" height="15" uuid="14a992ce-34c9-458f-bc2f-ace162a9b80a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="6"/>
+				</textElement>
+				<text><![CDATA[သင့်ငွေ]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="30" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="17">
+			<staticText>
+				<reportElement x="67" y="2" width="51" height="14" uuid="543f1764-a263-4937-937e-2d4e91b07653"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="6"/>
+				</textElement>
+				<text><![CDATA[စုစုပေါင်းကျသင့်ငွေ -]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="21">
+			<staticText>
+				<reportElement x="0" y="0" width="136" height="20" uuid="e33d6024-90a1-4b37-8310-37d6a171c668"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="8"/>
+				</textElement>
+				<text><![CDATA[ဝယ်ယူအားပေးမှုကို ကျေးဇူးတင်ပါသည်။]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

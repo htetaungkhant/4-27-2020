@@ -27,7 +27,6 @@ import supplier.SupplierInfo;
 public class SplashScreen extends JFrame
 {
 
-	private static JLabel percent;
 	private static JProgressBar progressBar;
 	
 	public SplashScreen() {
@@ -40,24 +39,22 @@ public class SplashScreen extends JFrame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(null);
 		JLabel loadingIcon = new JLabel(new ImageIcon("picture/loading.gif"));
+		JLabel logo = new JLabel(new ImageIcon("picture/splash_logo.png"));
 		JLabel lbWelcome = new JLabel("ကြိုဆိုပါ၏");
 		lbWelcome.setForeground(new Color(247, 220, 111));
 		lbWelcome.setHorizontalAlignment(JLabel.CENTER);
 		lbWelcome.setFont(Fonts.pyisuBold65);
-		percent = new JLabel();
-		percent.setFont(Fonts.pyisuBold17);
-		percent.setHorizontalAlignment(JLabel.CENTER);
 		progressBar = new JProgressBar();
 
+		add(logo);
 		add(loadingIcon);
 		add(lbWelcome);
-		add(percent);
 		add(progressBar);
 
+		logo.setBounds(0, 0, 400, 150);
 		loadingIcon.setBounds(0, 0, 400, 150);
 		lbWelcome.setBounds(0, 160, 400, 100);
-		percent.setBounds(0, 282, 400, 20);
-		progressBar.setBounds(0, 280, 400, 20);
+		progressBar.setBounds(0, 290, 400, 12);
 	}
 	public static void main(String[] args){
 			WebLookAndFeel.install(ProgressBarSkin.class);
@@ -71,7 +68,6 @@ public class SplashScreen extends JFrame
 				for(int i = 0; i <= 100; i++){
 					Thread.sleep(40);
 					String text = Integer.toString(i) + " %";
-					ss.percent.setText(text);
 					ss.progressBar.setValue(i);
 					if(i == 100){
 			    		new Purchase(false);

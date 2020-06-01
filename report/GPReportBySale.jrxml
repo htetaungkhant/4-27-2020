@@ -2,16 +2,8 @@
 <!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="dfbde1da-31cb-422b-94cd-6c1a4182a7f2">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="NO_DATA_ADAPTER"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<parameter name="first_date" class="java.sql.Date"/>
 	<parameter name="second_date" class="java.sql.Date"/>
 	<queryString language="SQL">
@@ -40,6 +32,9 @@
 	</variable>
 	<variable name="sale1" class="java.lang.Long" calculation="Sum">
 		<variableExpression><![CDATA[$F{sale}]]></variableExpression>
+	</variable>
+	<variable name="profit2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{profit}]]></variableExpression>
 	</variable>
 	<group name="date">
 		<groupExpression><![CDATA[$F{date}]]></groupExpression>
@@ -177,13 +172,6 @@
 				</textElement>
 				<text><![CDATA[စုစုပေါင်းအကြမ်းအမြတ်]]></text>
 			</staticText>
-			<textField pattern="#,##0.###;#,##0.">
-				<reportElement x="445" y="0" width="100" height="50" uuid="aec9ab55-9b93-479a-81ae-febbcf091c4d"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Pyidaungsu" size="18"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{profit1}]]></textFieldExpression>
-			</textField>
 			<line>
 				<reportElement x="0" y="0" width="560" height="1" uuid="478c6aaf-c46f-4299-b0eb-235298fe35df"/>
 			</line>
@@ -200,6 +188,13 @@
 					<font fontName="Pyidaungsu" size="18"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{sale1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;#,##0.">
+				<reportElement x="445" y="1" width="100" height="49" uuid="f34dd1de-4943-41c4-805f-aaccdac6ecd6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Pyidaungsu" size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{profit2}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>

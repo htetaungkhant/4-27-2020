@@ -213,6 +213,7 @@ public class MoneyTransfer extends JPanel{
 		moneyTransferList.setModel(modelFormoneyTransferList);
 		moneyTransferList.getTableHeader().setPreferredSize(new Dimension(0, 50));
 		moneyTransferList.getTableHeader().setFont(Fonts.pyisuNormal16);
+		moneyTransferList.getTableHeader().setReorderingAllowed(false);
 		moneyTransferList.setRowHeight(40);
 		moneyTransferList.setFont(Fonts.pyisuNormal15);
 		moneyTransferList.removeColumn(moneyTransferList.getColumnModel().getColumn(0));
